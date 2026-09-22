@@ -2,7 +2,7 @@
   "enabled": false,
   "tone": "info",
   "heading": "Club update",
-  "message": "",
-  "link_text": "",
-  "link_href": ""
+  "message": "CMS TEST Notice",
+  "link_text": "TEST",
+  "link_href": "/homepage"
 }

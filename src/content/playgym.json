@@ -90,5 +90,21 @@
   "cta": {
     "primary": "No booking required, just drop in!",
     "secondary": "Questions? Contact us"
+  },
+  "media": {
+    "heading": "Inside PlayGym",
+    "subtitle": "Our gym floor set up for open, supervised play",
+    "columns": 2,
+    "maxWidth": "720px",
+    "photos": [
+      {
+        "src": "/src/assets/images/programs/playgym/playgym-1.jpg",
+        "alt": "The PlayGym floor set up with a play parachute, soft rollers and foam blocks"
+      },
+      {
+        "src": "/src/assets/images/programs/playgym/playgym-2.jpg",
+        "alt": "Low beams, soft blocks and mats laid out ready for PlayGym"
+      }
+    ]
   }
 }

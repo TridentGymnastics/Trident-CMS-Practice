@@ -21,9 +21,9 @@ const {
   intro = 'The latest news, wins and moments from around the gym.',
 } = Astro.props;
 
-// Newest first. `live: false` hides an item without deleting it.
+// Newest first. Staff must explicitly switch an update on to publish it.
 const all = announcements
-  .filter((a) => a.live !== false)
+  .filter((a) => a.live === true)
   .sort((a, b) => Date.parse(b.dateISO) - Date.parse(a.dateISO));
 
 const items = typeof limit === 'number' ? all.slice(0, limit) : all;

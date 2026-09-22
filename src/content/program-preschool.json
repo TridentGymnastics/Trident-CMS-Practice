@@ -1,0 +1,44 @@
+{
+  "title": "Little Gymnasts",
+  "metaTitle": "Preschool & Prep Gymnastics",
+  "description": "Preschool and Prep gymnastics classes at Trident Gymnastics Ringwood. EduGym Adventurers and Foundation from 3 years 6 months, plus casual PlayGym.",
+  "blurb": "Where our youngest athletes take their first steps: coached classes for kinder and Prep, from 3 years 6 months.",
+  "bookingUrl": "https://portal.iclasspro.com/trident",
+  "trialUrl": "https://portal.iclasspro.com/trident",
+  "heroNote": "Already enrolled in EduGym Adventurers? PlayGym sessions are free. Just let our staff know when you arrive.",
+  "levels": [
+    {
+      "name": "EduGym Adventurers",
+      "description": "An independent class easing children into the gymnastics structure, building confidence, listening skills and movement foundations on their own. Suits kinder and early Prep.",
+      "tag": "Kinder",
+      "tagBg": "#1573C2",
+      "tagColor": "#fff"
+    },
+    {
+      "name": "EduGym Foundation",
+      "description": "The step up from Adventurers, and where Prep children start the EduGym pathway: core shapes, rolls and safe landings, leading into Level 1 in Grade 1.",
+      "tag": "Prep",
+      "tagBg": "#1573C2",
+      "tagColor": "#fff"
+    }
+  ],
+  "media": {
+    "heading": "Preschool Gymnastics in Action",
+    "subtitle": "A look at what a session with our youngest gymnasts is really like",
+    "columns": 2,
+    "maxWidth": "760px",
+    "photos": [
+      {
+        "src": "/src/assets/images/programs/preschool/parachute-play.jpg",
+        "alt": "Children and coaches playing together under a rainbow parachute"
+      },
+      {
+        "src": "/src/assets/images/programs/preschool/rope-ladder.jpg",
+        "alt": "A coach supporting a young child climbing on a rope ladder"
+      }
+    ]
+  },
+  "colorScheme": "accent",
+  "levelsHeading": "Our Preschool & Prep Programs",
+  "levelsSectionClass": "preschool-levels"
+}

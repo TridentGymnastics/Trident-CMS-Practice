@@ -2,11 +2,11 @@
 
 This is the separate test website for TridentGymnastics/Trident-CMS-Practice. It contains an Astro website copied from live-source commit 24e7ee7eb7af0ec6a64cacecbf0e65a2c0486104, with practice safeguards. The existing .pages.yml and src/content/playgym.json are preserved from this repository.
 
-Nothing has been connected to a hosting account yet. A push to this repository by itself does not establish automatic preview hosting.
+The practice repository is connected to a separate Vercel project. A Pages CMS description change and its restoration have both deployed successfully. The permanent live website remains on its existing Netlify project and GitHub repository. This repository is for practice only.
 
 ## Current editor exercise
 
-In Pages CMS, select Trident-CMS-Practice / main and open PRACTICE - PlayGym description. Saving edits src/content/playgym.json. The website reads that exact file. settings.content.merge remains true so the prices, timetable, policies and other fields are preserved.
+In Pages CMS, select Trident-CMS-Practice / main. The nine PRACTICE editors cover the site-wide notice, PlayGym, four program pages, the regular class finder timetable, news, and About/policies. See [CMS-STAFF-GUIDE.md](CMS-STAFF-GUIDE.md) for exercises and limits. Each editor saves JSON that the website actually reads. settings.content.merge remains true to preserve unmanaged keys.
 
 The root-level pages.yml and playgym.json are earlier uploaded copies. They are retained, but the app uses only .pages.yml and src/content/playgym.json.
 
@@ -40,7 +40,16 @@ Sign in through the GitHub account that owns the practice repository when import
 - The careers form is replaced by disabled controls. Booking, phone, email, map and social links are still real links; this is a content and appearance exercise.
 - Canonical URLs use the practice host. practice-origin.mjs rejects custom domains and checks the practice repository when Netlify or Vercel provides its Git metadata.
 - These build safeguards do not control hosting-account permissions. Do not import into or relink the existing live hosting project.
-- The CMS currently exposes only the PlayGym description and paragraphs. Program-wide renaming, page visibility and layout controls need further implementation and testing.
+- Program-wide renaming, page visibility, homepage marketing cards, seasonal holiday calendars/promotions, birthday parties, global contact details and arbitrary layout changes still need implementation. Current editors are a useful content pilot, not a complete no-code handover.
+- The build validates CMS field types, required values, media paths, dates, link formats and timetable consistency before generating pages. This catches structural mistakes, not inaccurate prices, policies, descriptions or booking information. Uploaded PDFs are linked, not edited.
+
+## Moving the finished CMS to the existing Netlify website
+
+The intended permanent flow is staff → Pages CMS → TridentGymnastics/Trident-Gymnastics → existing Netlify project → existing domain. There is no need to move the domain or replace the Netlify project.
+
+This step has NOT happened. First finish staff testing and agree the remaining editable content. Then prepare a branch in the original repository and selectively port the CMS schema, content files, media resolver, content validation and component wiring against the latest live source. Preserve newer live content. Review and build the branch, use an isolated preview, and verify contact forms, canonical URLs, navigation, booking links and mobile pages before merging to the live deployment branch.
+
+Do not replace the production repository with this practice copy. Do not copy its practice-origin.mjs, Vercel configuration, preview-only Netlify configuration, noindex metadata/headers, robots restrictions, disabled careers form, practice badge, caches or package junction. For Layout.astro, only the SiteNotice import/render belongs to this CMS change. Production must retain its existing hosting and form setup. Connect Pages CMS to the original repository only after this migration is reviewed and ready: saves on its deployed branch can publish to the real site.
 
 ## References
 

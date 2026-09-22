@@ -1,73 +1,11 @@
 ---
-import ProgramPage from "../components/ProgramPage.astro";
-import parachutePlay from "../assets/images/programs/preschool/parachute-play.jpg";
-import ropeLadder from "../assets/images/programs/preschool/rope-ladder.jpg";
-
-// The H1 is a brand name, so the subtitle carries the age and year level it leaves
-// out, and metaTitle keeps the search wording. Together they cover what "Little
-// Gymnasts" alone would not tell a parent deciding whether this page is for them.
-const title = "Little Gymnasts";
-const metaTitle = "Preschool & Prep Gymnastics";
-const description = "Preschool and Prep gymnastics classes at Trident Gymnastics Ringwood. EduGym Adventurers and Foundation from 3 years 6 months, plus casual PlayGym.";
-const blurb = "Where our youngest athletes take their first steps: coached classes for kinder and Prep, from 3 years 6 months.";
-const bookingUrl = "https://portal.iclasspro.com/trident";
-const trialUrl = "https://portal.iclasspro.com/trident";
-// Scoped deliberately to Adventurers. The wording this replaced said "any JuniorGym
-// program", which covered only the preschool classes — widening it to all of EduGym
-// would extend free PlayGym to every school-age gymnast through Level 5+.
-const heroNote = "Already enrolled in EduGym Adventurers? PlayGym sessions are free. Just let our staff know when you arrive.";
-// Two distinct programs, not two rungs of one ladder — hence the custom heading.
-// Adventurers currently caps at 5 years 6 months in iClassPro, which is why the
-// copy says "early Prep" rather than Prep: most Prep children age past that cap
-// partway through the school year. If the cap is raised, this can say Prep outright.
-// No age line on the cards: every other program page identifies its levels by year
-// level alone, and spelling out overlapping month ranges here raised more questions
-// than it answered. The year-level tag does the work, in the same blue the EduGym
-// and UrbanGym cards use.
-const gradeTag = { tagBg: "#1573C2", tagColor: "#fff" };
-const levels = [
-  {
-    name: "EduGym Adventurers",
-    description: "An independent class easing children into the gymnastics structure, building confidence, listening skills and movement foundations on their own. Suits kinder and early Prep.",
-    tag: "Kinder",
-    ...gradeTag
-  },
-  {
-    name: "EduGym Foundation",
-    description: "The step up from Adventurers, and where Prep children start the EduGym pathway: core shapes, rolls and safe landings, leading into Level 1 in Grade 1.",
-    tag: "Prep",
-    ...gradeTag
-  }
-];
-
-const media = {
-  heading: "Preschool Gymnastics in Action",
-  subtitle: "A look at what a session with our youngest gymnasts is really like",
-  // Two photos need two columns, or they sit in a 3-wide grid and hug the left.
-  // maxWidth is pulled in to match, so a pair doesn't stretch to half a screen each.
-  columns: 2,
-  maxWidth: "760px",
-  photos: [
-    { src: parachutePlay, alt: "Children and coaches playing together under a rainbow parachute" },
-    { src: ropeLadder, alt: "A coach supporting a young child climbing on a rope ladder" }
-  ]
-};
+import ProgramPage from '../components/ProgramPage.astro';
+import program from '../content/program-preschool.json';
+import { resolveProgramMedia } from '../lib/cms-media';
+const media = resolveProgramMedia(program.media);
 ---
 
-<ProgramPage
-  {title}
-  {metaTitle}
-  {description}
-  {blurb}
-  {levels}
-  {bookingUrl}
-  {trialUrl}
-  {heroNote}
-  {media}
-  levelsHeading="Our Preschool & Prep Programs"
-  colorScheme="accent"
-  levelsSectionClass="preschool-levels"
->
+<ProgramPage {...program} {media}>
   <Fragment slot="after-levels">
     <section class="too-young">
       <div class="container">

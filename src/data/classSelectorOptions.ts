@@ -1,3 +1,6 @@
+import timetable from '../content/class-timetable.json' with { type: 'json' };
+import playgym from '../content/playgym.json' with { type: 'json' };
+
 export const ICLASSPRO_CLASSES_URL =
   'https://portal.iclasspro.com/trident/classes';
 
@@ -42,10 +45,6 @@ export interface Recommendation {
   url: string | null;
 }
 
-function session(day: DayName, startTime: string, endTime: string, ageRange?: string): ClassSession {
-  return { day, startTime, endTime, ageRange };
-}
-
 function getAvailableDays(sessions: ClassSession[]): DayName[] {
   return Array.from(new Set(sessions.map((classSession) => classSession.day)));
 }
@@ -64,88 +63,12 @@ export function formatClassSessionTime(classSession: ClassSession): string {
 }
 
 export const CLASS_SELECTOR_SESSIONS = {
-  playgym: [
-    session('monday', '11:00am', '12:30pm'),
-    session('tuesday', '11:00am', '12:30pm'),
-    session('wednesday', '11:00am', '12:30pm'),
-    session('thursday', '11:00am', '12:30pm'),
-    session('friday', '11:00am', '12:30pm'),
-  ],
-  // Mirrors the 2026 EduGym Adventurers timetable in iClassPro. The Monday and
-  // Wednesday morning slots are the converted ex-2–4 morning classes.
-  edu_adv: [
-    session('monday', '10:00am', '11:00am', '3Y, 6M - 5Y, 6M'),
-    session('monday', '4:00pm', '5:00pm', '3Y, 6M - 5Y, 6M'),
-    session('wednesday', '10:00am', '11:00am', '3Y, 6M - 5Y, 6M'),
-    session('thursday', '10:00am', '11:00am', '3Y, 6M - 5Y, 6M'),
-    session('thursday', '4:00pm', '5:00pm', '3Y, 6M - 5Y, 6M'),
-    session('friday', '10:00am', '11:00am', '3Y, 6M - 5Y, 6M'),
-    session('saturday', '8:30am', '9:30am', '3Y, 6M - 5Y, 6M'),
-    session('saturday', '9:30am', '10:30am', '3Y, 6M - 5Y, 6M'),
-  ],
-  edu_found: [
-    session('monday', '4:00pm', '5:00pm', '4Y, 11M - 7Y, 0M'),
-    session('tuesday', '4:00pm', '5:00pm', '5Y, 0M - 7Y, 0M'),
-    session('wednesday', '4:00pm', '5:00pm', '5Y, 0M - 7Y, 0M'),
-    session('thursday', '4:00pm', '5:00pm', '5Y, 0M - 7Y, 0M'),
-    session('saturday', '9:30am', '10:30am', '4Y, 11M - 7Y, 0M'),
-  ],
-  edu_1: [
-    session('monday', '4:00pm', '5:00pm', '5Y, 10M - 7Y, 0M'),
-    session('tuesday', '4:00pm', '5:00pm', '5Y, 10M - 7Y, 0M'),
-    session('wednesday', '4:00pm', '5:00pm', '5Y, 10M - 7Y, 0M'),
-    session('thursday', '4:00pm', '5:00pm', '5Y, 10M - 7Y, 0M'),
-    session('friday', '4:00pm', '5:00pm', '5Y, 10M - 7Y, 0M'),
-    session('saturday', '9:30am', '10:30am', '5Y, 10M - 7Y, 0M'),
-    session('saturday', '10:30am', '11:30am', '5Y, 10M - 7Y, 0M'),
-  ],
-  edu_2: [
-    session('monday', '5:00pm', '6:00pm', '6Y, 0M - 8Y, 0M'),
-    session('tuesday', '4:00pm', '5:00pm', '6Y - 8Y'),
-    session('wednesday', '4:00pm', '5:00pm', '6Y - 8Y'),
-    session('wednesday', '5:00pm', '6:00pm', '6Y - 8Y'),
-    session('thursday', '5:00pm', '6:00pm', '6Y - 8Y'),
-    session('friday', '5:00pm', '6:00pm', '6Y, 0M - 8Y, 0M'),
-    session('saturday', '9:30am', '10:30am', '6Y - 8Y'),
-    session('saturday', '10:30am', '11:30am', '6Y - 8Y'),
-  ],
-  edu_3: [
-    session('monday', '5:00pm', '6:00pm', '7Y, 0M - 9Y, 0M'),
-    session('tuesday', '5:00pm', '6:00pm', '7Y - 9Y'),
-    session('wednesday', '5:00pm', '6:00pm', '7Y - 9Y'),
-    session('thursday', '5:00pm', '6:00pm', '7Y - 9Y'),
-    session('friday', '5:00pm', '6:00pm', '7Y, 0M - 9Y, 0M'),
-    session('saturday', '10:30am', '11:30am', '7Y - 9Y'),
-  ],
-  edu_4: [
-    session('monday', '5:00pm', '6:30pm', '8Y, 0M - 10Y, 0M'),
-    session('tuesday', '6:00pm', '7:30pm', '8Y - 11Y'),
-    session('wednesday', '6:00pm', '7:30pm', '8Y - 10Y'),
-    session('thursday', '6:00pm', '7:30pm', '8Y - 10Y'),
-    session('friday', '6:00pm', '7:30pm', '8Y, 0M - 10Y, 0M'),
-    session('saturday', '11:30am', '1:00pm', '8Y - 10Y'),
-  ],
-  edu_5: [
-    session('wednesday', '6:00pm', '7:30pm', '9Y, 6M - 14Y, 0M'),
-    session('thursday', '6:00pm', '7:30pm', '9Y, 6M - 14Y'),
-    session('friday', '6:00pm', '7:30pm', '9Y, 6M - 14Y, 0M'),
-    session('saturday', '11:30am', '1:00pm', '9Y, 6M - 14Y'),
-  ],
-  urban_beg: [
-    session('monday', '4:00pm', '5:00pm', '5Y, 0M - 6Y, 9M'),
-    session('wednesday', '4:00pm', '5:00pm', '5Y, 0M - 8Y, 11M'),
-    session('saturday', '9:30am', '10:30am', '5Y - 8Y'),
-  ],
-  urban_int: [
-    session('monday', '5:00pm', '6:00pm', '6Y - 9Y'),
-    session('wednesday', '5:00pm', '6:00pm', '6Y - 9Y'),
-    session('saturday', '10:30am', '11:30am', '6Y, 6M - 8Y, 6M'),
-  ],
-  urban_adv: [
-    session('monday', '6:00pm', '7:30pm', '8Y, 0M - 99Y, 0M'),
-    session('wednesday', '6:00pm', '7:30pm', '8Y - 99Y'),
-    session('saturday', '11:30am', '1:00pm', '8Y - 99Y'),
-  ],
+  ...timetable as Record<keyof typeof timetable, ClassSession[]>,
+  // One timetable drives the PlayGym page and the class finder.
+  playgym: playgym.schedule.days.map(({ day, time }) => {
+    const [startTime, endTime] = time.split(/\s*[–—-]\s*/);
+    return { day: day.toLowerCase() as DayName, startTime, endTime };
+  }),
 } satisfies Record<string, ClassSession[]>;
 
 export const CLASS_SELECTOR_OPTIONS: ClassSelectorOption[] = [

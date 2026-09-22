@@ -1,0 +1,26 @@
+{
+  "items": [
+    {
+      "id": "agc-first-comp-2026",
+      "date": "July 2026",
+      "dateISO": "2026-07-19",
+      "tag": "Squad News",
+      "title": "We could not be prouder of our squad! 💙💛",
+      "body": [
+        "Our Trident Development Squad took on their very first AGC competition of the season — and the smiles said it all. Big routines, big nerves, and even bigger cheers for each other all day long.",
+        "Watching them walk out beaming (with a 2nd overall finish to boot!) made us so proud of every single one of them. Huge congratulations, team — the best of luck for the rest of the season. Go Trident!"
+      ],
+      "images": [
+        {
+          "src": "/src/assets/images/announcements/agc-comp-1.jpg",
+          "alt": "Trident squad gymnasts celebrating together with their medals and ribbons"
+        },
+        {
+          "src": "/src/assets/images/announcements/agc-comp-2.jpg",
+          "alt": "Trident squad gymnasts with their coach after the AGC competition"
+        }
+      ],
+      "live": true
+    }
+  ]
+}

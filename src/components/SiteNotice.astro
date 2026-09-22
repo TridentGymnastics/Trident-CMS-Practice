@@ -1,0 +1,22 @@
+---
+import notice from '../content/site-notice.json';
+---
+
+{notice.enabled && (
+  <aside class:list={['site-notice', { 'site-notice--important': notice.tone === 'important' }]} aria-label="Club notice" data-site-notice>
+    <div class="container">
+      <strong>{notice.heading}</strong>
+      {notice.message && <span>{notice.message}</span>}
+      {notice.link_text && notice.link_href && <a href={notice.link_href}>{notice.link_text}</a>}
+    </div>
+  </aside>
+)}
+
+<style>
+  .site-notice { background: #eaf4fc; color: #151957; padding: 1rem 0; border-bottom: 1px solid #c7def2; }
+  .site-notice--important { background: #ffe281; border-color: #e5c35b; }
+  .container { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: .4rem 1rem; text-align: center; }
+  strong { font-weight: 700; }
+  span { white-space: pre-line; }
+  a { color: inherit; text-decoration: underline; font-weight: 700; }
+</style>

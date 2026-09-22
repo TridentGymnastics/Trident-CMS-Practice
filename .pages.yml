@@ -1,10 +1,88 @@
+# Practice repository only. Staff instructions: CMS-STAFF-GUIDE.md
 settings:
   content:
     merge: true
-
+media:
+  - name: program_photos
+    label: Program and news photos
+    input: src/assets/images
+    output: /src/assets/images
+    extensions:
+      - jpg
+      - jpeg
+      - png
+      - webp
+      - avif
+    rename: safe
+  - name: about_photos
+    label: About portraits and logos
+    input: public/Images/About
+    output: /Images/About
+    extensions:
+      - jpg
+      - jpeg
+      - png
+      - webp
+      - avif
+    rename: safe
+  - name: policies
+    label: Policy PDFs
+    input: public/policies
+    output: /policies
+    extensions:
+      - pdf
+    rename: safe
+  - name: guides
+    label: Parent guide PDFs
+    input: public/guides
+    output: /guides
+    extensions:
+      - pdf
+    rename: safe
 content:
+  - name: site_notice
+    label: PRACTICE - Site-wide notice
+    type: file
+    path: src/content/site-notice.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: enabled
+        label: Show this notice
+        type: boolean
+        required: true
+        description: Off hides the notice on every page. Saving changes rebuilds the practice site.
+      - name: tone
+        label: Notice colour
+        type: select
+        required: true
+        options:
+          values:
+            - name: info
+              label: Blue information notice
+            - name: important
+              label: Yellow important notice
+      - name: heading
+        label: Heading
+        type: string
+        required: true
+      - name: message
+        label: Message
+        type: text
+      - name: link_text
+        label: Optional link text
+        type: string
+      - name: link_href
+        label: Optional link destination
+        type: string
+        pattern:
+          regex: ^(?:/(?!/)[^\\\s]*|https://[^\s]+|#[A-Za-z][A-Za-z0-9_-]*)$
+          message: Use a page path such as /playgym, or a full https:// address.
   - name: playgym_practice
-    label: "PRACTICE - PlayGym description"
+    label: PRACTICE - PlayGym
     type: file
     path: src/content/playgym.json
     format: json
@@ -16,14 +94,1630 @@ content:
       - name: title
         label: Program name
         type: string
+        required: true
         readonly: true
-
+        description: Names also appear in navigation and booking rules; renaming is a later step.
+      - name: age_range
+        label: Age range
+        type: string
+        required: true
+        readonly: true
+        description: Protected while class finder age rules are linked separately.
+      - name: session_length
+        label: Session length
+        type: string
+        required: true
+      - name: adult_helper_required
+        label: Adult helper required
+        type: boolean
+        required: true
+        readonly: true
       - name: tagline
         label: Short description
         type: text
         required: true
-
       - name: about
         label: About PlayGym paragraphs
         type: text
-        list: true
+        required: true
+        list:
+          min: 1
+          max: 20
+      - name: schedule
+        label: Regular PlayGym timetable
+        type: object
+        required: true
+        fields:
+          - name: stay_notice
+            label: Stay notice
+            type: text
+            required: true
+          - name: days
+            label: Sessions
+            type: object
+            required: true
+            fields:
+              - name: day
+                label: Day
+                type: select
+                required: true
+                options:
+                  values:
+                    - Monday
+                    - Tuesday
+                    - Wednesday
+                    - Thursday
+                    - Friday
+                    - Saturday
+                    - Sunday
+              - name: time
+                label: Session time
+                type: string
+                required: true
+                pattern:
+                  regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm) [–—-] (?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+                  message: Use 11:00am - 12:30pm, with spaces around the dash.
+              - name: isNew
+                label: Show New badge
+                type: boolean
+            list:
+              min: 1
+              max: 21
+              collapsible:
+                collapsed: true
+                summary: "{fields.day}"
+            description: Updates the PlayGym page AND class finder. Holiday sessions have a separate seasonal calendar.
+          - name: holiday_notice
+            label: Holiday timetable notice
+            type: text
+            required: true
+          - name: holiday_link_href
+            label: Holiday information page
+            type: string
+            pattern:
+              regex: ^(?:/(?!/)[^\\\s]*|https://[^\s]+|#[A-Za-z][A-Za-z0-9_-]*)$
+              message: Use a page path such as /playgym, or a full https:// address.
+            required: true
+      - name: prices
+        label: Prices and passes
+        type: object
+        required: true
+        fields:
+          - name: intro
+            label: Payment introduction
+            type: text
+            required: true
+          - name: items
+            label: Pass options
+            type: object
+            required: true
+            fields:
+              - name: label
+                label: Pass name
+                type: string
+                required: true
+              - name: price
+                label: Displayed price
+                type: string
+                required: true
+              - name: savings
+                label: Price per visit
+                type: string
+              - name: savings_detail
+                label: Price per visit explanation
+                type: string
+            list:
+              min: 1
+              max: 8
+              collapsible:
+                collapsed: true
+                summary: "{fields.label}"
+            description: "Keep the single visit price first: the holiday PlayGym section also reads it. Update savings and
+              the summary manually when prices change."
+          - name: multi_visit_note
+            label: Pass savings summary
+            type: text
+            required: true
+          - name: gift_blurb
+            label: Gift description
+            type: text
+            required: true
+      - name: how_to_join
+        label: How to join
+        type: object
+        required: true
+        fields:
+          - name: text
+            label: Instructions
+            type: text
+            required: true
+          - name: note
+            label: Extra note
+            type: text
+            required: true
+      - name: cta
+        label: Call to action
+        type: object
+        required: true
+        fields:
+          - name: primary
+            label: Drop-in message
+            type: string
+            required: true
+          - name: secondary
+            label: Contact button text
+            type: string
+            required: true
+      - name: media
+        label: Program photo gallery
+        type: object
+        required: true
+        fields:
+          - name: heading
+            label: Gallery heading
+            type: string
+          - name: subtitle
+            label: Gallery introduction
+            type: text
+          - name: columns
+            label: Photos per row
+            type: number
+            options:
+              min: 1
+              max: 3
+          - name: maxWidth
+            label: Gallery width
+            type: string
+            readonly: true
+            description: Existing layout setting.
+          - name: photos
+            label: Photos
+            type: object
+            required: true
+            fields:
+              - name: src
+                label: Photo
+                type: image
+                required: true
+                options:
+                  media: program_photos
+              - name: alt
+                label: Describe this photo
+                type: string
+                required: true
+                description: Describe the activity without naming children.
+              - name: position
+                label: Crop position
+                type: string
+                pattern:
+                  regex: "^(?:center|left|right)(?: (?:top|center|bottom))?$"
+                  message: Use center, center top, or center bottom.
+                description: Leave blank for a centred crop.
+            list:
+              min: 0
+              max: 6
+              collapsible:
+                collapsed: true
+                summary: "{fields.alt}"
+  - name: program_preschool
+    label: PRACTICE - Little Gymnasts
+    type: file
+    path: src/content/program-preschool.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: title
+        label: Program name
+        type: string
+        required: true
+        readonly: true
+      - name: blurb
+        label: Program page introduction
+        type: text
+        required: true
+        description: Changes this program page. Homepage cards and booking rules are managed separately.
+      - name: metaTitle
+        label: Browser and search title
+        type: string
+        required: true
+      - name: description
+        label: Search description
+        type: text
+        required: true
+      - name: colorScheme
+        label: Header colour scheme
+        type: select
+        required: true
+        options:
+          values:
+            - name: primary
+              label: Blue
+            - name: secondary
+              label: Navy
+            - name: accent
+              label: Yellow
+            - name: primary-secondary
+              label: Blue to navy
+            - name: secondary-accent
+              label: Navy to yellow
+      - name: heroNote
+        label: Extra message below introduction
+        type: text
+      - name: levels
+        label: Existing programs / levels
+        type: object
+        required: true
+        fields:
+          - name: name
+            label: Level name
+            type: string
+            required: true
+            readonly: true
+          - name: tag
+            label: School year label
+            type: string
+            required: true
+            readonly: true
+          - name: tagBg
+            label: Label background
+            type: string
+            required: true
+            readonly: true
+            hidden: true
+          - name: tagColor
+            label: Label text colour
+            type: string
+            required: true
+            readonly: true
+            hidden: true
+          - name: description
+            label: Level description
+            type: text
+            required: true
+        list:
+          min: 2
+          max: 2
+          collapsible:
+            collapsed: true
+            summary: "{fields.name}"
+        description: Edit descriptions. Level names and eligibility stay linked to the current booking setup.
+      - name: media
+        label: Program photo gallery
+        type: object
+        required: true
+        fields:
+          - name: heading
+            label: Gallery heading
+            type: string
+          - name: subtitle
+            label: Gallery introduction
+            type: text
+          - name: columns
+            label: Photos per row
+            type: number
+            options:
+              min: 1
+              max: 3
+          - name: maxWidth
+            label: Gallery width
+            type: string
+            readonly: true
+            description: Existing layout setting.
+          - name: photos
+            label: Photos
+            type: object
+            required: true
+            fields:
+              - name: src
+                label: Photo
+                type: image
+                required: true
+                options:
+                  media: program_photos
+              - name: alt
+                label: Describe this photo
+                type: string
+                required: true
+                description: Describe the activity without naming children.
+              - name: position
+                label: Crop position
+                type: string
+                pattern:
+                  regex: "^(?:center|left|right)(?: (?:top|center|bottom))?$"
+                  message: Use center, center top, or center bottom.
+                description: Leave blank for a centred crop.
+            list:
+              min: 0
+              max: 6
+              collapsible:
+                collapsed: true
+                summary: "{fields.alt}"
+  - name: program_edugym
+    label: PRACTICE - EduGym
+    type: file
+    path: src/content/program-edugym.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: title
+        label: Program name
+        type: string
+        required: true
+        readonly: true
+      - name: blurb
+        label: Program page introduction
+        type: text
+        required: true
+        description: Changes this program page. Homepage cards and booking rules are managed separately.
+      - name: metaTitle
+        label: Browser and search title
+        type: string
+        required: true
+      - name: description
+        label: Search description
+        type: text
+        required: true
+      - name: colorScheme
+        label: Header colour scheme
+        type: select
+        required: true
+        options:
+          values:
+            - name: primary
+              label: Blue
+            - name: secondary
+              label: Navy
+            - name: accent
+              label: Yellow
+            - name: primary-secondary
+              label: Blue to navy
+            - name: secondary-accent
+              label: Navy to yellow
+      - name: heroNote
+        label: Extra message below introduction
+        type: text
+      - name: heroNoteHref
+        label: Extra message link
+        type: string
+        pattern:
+          regex: ^(?:/(?!/)[^\\\s]*|https://[^\s]+|#[A-Za-z][A-Za-z0-9_-]*)$
+          message: Use a page path such as /playgym, or a full https:// address.
+      - name: heroNoteCta
+        label: Extra message link text
+        type: string
+      - name: levels
+        label: Existing programs / levels
+        type: object
+        required: true
+        fields:
+          - name: name
+            label: Level name
+            type: string
+            required: true
+            readonly: true
+          - name: tag
+            label: School year label
+            type: string
+            required: true
+            readonly: true
+          - name: tagBg
+            label: Label background
+            type: string
+            required: true
+            readonly: true
+            hidden: true
+          - name: tagColor
+            label: Label text colour
+            type: string
+            required: true
+            readonly: true
+            hidden: true
+          - name: description
+            label: Level description
+            type: text
+            required: true
+        list:
+          min: 6
+          max: 6
+          collapsible:
+            collapsed: true
+            summary: "{fields.name}"
+        description: Edit descriptions. Level names and eligibility stay linked to the current booking setup.
+      - name: media
+        label: Program photo gallery
+        type: object
+        required: true
+        fields:
+          - name: heading
+            label: Gallery heading
+            type: string
+          - name: subtitle
+            label: Gallery introduction
+            type: text
+          - name: columns
+            label: Photos per row
+            type: number
+            options:
+              min: 1
+              max: 3
+          - name: maxWidth
+            label: Gallery width
+            type: string
+            readonly: true
+            description: Existing layout setting.
+          - name: photos
+            label: Photos
+            type: object
+            required: true
+            fields:
+              - name: src
+                label: Photo
+                type: image
+                required: true
+                options:
+                  media: program_photos
+              - name: alt
+                label: Describe this photo
+                type: string
+                required: true
+                description: Describe the activity without naming children.
+              - name: position
+                label: Crop position
+                type: string
+                pattern:
+                  regex: "^(?:center|left|right)(?: (?:top|center|bottom))?$"
+                  message: Use center, center top, or center bottom.
+                description: Leave blank for a centred crop.
+            list:
+              min: 0
+              max: 6
+              collapsible:
+                collapsed: true
+                summary: "{fields.alt}"
+  - name: program_urbangym
+    label: PRACTICE - UrbanGym
+    type: file
+    path: src/content/program-urbangym.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: title
+        label: Program name
+        type: string
+        required: true
+        readonly: true
+      - name: blurb
+        label: Program page introduction
+        type: text
+        required: true
+        description: Changes this program page. Homepage cards and booking rules are managed separately.
+      - name: metaTitle
+        label: Browser and search title
+        type: string
+        required: true
+      - name: description
+        label: Search description
+        type: text
+        required: true
+      - name: colorScheme
+        label: Header colour scheme
+        type: select
+        required: true
+        options:
+          values:
+            - name: primary
+              label: Blue
+            - name: secondary
+              label: Navy
+            - name: accent
+              label: Yellow
+            - name: primary-secondary
+              label: Blue to navy
+            - name: secondary-accent
+              label: Navy to yellow
+      - name: levels
+        label: Existing programs / levels
+        type: object
+        required: true
+        fields:
+          - name: name
+            label: Level name
+            type: string
+            required: true
+            readonly: true
+          - name: tag
+            label: School year label
+            type: string
+            required: true
+            readonly: true
+          - name: tagBg
+            label: Label background
+            type: string
+            required: true
+            readonly: true
+            hidden: true
+          - name: tagColor
+            label: Label text colour
+            type: string
+            required: true
+            readonly: true
+            hidden: true
+          - name: description
+            label: Level description
+            type: text
+            required: true
+        list:
+          min: 3
+          max: 3
+          collapsible:
+            collapsed: true
+            summary: "{fields.name}"
+        description: Edit descriptions. Level names and eligibility stay linked to the current booking setup.
+      - name: media
+        label: Program photo gallery
+        type: object
+        required: true
+        fields:
+          - name: heading
+            label: Gallery heading
+            type: string
+          - name: subtitle
+            label: Gallery introduction
+            type: text
+          - name: columns
+            label: Photos per row
+            type: number
+            options:
+              min: 1
+              max: 3
+          - name: maxWidth
+            label: Gallery width
+            type: string
+            readonly: true
+            description: Existing layout setting.
+          - name: photos
+            label: Photos
+            type: object
+            required: true
+            fields:
+              - name: src
+                label: Photo
+                type: image
+                required: true
+                options:
+                  media: program_photos
+              - name: alt
+                label: Describe this photo
+                type: string
+                required: true
+                description: Describe the activity without naming children.
+              - name: position
+                label: Crop position
+                type: string
+                pattern:
+                  regex: "^(?:center|left|right)(?: (?:top|center|bottom))?$"
+                  message: Use center, center top, or center bottom.
+                description: Leave blank for a centred crop.
+            list:
+              min: 0
+              max: 6
+              collapsible:
+                collapsed: true
+                summary: "{fields.alt}"
+          - name: video
+            label: Existing video
+            type: object
+            required: true
+            fields:
+              - name: src
+                label: Video file
+                type: string
+                required: true
+              - name: poster
+                label: Poster
+                type: image
+                required: true
+                options:
+                  media: program_photos
+              - name: title
+                label: Video description
+                type: string
+                required: true
+              - name: autoplay
+                label: Autoplay
+                type: boolean
+            readonly: true
+  - name: program_agc
+    label: PRACTICE - AGC
+    type: file
+    path: src/content/program-agc.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: title
+        label: Program name
+        type: string
+        required: true
+        readonly: true
+      - name: blurb
+        label: Program page introduction
+        type: text
+        required: true
+        description: Changes this program page. Homepage cards and booking rules are managed separately.
+      - name: metaTitle
+        label: Browser and search title
+        type: string
+        required: true
+      - name: description
+        label: Search description
+        type: text
+        required: true
+      - name: colorScheme
+        label: Header colour scheme
+        type: select
+        required: true
+        options:
+          values:
+            - name: primary
+              label: Blue
+            - name: secondary
+              label: Navy
+            - name: accent
+              label: Yellow
+            - name: primary-secondary
+              label: Blue to navy
+            - name: secondary-accent
+              label: Navy to yellow
+      - name: levels
+        label: Existing programs / levels
+        type: object
+        required: true
+        fields:
+          - name: name
+            label: Level name
+            type: string
+            required: true
+            readonly: true
+          - name: description
+            label: Level description
+            type: text
+            required: true
+        list:
+          min: 2
+          max: 2
+          collapsible:
+            collapsed: true
+            summary: "{fields.name}"
+        description: Edit descriptions. Level names and eligibility stay linked to the current booking setup.
+      - name: media
+        label: Program photo gallery
+        type: object
+        required: true
+        fields:
+          - name: heading
+            label: Gallery heading
+            type: string
+          - name: subtitle
+            label: Gallery introduction
+            type: text
+          - name: columns
+            label: Photos per row
+            type: number
+            options:
+              min: 1
+              max: 3
+          - name: maxWidth
+            label: Gallery width
+            type: string
+            readonly: true
+            description: Existing layout setting.
+          - name: photos
+            label: Photos
+            type: object
+            required: true
+            fields:
+              - name: src
+                label: Photo
+                type: image
+                required: true
+                options:
+                  media: program_photos
+              - name: alt
+                label: Describe this photo
+                type: string
+                required: true
+                description: Describe the activity without naming children.
+              - name: position
+                label: Crop position
+                type: string
+                pattern:
+                  regex: "^(?:center|left|right)(?: (?:top|center|bottom))?$"
+                  message: Use center, center top, or center bottom.
+                description: Leave blank for a centred crop.
+            list:
+              min: 0
+              max: 6
+              collapsible:
+                collapsed: true
+                summary: "{fields.alt}"
+  - name: class_timetable
+    label: PRACTICE - Class finder timetable
+    type: file
+    path: src/content/class-timetable.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: edu_adv
+        label: EduGym Adventurers
+        type: object
+        required: true
+        fields:
+          - name: day
+            label: Day
+            type: select
+            required: true
+            options:
+              values:
+                - name: monday
+                  label: Monday
+                - name: tuesday
+                  label: Tuesday
+                - name: wednesday
+                  label: Wednesday
+                - name: thursday
+                  label: Thursday
+                - name: friday
+                  label: Friday
+                - name: saturday
+                  label: Saturday
+                - name: sunday
+                  label: Sunday
+          - name: startTime
+            label: Start time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 4:00pm or 10:30am.
+          - name: endTime
+            label: Finish time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 5:00pm or 11:30am.
+          - name: ageRange
+            label: iClassPro age range
+            type: string
+            required: true
+            pattern:
+              regex: ^[0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)? - [0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)?$
+              message: Use 5Y - 8Y or 3Y, 6M - 5Y, 6M.
+            description: Copy the actual age range from iClassPro. This controls which sessions the website recommends; it
+              does not change iClassPro.
+        list:
+          min: 0
+          max: 40
+          collapsible:
+            collapsed: true
+            summary: "{fields.day}"
+        description: Website class finder only. Match the real timetable and eligibility in iClassPro. PlayGym
+          sessions are edited under PlayGym.
+      - name: edu_found
+        label: EduGym Foundation
+        type: object
+        required: true
+        fields:
+          - name: day
+            label: Day
+            type: select
+            required: true
+            options:
+              values:
+                - name: monday
+                  label: Monday
+                - name: tuesday
+                  label: Tuesday
+                - name: wednesday
+                  label: Wednesday
+                - name: thursday
+                  label: Thursday
+                - name: friday
+                  label: Friday
+                - name: saturday
+                  label: Saturday
+                - name: sunday
+                  label: Sunday
+          - name: startTime
+            label: Start time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 4:00pm or 10:30am.
+          - name: endTime
+            label: Finish time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 5:00pm or 11:30am.
+          - name: ageRange
+            label: iClassPro age range
+            type: string
+            required: true
+            pattern:
+              regex: ^[0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)? - [0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)?$
+              message: Use 5Y - 8Y or 3Y, 6M - 5Y, 6M.
+            description: Copy the actual age range from iClassPro. This controls which sessions the website recommends; it
+              does not change iClassPro.
+        list:
+          min: 0
+          max: 40
+          collapsible:
+            collapsed: true
+            summary: "{fields.day}"
+        description: Website class finder only. Match the real timetable and eligibility in iClassPro. PlayGym
+          sessions are edited under PlayGym.
+      - name: edu_1
+        label: EduGym Level 1
+        type: object
+        required: true
+        fields:
+          - name: day
+            label: Day
+            type: select
+            required: true
+            options:
+              values:
+                - name: monday
+                  label: Monday
+                - name: tuesday
+                  label: Tuesday
+                - name: wednesday
+                  label: Wednesday
+                - name: thursday
+                  label: Thursday
+                - name: friday
+                  label: Friday
+                - name: saturday
+                  label: Saturday
+                - name: sunday
+                  label: Sunday
+          - name: startTime
+            label: Start time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 4:00pm or 10:30am.
+          - name: endTime
+            label: Finish time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 5:00pm or 11:30am.
+          - name: ageRange
+            label: iClassPro age range
+            type: string
+            required: true
+            pattern:
+              regex: ^[0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)? - [0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)?$
+              message: Use 5Y - 8Y or 3Y, 6M - 5Y, 6M.
+            description: Copy the actual age range from iClassPro. This controls which sessions the website recommends; it
+              does not change iClassPro.
+        list:
+          min: 0
+          max: 40
+          collapsible:
+            collapsed: true
+            summary: "{fields.day}"
+        description: Website class finder only. Match the real timetable and eligibility in iClassPro. PlayGym
+          sessions are edited under PlayGym.
+      - name: edu_2
+        label: EduGym Level 2
+        type: object
+        required: true
+        fields:
+          - name: day
+            label: Day
+            type: select
+            required: true
+            options:
+              values:
+                - name: monday
+                  label: Monday
+                - name: tuesday
+                  label: Tuesday
+                - name: wednesday
+                  label: Wednesday
+                - name: thursday
+                  label: Thursday
+                - name: friday
+                  label: Friday
+                - name: saturday
+                  label: Saturday
+                - name: sunday
+                  label: Sunday
+          - name: startTime
+            label: Start time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 4:00pm or 10:30am.
+          - name: endTime
+            label: Finish time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 5:00pm or 11:30am.
+          - name: ageRange
+            label: iClassPro age range
+            type: string
+            required: true
+            pattern:
+              regex: ^[0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)? - [0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)?$
+              message: Use 5Y - 8Y or 3Y, 6M - 5Y, 6M.
+            description: Copy the actual age range from iClassPro. This controls which sessions the website recommends; it
+              does not change iClassPro.
+        list:
+          min: 0
+          max: 40
+          collapsible:
+            collapsed: true
+            summary: "{fields.day}"
+        description: Website class finder only. Match the real timetable and eligibility in iClassPro. PlayGym
+          sessions are edited under PlayGym.
+      - name: edu_3
+        label: EduGym Level 3
+        type: object
+        required: true
+        fields:
+          - name: day
+            label: Day
+            type: select
+            required: true
+            options:
+              values:
+                - name: monday
+                  label: Monday
+                - name: tuesday
+                  label: Tuesday
+                - name: wednesday
+                  label: Wednesday
+                - name: thursday
+                  label: Thursday
+                - name: friday
+                  label: Friday
+                - name: saturday
+                  label: Saturday
+                - name: sunday
+                  label: Sunday
+          - name: startTime
+            label: Start time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 4:00pm or 10:30am.
+          - name: endTime
+            label: Finish time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 5:00pm or 11:30am.
+          - name: ageRange
+            label: iClassPro age range
+            type: string
+            required: true
+            pattern:
+              regex: ^[0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)? - [0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)?$
+              message: Use 5Y - 8Y or 3Y, 6M - 5Y, 6M.
+            description: Copy the actual age range from iClassPro. This controls which sessions the website recommends; it
+              does not change iClassPro.
+        list:
+          min: 0
+          max: 40
+          collapsible:
+            collapsed: true
+            summary: "{fields.day}"
+        description: Website class finder only. Match the real timetable and eligibility in iClassPro. PlayGym
+          sessions are edited under PlayGym.
+      - name: edu_4
+        label: EduGym Level 4
+        type: object
+        required: true
+        fields:
+          - name: day
+            label: Day
+            type: select
+            required: true
+            options:
+              values:
+                - name: monday
+                  label: Monday
+                - name: tuesday
+                  label: Tuesday
+                - name: wednesday
+                  label: Wednesday
+                - name: thursday
+                  label: Thursday
+                - name: friday
+                  label: Friday
+                - name: saturday
+                  label: Saturday
+                - name: sunday
+                  label: Sunday
+          - name: startTime
+            label: Start time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 4:00pm or 10:30am.
+          - name: endTime
+            label: Finish time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 5:00pm or 11:30am.
+          - name: ageRange
+            label: iClassPro age range
+            type: string
+            required: true
+            pattern:
+              regex: ^[0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)? - [0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)?$
+              message: Use 5Y - 8Y or 3Y, 6M - 5Y, 6M.
+            description: Copy the actual age range from iClassPro. This controls which sessions the website recommends; it
+              does not change iClassPro.
+        list:
+          min: 0
+          max: 40
+          collapsible:
+            collapsed: true
+            summary: "{fields.day}"
+        description: Website class finder only. Match the real timetable and eligibility in iClassPro. PlayGym
+          sessions are edited under PlayGym.
+      - name: edu_5
+        label: EduGym Level 5+
+        type: object
+        required: true
+        fields:
+          - name: day
+            label: Day
+            type: select
+            required: true
+            options:
+              values:
+                - name: monday
+                  label: Monday
+                - name: tuesday
+                  label: Tuesday
+                - name: wednesday
+                  label: Wednesday
+                - name: thursday
+                  label: Thursday
+                - name: friday
+                  label: Friday
+                - name: saturday
+                  label: Saturday
+                - name: sunday
+                  label: Sunday
+          - name: startTime
+            label: Start time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 4:00pm or 10:30am.
+          - name: endTime
+            label: Finish time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 5:00pm or 11:30am.
+          - name: ageRange
+            label: iClassPro age range
+            type: string
+            required: true
+            pattern:
+              regex: ^[0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)? - [0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)?$
+              message: Use 5Y - 8Y or 3Y, 6M - 5Y, 6M.
+            description: Copy the actual age range from iClassPro. This controls which sessions the website recommends; it
+              does not change iClassPro.
+        list:
+          min: 0
+          max: 40
+          collapsible:
+            collapsed: true
+            summary: "{fields.day}"
+        description: Website class finder only. Match the real timetable and eligibility in iClassPro. PlayGym
+          sessions are edited under PlayGym.
+      - name: urban_beg
+        label: UrbanGym Beginner
+        type: object
+        required: true
+        fields:
+          - name: day
+            label: Day
+            type: select
+            required: true
+            options:
+              values:
+                - name: monday
+                  label: Monday
+                - name: tuesday
+                  label: Tuesday
+                - name: wednesday
+                  label: Wednesday
+                - name: thursday
+                  label: Thursday
+                - name: friday
+                  label: Friday
+                - name: saturday
+                  label: Saturday
+                - name: sunday
+                  label: Sunday
+          - name: startTime
+            label: Start time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 4:00pm or 10:30am.
+          - name: endTime
+            label: Finish time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 5:00pm or 11:30am.
+          - name: ageRange
+            label: iClassPro age range
+            type: string
+            required: true
+            pattern:
+              regex: ^[0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)? - [0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)?$
+              message: Use 5Y - 8Y or 3Y, 6M - 5Y, 6M.
+            description: Copy the actual age range from iClassPro. This controls which sessions the website recommends; it
+              does not change iClassPro.
+        list:
+          min: 0
+          max: 40
+          collapsible:
+            collapsed: true
+            summary: "{fields.day}"
+        description: Website class finder only. Match the real timetable and eligibility in iClassPro. PlayGym
+          sessions are edited under PlayGym.
+      - name: urban_int
+        label: UrbanGym Intermediate
+        type: object
+        required: true
+        fields:
+          - name: day
+            label: Day
+            type: select
+            required: true
+            options:
+              values:
+                - name: monday
+                  label: Monday
+                - name: tuesday
+                  label: Tuesday
+                - name: wednesday
+                  label: Wednesday
+                - name: thursday
+                  label: Thursday
+                - name: friday
+                  label: Friday
+                - name: saturday
+                  label: Saturday
+                - name: sunday
+                  label: Sunday
+          - name: startTime
+            label: Start time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 4:00pm or 10:30am.
+          - name: endTime
+            label: Finish time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 5:00pm or 11:30am.
+          - name: ageRange
+            label: iClassPro age range
+            type: string
+            required: true
+            pattern:
+              regex: ^[0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)? - [0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)?$
+              message: Use 5Y - 8Y or 3Y, 6M - 5Y, 6M.
+            description: Copy the actual age range from iClassPro. This controls which sessions the website recommends; it
+              does not change iClassPro.
+        list:
+          min: 0
+          max: 40
+          collapsible:
+            collapsed: true
+            summary: "{fields.day}"
+        description: Website class finder only. Match the real timetable and eligibility in iClassPro. PlayGym
+          sessions are edited under PlayGym.
+      - name: urban_adv
+        label: UrbanGym Advanced
+        type: object
+        required: true
+        fields:
+          - name: day
+            label: Day
+            type: select
+            required: true
+            options:
+              values:
+                - name: monday
+                  label: Monday
+                - name: tuesday
+                  label: Tuesday
+                - name: wednesday
+                  label: Wednesday
+                - name: thursday
+                  label: Thursday
+                - name: friday
+                  label: Friday
+                - name: saturday
+                  label: Saturday
+                - name: sunday
+                  label: Sunday
+          - name: startTime
+            label: Start time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 4:00pm or 10:30am.
+          - name: endTime
+            label: Finish time
+            type: string
+            required: true
+            pattern:
+              regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+              message: Use 5:00pm or 11:30am.
+          - name: ageRange
+            label: iClassPro age range
+            type: string
+            required: true
+            pattern:
+              regex: ^[0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)? - [0-9]{1,2}Y(?:, (?:[0-9]|1[01])M)?$
+              message: Use 5Y - 8Y or 3Y, 6M - 5Y, 6M.
+            description: Copy the actual age range from iClassPro. This controls which sessions the website recommends; it
+              does not change iClassPro.
+        list:
+          min: 0
+          max: 40
+          collapsible:
+            collapsed: true
+            summary: "{fields.day}"
+        description: Website class finder only. Match the real timetable and eligibility in iClassPro. PlayGym
+          sessions are edited under PlayGym.
+  - name: announcements
+    label: PRACTICE - News updates
+    type: file
+    path: src/content/announcements.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: items
+        label: Updates
+        type: object
+        required: true
+        fields:
+          - name: live
+            label: Publish this update
+            type: boolean
+            required: true
+            description: Switch off to hide without deleting. This appears on the What's happening page.
+          - name: id
+            label: Reference name
+            type: string
+            required: true
+            pattern:
+              regex: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+              message: Use a unique name such as spring-news-2026.
+            description: Unique name using lowercase words and hyphens, e.g. spring-news-2026.
+          - name: title
+            label: Headline
+            type: string
+            required: true
+          - name: date
+            label: Displayed date
+            type: string
+            required: true
+          - name: dateISO
+            label: Date for sorting
+            type: string
+            required: true
+            pattern:
+              regex: ^\d{4}-\d{2}-\d{2}$
+              message: Use YYYY-MM-DD, for example 2026-09-22.
+            description: Controls newest-first order; does not schedule automatic publication.
+          - name: tag
+            label: Category label
+            type: string
+          - name: body
+            label: Paragraphs
+            type: text
+            required: true
+            list:
+              min: 1
+              max: 20
+          - name: images
+            label: Photos
+            type: object
+            required: true
+            fields:
+              - name: src
+                label: Photo
+                type: image
+                required: true
+                options:
+                  media: program_photos
+              - name: alt
+                label: Describe this photo
+                type: string
+                required: true
+            list:
+              min: 0
+              max: 4
+              collapsible:
+                collapsed: true
+                summary: "{fields.alt}"
+        list:
+          min: 0
+          max: 100
+          collapsible:
+            collapsed: true
+            summary: "{fields.title}"
+  - name: about_policies
+    label: PRACTICE - About and policies
+    type: file
+    path: src/content/about.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: hero
+        label: About page heading
+        type: object
+        required: true
+        fields:
+          - name: title
+            label: Title
+            type: string
+            required: true
+          - name: intro
+            label: Introduction
+            type: text
+            required: true
+      - name: bios
+        label: People
+        type: object
+        required: true
+        fields:
+          - name: name
+            label: Name
+            type: string
+            required: true
+          - name: body
+            label: Biography paragraphs
+            type: text
+            required: true
+            list:
+              min: 1
+              max: 20
+          - name: image
+            label: Portrait
+            type: image
+            required: true
+            options:
+              media: about_photos
+        list:
+          min: 1
+          max: 10
+          collapsible:
+            collapsed: true
+            summary: "{fields.name}"
+      - name: closing
+        label: Closing paragraphs
+        type: text
+        required: true
+        list:
+          min: 1
+          max: 20
+      - name: band
+        label: About page slogan
+        type: object
+        required: true
+        fields:
+          - name: line1
+            label: First line
+            type: string
+            required: true
+          - name: line2
+            label: Second line
+            type: string
+            required: true
+          - name: with
+            label: Connecting word
+            type: string
+            required: true
+      - name: affiliations
+        label: Affiliations
+        type: object
+        required: true
+        fields:
+          - name: title
+            label: Heading
+            type: string
+            required: true
+          - name: logos
+            label: Affiliation logos
+            type: object
+            required: true
+            fields:
+              - name: src
+                label: Logo
+                type: image
+                required: true
+                options:
+                  media: about_photos
+              - name: alt
+                label: Organisation name
+                type: string
+                required: true
+              - name: href
+                label: Website
+                type: string
+                pattern:
+                  regex: ^(?:/(?!/)[^\\\s]*|https://[^\s]+|#[A-Za-z][A-Za-z0-9_-]*)$
+                  message: Use a page path such as /playgym, or a full https:// address.
+                required: true
+            list:
+              min: 0
+              max: 10
+              collapsible:
+                collapsed: true
+                summary: "{fields.alt}"
+      - name: policies
+        label: Policies and parent guides
+        type: object
+        required: true
+        fields:
+          - name: title
+            label: Page heading
+            type: string
+            required: true
+          - name: intro
+            label: Introduction
+            type: text
+            required: true
+          - name: documents
+            label: Current policies
+            type: object
+            required: true
+            fields:
+              - name: title
+                label: Document title
+                type: string
+                required: true
+              - name: href
+                label: PDF document
+                type: file
+                required: true
+                options:
+                  media: policies
+                  extensions:
+                    - pdf
+              - name: description
+                label: Description
+                type: text
+            list:
+              min: 1
+              max: 30
+              collapsible:
+                collapsed: true
+                summary: "{fields.title}"
+          - name: guides
+            label: Parent guides
+            type: object
+            required: true
+            fields:
+              - name: title
+                label: Heading
+                type: string
+                required: true
+              - name: intro
+                label: Introduction
+                type: text
+                required: true
+              - name: documents
+                label: Guides
+                type: object
+                required: true
+                fields:
+                  - name: title
+                    label: Document title
+                    type: string
+                    required: true
+                  - name: href
+                    label: PDF document
+                    type: file
+                    required: true
+                    options:
+                      media: guides
+                      extensions:
+                        - pdf
+                  - name: description
+                    label: Description
+                    type: text
+                list:
+                  min: 0
+                  max: 30
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.title}"
+          - name: legacy
+            label: Older policies
+            type: object
+            required: true
+            fields:
+              - name: title
+                label: Document title
+                type: string
+                required: true
+              - name: href
+                label: PDF document
+                type: file
+                required: true
+                options:
+                  media: policies
+                  extensions:
+                    - pdf
+              - name: description
+                label: Description
+                type: text
+            list:
+              min: 0
+              max: 30
+              collapsible:
+                collapsed: true
+                summary: "{fields.title}"
+        description: Current policies are shared by the Policies page and PlayGym. Upload a new filename, select it
+          here, then save. Retain old files until links are checked.

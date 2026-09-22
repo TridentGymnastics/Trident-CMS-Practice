@@ -11,26 +11,14 @@ import ContactCTA from '../components/playgym/ContactCTA.astro';
 import ProgramMedia from '../components/shared/ProgramMedia.astro';
 import GettingHere from '../components/shared/GettingHere.astro';
 
-import playgym1 from '../assets/images/programs/playgym/playgym-1.jpg';
-import playgym2 from '../assets/images/programs/playgym/playgym-2.jpg';
 
 // Import JSON data
 import playgymData from '../content/playgym.json';
 
-const media = {
-  heading: "Inside PlayGym",
-  subtitle: "Our gym floor set up for open, supervised play",
-  columns: 2,
-  // Held narrow so the two shots don't dominate and the page reads straight on
-  // into the schedule. Widen this when there are more (and better) photos.
-  maxWidth: "720px",
-  // The two shots with children in them were from another program with older kids —
-  // wrong age group for PlayGym, so they're out until we have real PlayGym action shots.
-  photos: [
-    { src: playgym1, alt: "The PlayGym floor set up with a play parachute, soft rollers and foam blocks" },
-    { src: playgym2, alt: "Low beams, soft blocks and mats laid out ready for PlayGym" }
-  ]
-};
+const media = resolveProgramMedia(playgymData.media);
+
+import { resolveProgramMedia } from '../lib/cms-media';
+import aboutData from '../content/about.json';
 ---
 
 <Layout title="PlayGym Ringwood" description="PlayGym at Trident Gymnastics Ringwood offers safe supervised play for toddlers and young children aged 0-6 years. No booking required.">
@@ -78,7 +66,7 @@ const media = {
   <Prices data={playgymData} />
   <HowToJoin data={playgymData} />
   <GettingHere address={playgymData.contact.address} />
-  <Policies data={playgymData} />
+  <Policies data={{ policies: aboutData.policies.documents }} />
   <ContactCTA data={playgymData} />
 </Layout>
 

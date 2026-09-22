@@ -4,6 +4,7 @@ import "../styles/theme.css";
 import "../styles/program.css";
 import "../styles/parties.css";
 import Header from '../components/Header.astro';
+import SiteNotice from '../components/SiteNotice.astro';
 import ClassSelector from '../components/ClassSelector.astro';
 import FloatingContact from '../components/FloatingContact.astro';
 import StructuredData from '../components/StructuredData.astro';
@@ -99,6 +100,7 @@ const shareImageUrl = heroImageUrl ? `${siteConfig.siteUrl}${heroImageUrl}` : si
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <Header />
+    <SiteNotice />
 
     <main id="main-content" class="container" tabindex="-1">
       <slot />

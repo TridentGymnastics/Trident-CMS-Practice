@@ -1,0 +1,53 @@
+{
+  "title": "UrbanGym",
+  "metaTitle": "UrbanGym Movement Classes Ringwood",
+  "description": "UrbanGym at Trident Gymnastics Ringwood — gymnastics fundamentals, safe flipping and tricking, plus vaults, swings and creative movement, all coached.",
+  "blurb": "Urban-inspired movement training that builds gymnastics fundamentals, safe flipping and tricking, plus vaults, swings and creative movement in a coached environment.",
+  "bookingUrl": "https://portal.iclasspro.com/trident",
+  "trialUrl": "https://portal.iclasspro.com/trident",
+  "levels": [
+    {
+      "name": "UrbanGym Beginner",
+      "tag": "Prep – Grade 1",
+      "tagBg": "#1573C2",
+      "tagColor": "#fff",
+      "description": "Build strong movement foundations through safe landings, hand support, basic vaults and swings, and core gymnastics-style movement."
+    },
+    {
+      "name": "UrbanGym Intermediate",
+      "tag": "Grade 2 – 3",
+      "tagBg": "#1573C2",
+      "tagColor": "#fff",
+      "description": "Progress into controlled flipping and linking, with a focus on cleaner take-offs and landings, flowing movement sequences, and confidence across obstacles."
+    },
+    {
+      "name": "UrbanGym Advanced",
+      "tag": "Grade 4+",
+      "tagBg": "#1573C2",
+      "tagColor": "#fff",
+      "description": "Develop advanced flipping, power and precision, combining complex movement patterns with creativity, control and style."
+    }
+  ],
+  "media": {
+    "heading": "UrbanGym in Action",
+    "subtitle": "Flipping, vaulting and creative movement in a coached environment",
+    "video": {
+      "src": "/videos/programs/urbangym.mp4",
+      "poster": "/src/assets/images/programs/urbangym/urbangym-video-poster.jpg",
+      "title": "An UrbanGym session at Trident Gymnastics",
+      "autoplay": true
+    },
+    "photos": [
+      {
+        "src": "/src/assets/images/programs/urbangym/foam-pit-roll.jpg",
+        "alt": "A young athlete rolling out of a skill onto a landing mat beside the foam pit"
+      },
+      {
+        "src": "/src/assets/images/programs/urbangym/vault-box.jpg",
+        "alt": "Athletes running and vaulting over a padded box onto a landing mat"
+      }
+    ]
+  },
+  "colorScheme": "secondary",
+  "levelsSectionClass": "urbangym-levels"
+}

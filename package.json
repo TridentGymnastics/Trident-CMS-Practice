@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/validate-cms-content.mjs && astro build",
+    "verify:cms": "node scripts/validate-cms-content.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "optimise:video": "node scripts/optimise-video.mjs",

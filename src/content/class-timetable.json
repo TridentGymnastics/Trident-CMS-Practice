@@ -1,0 +1,340 @@
+{
+  "edu_adv": [
+    {
+      "day": "monday",
+      "startTime": "10:00am",
+      "endTime": "11:00am",
+      "ageRange": "3Y, 6M - 5Y, 6M"
+    },
+    {
+      "day": "monday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "3Y, 6M - 5Y, 6M"
+    },
+    {
+      "day": "wednesday",
+      "startTime": "10:00am",
+      "endTime": "11:00am",
+      "ageRange": "3Y, 6M - 5Y, 6M"
+    },
+    {
+      "day": "thursday",
+      "startTime": "10:00am",
+      "endTime": "11:00am",
+      "ageRange": "3Y, 6M - 5Y, 6M"
+    },
+    {
+      "day": "thursday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "3Y, 6M - 5Y, 6M"
+    },
+    {
+      "day": "friday",
+      "startTime": "10:00am",
+      "endTime": "11:00am",
+      "ageRange": "3Y, 6M - 5Y, 6M"
+    },
+    {
+      "day": "saturday",
+      "startTime": "8:30am",
+      "endTime": "9:30am",
+      "ageRange": "3Y, 6M - 5Y, 6M"
+    },
+    {
+      "day": "saturday",
+      "startTime": "9:30am",
+      "endTime": "10:30am",
+      "ageRange": "3Y, 6M - 5Y, 6M"
+    }
+  ],
+  "edu_found": [
+    {
+      "day": "monday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "4Y, 11M - 7Y, 0M"
+    },
+    {
+      "day": "tuesday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "5Y, 0M - 7Y, 0M"
+    },
+    {
+      "day": "wednesday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "5Y, 0M - 7Y, 0M"
+    },
+    {
+      "day": "thursday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "5Y, 0M - 7Y, 0M"
+    },
+    {
+      "day": "saturday",
+      "startTime": "9:30am",
+      "endTime": "10:30am",
+      "ageRange": "4Y, 11M - 7Y, 0M"
+    }
+  ],
+  "edu_1": [
+    {
+      "day": "monday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "5Y, 10M - 7Y, 0M"
+    },
+    {
+      "day": "tuesday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "5Y, 10M - 7Y, 0M"
+    },
+    {
+      "day": "wednesday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "5Y, 10M - 7Y, 0M"
+    },
+    {
+      "day": "thursday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "5Y, 10M - 7Y, 0M"
+    },
+    {
+      "day": "friday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "5Y, 10M - 7Y, 0M"
+    },
+    {
+      "day": "saturday",
+      "startTime": "9:30am",
+      "endTime": "10:30am",
+      "ageRange": "5Y, 10M - 7Y, 0M"
+    },
+    {
+      "day": "saturday",
+      "startTime": "10:30am",
+      "endTime": "11:30am",
+      "ageRange": "5Y, 10M - 7Y, 0M"
+    }
+  ],
+  "edu_2": [
+    {
+      "day": "monday",
+      "startTime": "5:00pm",
+      "endTime": "6:00pm",
+      "ageRange": "6Y, 0M - 8Y, 0M"
+    },
+    {
+      "day": "tuesday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "6Y - 8Y"
+    },
+    {
+      "day": "wednesday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "6Y - 8Y"
+    },
+    {
+      "day": "wednesday",
+      "startTime": "5:00pm",
+      "endTime": "6:00pm",
+      "ageRange": "6Y - 8Y"
+    },
+    {
+      "day": "thursday",
+      "startTime": "5:00pm",
+      "endTime": "6:00pm",
+      "ageRange": "6Y - 8Y"
+    },
+    {
+      "day": "friday",
+      "startTime": "5:00pm",
+      "endTime": "6:00pm",
+      "ageRange": "6Y, 0M - 8Y, 0M"
+    },
+    {
+      "day": "saturday",
+      "startTime": "9:30am",
+      "endTime": "10:30am",
+      "ageRange": "6Y - 8Y"
+    },
+    {
+      "day": "saturday",
+      "startTime": "10:30am",
+      "endTime": "11:30am",
+      "ageRange": "6Y - 8Y"
+    }
+  ],
+  "edu_3": [
+    {
+      "day": "monday",
+      "startTime": "5:00pm",
+      "endTime": "6:00pm",
+      "ageRange": "7Y, 0M - 9Y, 0M"
+    },
+    {
+      "day": "tuesday",
+      "startTime": "5:00pm",
+      "endTime": "6:00pm",
+      "ageRange": "7Y - 9Y"
+    },
+    {
+      "day": "wednesday",
+      "startTime": "5:00pm",
+      "endTime": "6:00pm",
+      "ageRange": "7Y - 9Y"
+    },
+    {
+      "day": "thursday",
+      "startTime": "5:00pm",
+      "endTime": "6:00pm",
+      "ageRange": "7Y - 9Y"
+    },
+    {
+      "day": "friday",
+      "startTime": "5:00pm",
+      "endTime": "6:00pm",
+      "ageRange": "7Y, 0M - 9Y, 0M"
+    },
+    {
+      "day": "saturday",
+      "startTime": "10:30am",
+      "endTime": "11:30am",
+      "ageRange": "7Y - 9Y"
+    }
+  ],
+  "edu_4": [
+    {
+      "day": "monday",
+      "startTime": "5:00pm",
+      "endTime": "6:30pm",
+      "ageRange": "8Y, 0M - 10Y, 0M"
+    },
+    {
+      "day": "tuesday",
+      "startTime": "6:00pm",
+      "endTime": "7:30pm",
+      "ageRange": "8Y - 11Y"
+    },
+    {
+      "day": "wednesday",
+      "startTime": "6:00pm",
+      "endTime": "7:30pm",
+      "ageRange": "8Y - 10Y"
+    },
+    {
+      "day": "thursday",
+      "startTime": "6:00pm",
+      "endTime": "7:30pm",
+      "ageRange": "8Y - 10Y"
+    },
+    {
+      "day": "friday",
+      "startTime": "6:00pm",
+      "endTime": "7:30pm",
+      "ageRange": "8Y, 0M - 10Y, 0M"
+    },
+    {
+      "day": "saturday",
+      "startTime": "11:30am",
+      "endTime": "1:00pm",
+      "ageRange": "8Y - 10Y"
+    }
+  ],
+  "edu_5": [
+    {
+      "day": "wednesday",
+      "startTime": "6:00pm",
+      "endTime": "7:30pm",
+      "ageRange": "9Y, 6M - 14Y, 0M"
+    },
+    {
+      "day": "thursday",
+      "startTime": "6:00pm",
+      "endTime": "7:30pm",
+      "ageRange": "9Y, 6M - 14Y"
+    },
+    {
+      "day": "friday",
+      "startTime": "6:00pm",
+      "endTime": "7:30pm",
+      "ageRange": "9Y, 6M - 14Y, 0M"
+    },
+    {
+      "day": "saturday",
+      "startTime": "11:30am",
+      "endTime": "1:00pm",
+      "ageRange": "9Y, 6M - 14Y"
+    }
+  ],
+  "urban_beg": [
+    {
+      "day": "monday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "5Y, 0M - 6Y, 9M"
+    },
+    {
+      "day": "wednesday",
+      "startTime": "4:00pm",
+      "endTime": "5:00pm",
+      "ageRange": "5Y, 0M - 8Y, 11M"
+    },
+    {
+      "day": "saturday",
+      "startTime": "9:30am",
+      "endTime": "10:30am",
+      "ageRange": "5Y - 8Y"
+    }
+  ],
+  "urban_int": [
+    {
+      "day": "monday",
+      "startTime": "5:00pm",
+      "endTime": "6:00pm",
+      "ageRange": "6Y - 9Y"
+    },
+    {
+      "day": "wednesday",
+      "startTime": "5:00pm",
+      "endTime": "6:00pm",
+      "ageRange": "6Y - 9Y"
+    },
+    {
+      "day": "saturday",
+      "startTime": "10:30am",
+      "endTime": "11:30am",
+      "ageRange": "6Y, 6M - 8Y, 6M"
+    }
+  ],
+  "urban_adv": [
+    {
+      "day": "monday",
+      "startTime": "6:00pm",
+      "endTime": "7:30pm",
+      "ageRange": "8Y, 0M - 99Y, 0M"
+    },
+    {
+      "day": "wednesday",
+      "startTime": "6:00pm",
+      "endTime": "7:30pm",
+      "ageRange": "8Y - 99Y"
+    },
+    {
+      "day": "saturday",
+      "startTime": "11:30am",
+      "endTime": "1:00pm",
+      "ageRange": "8Y - 99Y"
+    }
+  ]
+}

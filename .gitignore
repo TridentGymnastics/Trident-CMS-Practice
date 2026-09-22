@@ -3,6 +3,7 @@ dist/
 .astro/
 .preview-cache/
 .netlify/
+.vercel/
 .wrangler/
 .env
 .env.*

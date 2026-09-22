@@ -19,18 +19,26 @@ The prepared local clone uses a junction to the original checkout's installed pa
 ## Connect a separate test website
 
 1. First push this prepared practice repository using a GitHub account with write access.
-2. Create a NEW preview hosting project connected only to TridentGymnastics/Trident-CMS-Practice, branch main. Keep its default netlify.app or pages.dev address. Do not change the live project's repository connection, domains, DNS, environment variables, or credentials.
+2. Create a NEW preview hosting project connected only to TridentGymnastics/Trident-CMS-Practice, branch main. Keep its default vercel.app, netlify.app or pages.dev address. Do not change the live project's repository connection, domains, DNS, environment variables, or credentials.
 3. Build command: npm run build. Output directory: dist. Node: 24. Set PUPPETEER_SKIP_DOWNLOAD=true and ASTRO_TELEMETRY_DISABLED=1 in the preview build environment. Netlify reads these settings from this repository's preview-only netlify.toml.
 4. Host usage must also be isolated from the live site. In a Netlify team using credit-based billing, exhausting the shared allowance can pause all projects. Use separate preview billing/quota, or a separate hosting service, after confirming the setup.
 5. Verify the deployed /playgym page has the CMS PRACTICE banner, noindex headers and the saved description. This check must happen on the actual host; a successful local build does not prove the online connection.
 6. Change one description in Pages CMS, save, wait for the practice deployment to succeed, and check the preview. Restore the text and verify a second deployment. Only then is the automatic editing flow proven.
 
+### Vercel setup
+
+Vercel supports this static Astro website without an adapter. Confirm plan eligibility before deploying: Hobby is restricted to personal, non-commercial use. A test copy of a club website advertising paid classes should not be assumed eligible. Preparing this configuration does not create a Vercel project or start a paid plan.
+
+In Vercel, import TridentGymnastics/Trident-CMS-Practice as a NEW project. Use framework Astro, root directory unchanged, Node 24.x and production branch main. vercel.json supplies the install/build commands, dist output and preview headers; Vercel does not apply public/_headers as hosting configuration. Keep system environment variables exposed so the build can use the separate practice address and check the connected repository. Do not attach the real Trident domain.
+
+Sign in through the GitHub account that owns the practice repository when importing it. Verify that a Pages CMS save triggers a deployment as well as a manual push: commit-author permissions can affect Vercel deployment behaviour. A main-branch deployment is called Production in Vercel, but it is still only this separate practice project.
+
 ## Safeguards and limits
 
 - No original .github workflows, live Netlify configuration, production site IDs, environment files or credentials are included.
-- Every generated page has noindex metadata. robots.txt disallows crawling, and public/_headers adds noindex and blocks form submissions on supported hosts. Noindex is not password protection.
+- Every generated page has noindex metadata. robots.txt disallows crawling; public/_headers supplies preview headers on Netlify/Cloudflare, and vercel.json supplies them on Vercel. Noindex is not password protection.
 - The careers form is replaced by disabled controls. Booking, phone, email, map and social links are still real links; this is a content and appearance exercise.
-- Canonical URLs use the practice host. practice-origin.mjs rejects custom domains and, when provided by Netlify, a repository URL other than Trident-CMS-Practice.
+- Canonical URLs use the practice host. practice-origin.mjs rejects custom domains and checks the practice repository when Netlify or Vercel provides its Git metadata.
 - These build safeguards do not control hosting-account permissions. Do not import into or relink the existing live hosting project.
 - The CMS currently exposes only the PlayGym description and paragraphs. Program-wide renaming, page visibility and layout controls need further implementation and testing.
 
@@ -40,3 +48,6 @@ The prepared local clone uses a junction to the original checkout's installed pa
 - Netlify repository connection: https://docs.netlify.com/start/quickstarts/deploy-from-repository/
 - Netlify shared usage: https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/billing-faq-for-credit-based-plans/
 - Cloudflare Pages build configuration: https://developers.cloudflare.com/pages/configuration/build-configuration/
+- Vercel Astro support: https://vercel.com/docs/frameworks/frontend/astro
+- Vercel plan eligibility: https://vercel.com/docs/limits/fair-use-guidelines
+- Vercel Git permissions: https://vercel.com/docs/git

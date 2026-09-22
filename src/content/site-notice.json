@@ -1,5 +1,5 @@
 {
-  "enabled": false,
+  "enabled": true,
   "tone": "info",
   "heading": "Club update",
   "message": "CMS TEST Notice",

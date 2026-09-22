@@ -24,7 +24,7 @@
       "enabled": false,
       "autoplay": false
     },
-    "columns": 3,
+    "columns": 1,
     "photos": [
       {
         "src": "/src/assets/images/balance-spring-hp.png",

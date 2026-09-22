@@ -1,12 +1,10 @@
 ---
+import clubDetails from '../content/club-details.json';
 import { siteConfig } from '../config/site';
 
-// siteConfig.phone is E.164 without the leading +. Families recognise the
-// local form, so derive it here rather than keeping a second copy that can
-// drift out of sync: 61435060352 -> 0435 060 352.
+// Phone label and dial links both come from the shared club details.
 const telHref = `+${siteConfig.phone}`;
-const local = `0${siteConfig.phone.slice(2)}`;
-const phoneDisplay = `${local.slice(0, 4)} ${local.slice(4, 7)} ${local.slice(7)}`;
+const phoneDisplay = clubDetails.phone;
 
 const mailHref = `mailto:${siteConfig.email}?subject=${encodeURIComponent('Question about Trident Gymnastics')}`;
 ---

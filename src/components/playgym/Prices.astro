@@ -14,22 +14,8 @@ const { data } = Astro.props;
           <div class="price-card">
             <h3>{item.label}</h3>
             <div class="price">{item.price}</div>
-            {item.savings && (
-              <div class="price-savings">
-                <span class="savings-badge">{item.savings}</span>
-                <span class="savings-detail">{item.savings_detail}</span>
-              </div>
-            )}
           </div>
         ))}
-      </div>
-
-      <div class="price-notes">
-        <p class="multi-visit-note">{data.prices.multi_visit_note}</p>
-        <div class="gift-blurb">
-          <h4>Perfect Gift Idea!</h4>
-          <p>{data.prices.gift_blurb}</p>
-        </div>
       </div>
     </div>
   </div>

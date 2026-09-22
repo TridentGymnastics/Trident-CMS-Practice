@@ -6,6 +6,8 @@ import { parse } from 'yaml';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const readJSON = path => JSON.parse(readFileSync(resolve(root, path), 'utf8'));
 const config = parse(readFileSync(resolve(root, '.pages.yml'), 'utf8'));
+const flattenEditors = entries => entries.flatMap(entry => entry.type === 'group' ? flattenEditors(entry.items) : [entry]);
+const editors = flattenEditors(config.content);
 const errors = [];
 const fail = (where, message) => errors.push(`${where}: ${message}`);
 
@@ -61,7 +63,7 @@ function validate(fields, data, where) {
   }
 }
 
-for (const entry of config.content) {
+for (const entry of editors) {
   auditEditorSchema(entry.fields, entry.name);
   try { validate(entry.fields, readJSON(entry.path), entry.path); }
   catch (error) { fail(entry.path, error.message); }
@@ -93,12 +95,15 @@ if (!errors.length) {
   const notice = readJSON('src/content/site-notice.json');
   if (!!notice.link_text !== !!notice.link_href) fail('Site-wide notice', 'supply both link text and link destination, or leave both blank');
   const news = readJSON('src/content/announcements.json').items ?? [];
-  if (new Set(news.map(item => item.id)).size !== news.length) fail('News updates', 'reference names must be unique');
   for (const item of news) {
     const date = new Date(`${item.dateISO}T00:00:00Z`);
-    if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== item.dateISO) fail(`News ${item.id}`, 'use a real calendar date');
+    if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== item.dateISO) fail(`News ${item.title}`, 'use a real calendar date');
   }
   const playgym = readJSON('src/content/playgym.json');
+  const club = readJSON('src/content/club-details.json');
+  if (!/^0[23478]\d{8}$/.test(club.phone.replace(/\s/g, ''))) fail('Phone number', 'use a ten-digit Australian phone number');
+  const holidays = readJSON('src/content/holidays.json');
+  if (JSON.stringify(holidays.programs.map(item => item.id).sort()) !== JSON.stringify(['opengym', 'skill-workshops'])) fail('School holidays', 'keep the two program references; use their Show switches to hide them');
   const ageBounds = playgym.age_range.match(/^(\d+(?:\.\d+)?)[–-](\d+(?:\.\d+)?) years$/);
   if (!ageBounds || !(Number(ageBounds[2]) > Number(ageBounds[1])) || Number(ageBounds[2]) > 99) fail('PlayGym ages', 'use a younger-to-older range, with a maximum of 99 years');
   const expectedLevels = { edugym: ['edu_found','edu_1','edu_2','edu_3','edu_4','edu_5'], urbangym: ['urban_beg','urban_int','urban_adv'], agc: ['agc_junior','agc_senior'] };
@@ -114,12 +119,11 @@ if (!errors.length) {
     const [startTime, endTime] = time.split(/\s*[–—-]\s*/);
     return { day, startTime, endTime };
   }), 'PlayGym timetable');
-  for (const [name, sessions] of Object.entries(readJSON('src/content/class-timetable.json'))) checkSessions(sessions, `Class timetable ${name}`);
 }
 
 if (errors.length) {
   console.error('CMS content needs attention before the site can build:\n' + errors.map(error => `- ${error}`).join('\n'));
   process.exitCode = 1;
 } else {
-  console.log(`CMS content validated: ${config.content.length} editors, media files, dates, links and timetables.`);
+  console.log(`CMS content validated: ${editors.length} editors, media files, dates, links and drop-in times.`);
 }

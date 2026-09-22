@@ -80,7 +80,7 @@ const isAboutActive = aboutPages.some(page => currentPath.startsWith(page));
         </li>
 
         <li><a class="tab" href="/playgym" aria-current={isActiveLink('/playgym') ? 'page' : undefined}>{names.playgym}</a></li>
-        {/* Holiday Program nav link — live with the Spring program. TODO(summer): re-comment when it finishes. */}
+        {/* Holiday status is managed through the School holidays editor. */}
         <li><a class="tab" href="/school-holidays" aria-current={isActiveLink('/school-holidays') ? 'page' : undefined}>Holiday Program</a></li>
         <li><a class="tab" href="/parties" aria-current={isActiveLink('/parties') ? 'page' : undefined}>Birthday Parties</a></li>
         <li><a class="tab" href="/dates" aria-current={isActiveLink('/dates') ? 'page' : undefined}>Dates</a></li>
@@ -99,10 +99,10 @@ const isAboutActive = aboutPages.some(page => currentPath.startsWith(page));
         </li>
 
         <li class="find-class-item">
-          <button type="button" class="find-class-btn" data-open-class-selector aria-label="Find the right class for your child">
-            Find a Class
+          <a class="find-class-btn" href="https://portal.iclasspro.com/trident/classes" target="_blank" rel="noopener" aria-label="View class times and availability in the booking portal">
+            View Classes
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M13 5l7 7-7 7M5 12h14"/></svg>
-          </button>
+          </a>
         </li>
 
         <li class="portal-item">

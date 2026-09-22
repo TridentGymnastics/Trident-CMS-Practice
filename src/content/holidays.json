@@ -1,0 +1,28 @@
+{
+  "status": "open",
+  "dates": "21 September – 2 October 2026",
+  "notice": "Closed Friday 25 September for the public holiday.",
+  "booking_url": "https://portal.iclasspro.com/trident/camps/9?sortBy=name",
+  "playgym_enabled": true,
+  "playgym_times": "Monday to Friday, 11:00am – 12:30pm during the dates above, excluding the public holiday.",
+  "programs": [
+    {
+      "id": "opengym",
+      "enabled": true,
+      "title": "OpenGym",
+      "ages": "5–12 years",
+      "description": "Supervised access to gymnastics equipment for unstructured play and practice. Booking ahead is preferred; in-person bookings depend on available space.",
+      "sessions": "Check the booking portal for available dates and session times.",
+      "price": "$20 per session"
+    },
+    {
+      "id": "skill-workshops",
+      "enabled": true,
+      "title": "Skill Workshops",
+      "ages": "5–18 years",
+      "description": "Coached sessions focusing on gymnastics skills, including handstands, cartwheels, flips and urban movement. Advance booking is required.",
+      "sessions": "Check the booking portal for workshop topics, dates and session times.",
+      "price": "$35 per session"
+    }
+  ]
+}

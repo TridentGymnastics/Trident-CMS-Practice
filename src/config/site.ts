@@ -1,14 +1,15 @@
 import { programNames as names } from '../data/programContent';
+import clubDetails from '../content/club-details.json';
 import { practiceSiteUrl } from '../../practice-origin.mjs';
 
 export const siteConfig = {
-  phone: '61435060352', // Trident Gymnastics phone number (0435 060 352)
+  phone: '61' + clubDetails.phone.replace(/\D/g, '').slice(1), // Trident Gymnastics phone number (0435 060 352)
   whatsappMessage: 'Hi%20Trident%20Gymnastics%20-%20holiday%20program%20enquiry',
   siteName: 'Trident Gymnastics',
   siteDescription: `Ringwood gymnastics club offering ${names.preschool}, ${names.edugym}, ${names.urbangym}, ${names.playgym}, holiday programs and birthday parties for children and families.`,
   // Canonical URLs stay on the separate practice host.
   siteUrl: practiceSiteUrl,
-  email: 'info@tridentgymnastics.com.au',
+  email: clubDetails.email,
   address: '4/8-10 Maroondah Highway, Ringwood VIC 3134',
   streetAddress: 'Unit 4, 8-10 Maroondah Highway',
   addressLocality: 'Ringwood',
@@ -34,14 +35,5 @@ export const siteConfig = {
   nearbyAreas: ['Ringwood', 'Ringwood East', 'Croydon', 'Heathmont', 'Mitcham', 'Nunawading', 'Bayswater', 'Maroondah'],
   defaultImage: `${practiceSiteUrl}/Images/compressed-Logo.webp`,
   facebook: 'https://www.facebook.com/tridentgymnastics',
-  instagram: 'https://www.instagram.com/tridentgymnastics/',
-  operatingHours: {
-    monday: { open: '9:30 AM', close: '12:30 PM', evening: '3:30 PM - 7:30 PM' },
-    tuesday: { open: '9:30 AM', close: '12:30 PM', evening: '3:30 PM - 7:30 PM' },
-    wednesday: { open: '9:30 AM', close: '12:30 PM', evening: '3:30 PM - 7:30 PM' },
-    thursday: { open: '9:30 AM', close: '12:30 PM', evening: '3:30 PM - 7:30 PM' },
-    friday: { open: '9:30 AM', close: '12:30 PM', evening: '3:30 PM - 7:30 PM' },
-    saturday: { open: '7:30 AM', close: '4:30 PM', evening: null },
-    sunday: { open: null, close: null, evening: null }
-  }
+  instagram: 'https://www.instagram.com/tridentgymnastics/'
 };

@@ -1,37 +1,51 @@
-# Practice CMS verification — 22 September 2026
+# Simplified practice website verification - 22 September 2026
 
-The CMS editing path passed the checks below after fixing the handling of empty optional fields. This is a practice-site result, not approval to replace the live site or a complete website handover.
+This report supersedes the earlier nine-editor/class-finder audit. The current practice website uses the simpler staff workflow. The live Netlify repository remains unchanged at 24e7ee7eb7af0ec6a64cacecbf0e65a2c0486104.
 
-Latest staff edits included: `fd76838` (UrbanGym), `f731496` (EduGym) and `9a19f9e` (AGC). GitHub reports the Vercel deployment of `f731496` succeeded. The deployed address redirects an unauthenticated request to Vercel login, so the automated rendered-page checks used a local build plus this commit's fixes. The UrbanGym rename arrived during the audit and received a fresh build, page and class-finder check. No extra hosted deployments were triggered.
+## What changed
+
+- 12 focused editors in three groups replace the previous nine large forms. Visible field definitions dropped from 248 to 135 (about 46%); excluding object headings, actual input definitions dropped from 200 to 104. Repeated list rows are not counted as new definitions.
+- Direct iClassPro class links replace the website's custom class finder and duplicate timetable editor.
+- A fixed holiday page and homepage promotion use one status selector, program switches and editable factual information. Existing holiday subpage URLs use the same content and status.
+- Simple party packages, a term-calendar image and shared club contact details are now editable.
+- Program layout is fixed; staff retain colour presets, names, descriptions, levels and photo choices. Search descriptions and gallery headings follow shared content. Duplicated PlayGym savings claims are no longer displayed.
+- Original class-finder/seasonal components, data and legacy scripts are retained for reversibility but are not active on the website.
 
 ## Results
 
 | Check | Result |
 | --- | --- |
-| CMS editor validation | All 9 forms pass the pinned Pages CMS validation functions, including reopening the current saved content and empty galleries/disabled videos. |
-| Empty optional fields | Removing 19 optional lists and blank optional values still validates and builds. An omitted class timetable produces a contact-the-team result instead of a booking link or crash. Original content restored byte for byte after the test. |
-| Website build | Passed with the original staff test content restored; 19 pages generated, including the error page. |
-| Rendered pages | All 18 normal pages checked at 1440px and 390px: no page JavaScript errors, broken loaded images, missing requested assets or horizontal page overflow. |
-| Navigation | Mobile menu, Classes submenu, program link and actual homepage class finder passed. Class finder shows the saved EduGym name. |
-| Class-finder checks | All 15 configured age-band outcomes, 54 class day/time results and 2 special flows passed against the stored timetable and booking IDs. No bookings submitted; live portal availability was not audited. |
-| Practice protections | Every normal page has noindex metadata and the practice label; no active HTML forms. |
-| Internal links | One known test-content issue: the notice's TEST link points to `/homepage`, which is not a page. Use `/` for the homepage. Existing linked PDFs resolve to local files. |
-| Visual inspection | Inspected the phone homepage and desktop EduGym screenshots; content, notice, gallery and layout render as expected. |
-| Type check | `astro check` still reports 33 existing errors. It is not a passing check; see README. The CMS empty-field fixes introduce no additional diagnostics. |
+| Pages CMS field validation | All 12 forms pass the pinned upstream field/schema validation functions, including empty galleries and the disabled-video state. Rechecked after the latest AGC upload. |
+| Build | Passed: 19 pages including the error page. Latest AGC image was optimised successfully. |
+| Holiday states | Open, Coming soon and Closed tested using temporary local edits/builds. Inactive states hide old dates and bookings on all four holiday URLs and hide the dated homepage promotion. |
+| Program switches | Disabling the booked holiday programs removes their cards and booking links, including on their old direct URLs. The remaining PlayGym card uses its shared name/price. |
+| Shared content | Temporary program name/search-description, PlayGym price, party price/time, term-calendar heading, contact phone/email/hours and news-date changes reached generated HTML. A news item without a technical ID works. |
+| Empty fields | Removed 18 optional keys, including program galleries. Validation and build passed. |
+| Restoration | All temporary content changes restored byte for byte. Existing staff test wording and later AGC upload retained. |
+| Browser checks | All 18 normal routes at 1440px and 390px: no page JavaScript errors, broken loaded images, missing requested assets or horizontal page overflow. |
+| Navigation | Mobile menu/submenu and program navigation pass. Header/homepage class links point to iClassPro. Holiday booking links match the configured destination. No class-finder overlay remains. |
+| Visual inspection | Desktop/phone holiday pages and phone birthday page inspected. Corrected the holiday hero paragraph contrast, rebuilt and rechecked all four holiday routes. |
+| Practice safeguards | All normal pages have noindex metadata, the practice label and no active HTML forms. External requests blocked in browser tests; no bookings submitted. |
+| Source hygiene | Mobile-nav static check and Git diff whitespace checks pass. |
+| Type check | Astro check still reports the same 33 pre-existing errors, involving missing Node types, untyped component callbacks and legacy handlers. This check is not passing; the simplified implementation adds no diagnostics to that baseline. |
 
-## Fixes found by the audit
+## Concurrent staff edits
 
-Pages CMS removes empty optional keys when saving. Clearing all news items could crash content validation and rendering; clearing a class's final session could crash the class finder. Empty affiliation logos and parent-guide lists also needed fallbacks. These cases now behave as empty lists. Disabled video types now accept omitted source/poster/title fields, matching actual CMS saves.
+Fetched and merged practice commits 9e242cf, 7f11e60 and 0e72fb5 without conflicts. These add the balance-spring-hp.png photo and select it for AGC. The saved image and description were preserved. Build, CMS form validation and desktop/mobile AGC rendering were checked after merging. Gallery columns are now fixed by the template, so the old saved column value is intentionally no longer an editor control.
 
-The staff's notice, AGC test description, EduGym name and description, and UrbanGym rename were preserved. No production files, Netlify settings or domain configuration were changed.
+## Remaining hands-on checks
 
-## Remaining checks and decisions
+- Push the prepared practice commits once, wait for the practice Vercel deployment, and refresh Pages CMS. The updated grouped editor has not been checked in an authenticated hosted CMS session yet.
+- A staff member should complete the short exercises in CMS-STAFF-GUIDE.md without coaching. Confirm the new groups, save/reopen, image/PDF selection and relevant account access. The observed AGC upload confirms an existing upload path, not all future files or staff permissions.
+- The existing TEST notice links to /homepage, which does not exist. Use / for the homepage when finishing the exercise; this user test content has been preserved.
+- Booking portal availability, prices and operational facts still require staff confirmation. Local browser tests validate link destinations, not real enrolments.
+- Saving still follows the existing Git-to-host build flow. Drafts and a separate Publish website button have not been implemented.
+- Production migration is separate. Preserve the real site's domain, hosting, forms and search indexing when selectively porting the reviewed changes.
 
-- Push this practice-only fix, wait for the single Vercel deployment, then make one final save/reopen check in Pages CMS.
-- Change the notice link to `/` and restore the test wording when the exercise is finished.
-- Written callouts, gallery headings, search descriptions and PDFs remain separate wording. For example, the EduGym Adventurers callout does not automatically rewrite itself when the program title changes.
-- A genuinely new photo/PDF/video upload and staff account permissions still need a short hands-on check. This audit verifies the current files and editing schema, not every future upload or account.
-- Drafts plus a Publish button were discussed but have not been implemented. Saves still follow the existing Git-to-host deployment flow.
-- Production migration and the remaining editor coverage described in the staff guide are separate work. Retain the live hosting, indexing and form settings during any later selective migration.
+## Local evidence
 
-The practice copy uses the original checkout's package junction. Do not install or update dependencies in this prepared copy. Build/cache output is isolated.
+Temporary audit files are in C:/Users/Dylan/AppData/Local/Temp/trident-simple-cms-audit-20260922/: rendered-site-results.json, content-test-results.json and desktop/mobile screenshots. Build log: ../trident-simple-cms-build-20260922.log. Type-check log: ../trident-simple-cms-types-20260922.log.
+
+The pure Pages CMS validators were checked against upstream source commit 6f4e860a35d934406580287e7042e5e111e207a1. Browser checks used local Chrome with external network requests blocked. Full route checks preceded the final contrast fix and latest AGC upload; affected holiday/AGC routes and navigation were rechecked afterwards.
+
+Use npm run verify:cms, npm run build and npm run verify:mobile-nav for the maintained repository checks. Legacy class-finder/holiday/poster scripts do not verify the simplified active pages. Do not install/update dependencies in this prepared clone: its packages are a junction to the original checkout; build output and caches are separate.

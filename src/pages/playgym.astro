@@ -15,7 +15,7 @@ import GettingHere from '../components/shared/GettingHere.astro';
 // Import JSON data
 import playgymData from '../content/playgym.json' with { type: 'json' };
 
-const media = resolveProgramMedia(playgymData.media);
+const media = resolveProgramMedia({ ...playgymData.media, heading: playgymData.title + ' in action', subtitle: '', columns: 2, maxWidth: '1100px' });
 
 import { resolveProgramMedia } from '../lib/cms-media';
 import aboutData from '../content/about.json';

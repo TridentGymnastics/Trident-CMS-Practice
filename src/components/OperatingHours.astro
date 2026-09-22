@@ -1,32 +1,9 @@
 ---
+import clubDetails from '../content/club-details.json';
 import { siteConfig } from '../config/site';
 
-// siteConfig.phone is E.164 without the leading +. Derive both the dial href and
-// the local display form rather than hardcoding a second copy: 61435060352 ->
-// +61435060352 / 0435 060 352.
 const telHref = `+${siteConfig.phone}`;
-const local = `0${siteConfig.phone.slice(2)}`;
-const phoneDisplay = `${local.slice(0, 4)} ${local.slice(4, 7)} ${local.slice(7)}`;
-
-const days = [
-  { name: 'Monday', key: 'monday' },
-  { name: 'Tuesday', key: 'tuesday' },
-  { name: 'Wednesday', key: 'wednesday' },
-  { name: 'Thursday', key: 'thursday' },
-  { name: 'Friday', key: 'friday' },
-  { name: 'Saturday', key: 'saturday' },
-  { name: 'Sunday', key: 'sunday' }
-];
-
-// Each session is returned separately rather than comma-joined into one string.
-// Joined, it wrapped mid-range on phones — "3:30 PM -" on one line, an orphaned
-// "7:30 PM" on the next.
-function getSessions(day: any): string[] {
-  if (!day.open) return ['Closed'];
-  const sessions = [`${day.open} - ${day.close}`];
-  if (day.evening) sessions.push(day.evening);
-  return sessions;
-}
+const phoneDisplay = clubDetails.phone;
 ---
 
 <section class="operating-hours section" id="hours" aria-labelledby="hours-heading">
@@ -36,20 +13,7 @@ function getSessions(day: any): string[] {
       <div class="hours-card card">
         <h2 id="hours-heading">Operating Hours</h2>
         <div class="hours-list">
-          {days.map(({ name, key }) => {
-            const dayHours = siteConfig.operatingHours[key as keyof typeof siteConfig.operatingHours];
-            const isClosed = !dayHours.open;
-            return (
-              <div class={`hours-row ${isClosed ? 'closed' : ''}`}>
-                <span class="day-name">{name}</span>
-                <span class="day-hours">
-                  {getSessions(dayHours).map((session) => (
-                    <span class="day-session">{session}</span>
-                  ))}
-                </span>
-              </div>
-            );
-          })}
+          <p style="white-space:pre-line;line-height:2">{clubDetails.opening_hours}</p>
         </div>
       </div>
 

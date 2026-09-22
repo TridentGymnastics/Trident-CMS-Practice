@@ -4,11 +4,15 @@ This is the separate test website for TridentGymnastics/Trident-CMS-Practice. It
 
 The practice repository is connected to a separate Vercel project. A Pages CMS description change and its restoration have both deployed successfully. The permanent live website remains on its existing Netlify project and GitHub repository. This repository is for practice only.
 
-## Current editor exercise
+## Current staff editor
 
-In Pages CMS, select Trident-CMS-Practice / main. The nine PRACTICE editors cover the site-wide notice, PlayGym, four program pages, the regular class finder timetable, news, and About/policies. See [CMS-STAFF-GUIDE.md](CMS-STAFF-GUIDE.md) for exercises and limits. Each editor saves JSON that the website actually reads. settings.content.merge remains true to preserve unmanaged keys.
+The practice site now has 12 focused editors in three groups: Notices and holidays, Program information, and Club information. The schema has 135 visible field definitions, down from 248, despite adding holiday, party, term-date and contact editing. See [CMS-STAFF-GUIDE.md](CMS-STAFF-GUIDE.md).
 
-The root-level pages.yml and playgym.json are earlier uploaded copies. They are retained, but the app uses only .pages.yml and src/content/playgym.json.
+The custom class finder is replaced by direct iClassPro links. Holiday pages share one simple template with a status selector and program switches; dated seasonal artwork and the daily calendar are inactive. Program layout is fixed, with a header-colour preset and photo crop choices. Birthday parties use a simple editable package list. PlayGym savings calculations are no longer displayed, so staff update each price only once.
+
+The class finder, seasonal components, data and scripts remain in the repository for reversibility, but are not used on active pages. The old verify:class-selector, verify:holidays and winter-poster commands describe that legacy implementation; they do not test the simplified active website.
+
+Each editor saves JSON read by the website. settings.content.merge remains true to preserve unmanaged keys. The root-level pages.yml and playgym.json are earlier uploaded copies; the app uses .pages.yml and src/content/playgym.json. Saves still commit and trigger the configured hosting build; a draft/publish workflow has not been implemented.
 
 ## Local preview
 
@@ -40,8 +44,8 @@ Sign in through the GitHub account that owns the practice repository when import
 - The careers form is replaced by disabled controls. Booking, phone, email, map and social links are still real links; this is a content and appearance exercise.
 - Canonical URLs use the practice host. practice-origin.mjs rejects custom domains and checks the practice repository when Netlify or Vercel provides its Git metadata.
 - These build safeguards do not control hosting-account permissions. Do not import into or relink the existing live hosting project.
-- Shared program and level labels now come from the CMS, including navigation, program cards and applicable class-finder results. Stable URLs and booking IDs are preserved. PlayGym age bounds, supervision labels, gallery sizes/crops and video switches are editable. Written prose, search copy, gallery headings, historical news and PDFs still require a wording review after renames or operational changes.
-- Page visibility, other homepage content, seasonal holiday calendars/promotions, birthday parties, global contact details and arbitrary layout changes still need implementation. Current editors are a useful content pilot, not a complete no-code handover.
+- Shared program/level labels, gallery headings and search descriptions derive from the edited program content. Stable URLs and booking IDs remain fixed. Written paragraphs, historical news and PDFs still need review after a rename or operational change.
+- Holiday visibility, party packages, term-calendar image and shared phone/email/opening-hours information are editable. Branding, homepage hero/general copy, street address/maps, new page types and a general page-hiding switch remain outside the staff editor. A free-trial policy change also needs review of retained trial buttons/copy.
 - The build validates CMS field types, required values, media paths, dates, link formats and timetable consistency before generating pages. This catches structural mistakes, not inaccurate prices, policies, descriptions or booking information. Uploaded PDFs are linked, not edited.
 
 ## Editor validation fixes
@@ -50,9 +54,9 @@ See [CMS-TEST-REPORT.md](CMS-TEST-REPORT.md) for the final practice audit, the e
 
 Optional lists use required: false: in Pages CMS, required: true enforces at least one item even if list.min is zero. Photo crop positions use a select field with a centre default; the previous optional string pattern rejected the blank value that the CMS creates for omitted fields. Optional link patterns accept empty strings. Empty galleries and disabled videos are valid.
 
-The previous failures were reproduced against the public Pages CMS field/schema validation functions at source commit 6f4e860a35d934406580287e7042e5e111e207a1. All nine updated editor forms, including empty-gallery states, passed that check. This verifies the schema and field values; the final hosted save/deploy test is still performed in Pages CMS after pushing this update.
+The previous failures were reproduced against the public Pages CMS field/schema validation functions at source commit 6f4e860a35d934406580287e7042e5e111e207a1. All 12 simplified editor forms, including empty-gallery states, passed that check. This verifies the schema and field values; the final hosted save/deploy test is still performed in Pages CMS after pushing this update.
 
-The practice build and class-finder browser checks pass. Temporary content tests also verified shared renames, age limits, supervision, weekend sessions, empty galleries and video switches, then restored the original content. `astro check` separately reports 33 errors in existing code (including missing Node type declarations, untyped component props and legacy DOM handlers); it is not a passing check. Those diagnostics do not come from the new CMS fields or shared program-data module.
+See CMS-TEST-REPORT.md for the current simplified-site validation, temporary content-change tests and remaining limitations. The earlier class-finder audit is historical; the active site now links directly to iClassPro.
 
 ## Moving the finished CMS to the existing Netlify website
 
@@ -60,7 +64,7 @@ The intended permanent flow is staff → Pages CMS → TridentGymnastics/Trident
 
 This step has NOT happened. First finish staff testing and agree the remaining editable content. Then prepare a branch in the original repository and selectively port the CMS schema, content files, media resolver, content validation and component wiring against the latest live source. Preserve newer live content. Review and build the branch, use an isolated preview, and verify contact forms, canonical URLs, navigation, booking links and mobile pages before merging to the live deployment branch.
 
-Do not replace the production repository with this practice copy. Do not copy its practice-origin.mjs, Vercel configuration, preview-only Netlify configuration, noindex metadata/headers, robots restrictions, disabled careers form, practice badge, caches or package junction. For Layout.astro, only the SiteNotice import/render belongs to this CMS change. Production must retain its existing hosting and form setup. Connect Pages CMS to the original repository only after this migration is reviewed and ready: saves on its deployed branch can publish to the real site.
+Do not replace the production repository with this practice copy. Do not copy its practice-origin.mjs, Vercel configuration, preview-only Netlify configuration, noindex metadata/headers, robots restrictions, disabled careers form, practice badge, caches or package junction. Review Layout.astro selectively: its notice and shared names belong to the CMS; removing the ClassSelector belongs to the simplification. Keep production form, canonical and indexing behaviour. Production must retain its existing hosting and form setup. Connect Pages CMS to the original repository only after this migration is reviewed and ready: saves on its deployed branch can publish to the real site.
 
 ## References
 

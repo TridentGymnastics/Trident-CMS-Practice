@@ -1,3 +1,4 @@
+import type { CmsMedia } from '../lib/cms-media';
 import playgym from '../content/playgym.json' with { type: 'json' };
 import preschool from '../content/program-preschool.json' with { type: 'json' };
 import edugym from '../content/program-edugym.json' with { type: 'json' };
@@ -28,14 +29,32 @@ export function levelDescription(id: string): string { return levelRecords[id]?.
 // The duplicated Foundation card shares its identity/name with EduGym. Its
 // preschool-specific description is still independently editable.
 const foundation = edugym.levels.find(level => level.id === 'edu_found')!;
+// Keep names, search descriptions and photo headings in sync with the editor.
+// Extra hero callouts and gallery layout controls are intentionally not exposed.
+function simplifyProgram<T extends {
+  title: string; blurb: string; media?: CmsMedia;
+  heroNote?: string; heroNoteHref?: string; heroNoteCta?: string;
+}>(program: T) {
+  const { heroNote, heroNoteHref, heroNoteCta, ...content } = program;
+  return {
+    ...content,
+    metaTitle: program.title + ' | Gymnastics Ringwood',
+    description: program.blurb,
+    media: {
+      ...program.media,
+      heading: program.title + ' in action',
+      subtitle: '', columns: 2, maxWidth: '1100px',
+    },
+  };
+}
 export const programPages = {
-  preschool: { ...preschool, levels: [
+  preschool: { ...simplifyProgram(preschool), levels: [
     { ...preschool.adventurers, name: levelName('edu_adv') },
     { ...foundation, ...preschool.foundation, name: levelName('edu_found') },
   ] },
-  edugym,
-  urbangym: { ...urbangym, levels: urbangym.levels.map(level => ({ ...level, name: levelName(level.id) })) },
-  agc: { ...agc, levels: agc.levels.map(level => ({ ...level, name: levelName(level.id) })) },
+  edugym: simplifyProgram(edugym),
+  urbangym: { ...simplifyProgram(urbangym), levels: urbangym.levels.map(level => ({ ...level, name: levelName(level.id) })) },
+  agc: { ...simplifyProgram(agc), levels: agc.levels.map(level => ({ ...level, name: levelName(level.id) })) },
 };
 
 export const playgymSupervision = playgym.adult_helper_required ? 'Parent-supervised play' : 'Independent play';

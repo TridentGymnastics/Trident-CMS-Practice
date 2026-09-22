@@ -1,6 +1,7 @@
 ---
 import { programNames as names } from '../data/programContent';
 import Layout from '../layouts/Layout.astro';
+import clubDetails from '../content/club-details.json';
 import { siteConfig } from '../config/site';
 
 const ld = {
@@ -28,7 +29,7 @@ const ld = {
     <div class="left">
       <article class="card">
         <h2 class="label">Phone</h2>
-        <a class="value link" href="tel:+61435060352" aria-label="Call Trident Gymnastics">0435 060 352</a>
+        <a class="value link" href={`tel:+${siteConfig.phone}`} aria-label="Call Trident Gymnastics">{clubDetails.phone}</a>
       </article>
 
       <article class="card">

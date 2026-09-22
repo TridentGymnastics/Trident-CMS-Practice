@@ -4,8 +4,8 @@ import "../styles/theme.css";
 import "../styles/program.css";
 import "../styles/parties.css";
 import Header from '../components/Header.astro';
+import { programNames } from '../data/programContent';
 import SiteNotice from '../components/SiteNotice.astro';
-import ClassSelector from '../components/ClassSelector.astro';
 import FloatingContact from '../components/FloatingContact.astro';
 import StructuredData from '../components/StructuredData.astro';
 import { siteConfig } from '../config/site';
@@ -133,7 +133,7 @@ const shareImageUrl = heroImageUrl ? `${siteConfig.siteUrl}${heroImageUrl}` : si
             <h3>Quick Links</h3>
             <ul>
               <li><a href="/classes">Classes</a></li>
-              <li><a href="/playgym">Playgym</a></li>
+              <li><a href="/playgym">{programNames.playgym}</a></li>
               <li><a href="/parties">Parties</a></li>
             </ul>
           </div>
@@ -172,9 +172,6 @@ const shareImageUrl = heroImageUrl ? `${siteConfig.siteUrl}${heroImageUrl}` : si
 
     <!-- Floating contact button — email / call / text -->
     <FloatingContact />
-
-    <!-- Class Selector modal — triggered by data-open-class-selector on any element -->
-    <ClassSelector />
 
     <!-- Global interactions (header scroll, nav dropdowns, mobile nav, etc.) -->
     <!-- Keep mobile-nav initialization centralized in global-init/mobile-nav.ts only. -->

@@ -11,12 +11,7 @@ import path from 'path';
 import AboutTrident from '../components/AboutTrident.astro';
 import Testimonials from '../components/Testimonials.astro';
 import OperatingHours from '../components/OperatingHours.astro';
-// Seasonal holiday promo — live for Spring 2026 (21 September – 2 October).
-// TODO(summer): re-comment these two imports and the blocks below once the
-// Spring program finishes. See docs/HOLIDAY-PROGRAM-PLAYBOOK.md.
-// import WinterHolidayPromo from '../components/WinterHolidayPromo.astro';
-import SpringBlossomField from '../components/SpringBlossomField.astro';
-import SpringHolidayPromo from '../components/SpringHolidayPromo.astro';
+import SimpleHolidayPromo from '../components/SimpleHolidayPromo.astro';
 
 // Import optimized images
 import preschoolImg from '../assets/images/homepage/preschool.jpg';
@@ -189,10 +184,6 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
       </div>
       <div class="hero-overlay"></div>
     </div>
-    {/* Spring hero blossom — live with the Spring holiday program. TODO(summer): re-comment when the program finishes. */}
-    <div style="position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;">
-      <SpringBlossomField />
-    </div>
     <div class="container hero-content">
       <h1 id="hero-title" data-edit-file="src/pages/index.astro" data-edit-field="hero_title">Gymnastics for confident, active kids in Ringwood</h1>
       <div class="hero-tagline-main" id="hero-subtitle" data-edit-file="src/pages/index.astro" data-edit-field="hero_subtitle" aria-label="Empower with movement">
@@ -218,31 +209,20 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
     <div class="container">
       <div class="find-class-banner">
         <div class="find-class-text">
-          <p class="find-class-kicker">Guided class finder</p>
+          <p class="find-class-kicker">Class times and bookings</p>
           <h2 class="find-class-heading">Not sure where to start?</h2>
-          <p class="find-class-sub">Tell us a little about your child and we&apos;ll help you choose the right starting point, from {names.playgym} to school-age classes.</p>
+          <p class="find-class-sub">Read about our programs below, or check current class times and availability in our booking portal.</p>
         </div>
 
-        <button type="button" class="find-class-cta" data-open-class-selector aria-label="Find the right class">
-          Find a Class
+        <a class="find-class-cta" href="https://portal.iclasspro.com/trident/classes" target="_blank" rel="noopener">
+          View classes and times
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M13 5l7 7-7 7M5 12h14"/></svg>
-        </button>
+        </a>
       </div>
     </div>
   </section>
-
-  {/*
-  ==============================================================
-  SEASONAL HOLIDAY PROMO — live for Spring 2026.
-  TODO(summer): to hide it once the program finishes —
-    1. Re-comment `import SpringHolidayPromo` at the top of this file.
-    2. Re-comment the <SpringHolidayPromo /> block below.
-    3. Set holidayProgramStatus.live: false in src/data/holidayPrograms.ts.
-  See docs/HOLIDAY-PROGRAM-PLAYBOOK.md for the full checklist.
-  ==============================================================
-  */}
   <div class="container">
-    <SpringHolidayPromo />
+    <SimpleHolidayPromo />
   </div>
 
   <section class="features section section-band" id="classes" aria-labelledby="classes-heading">
@@ -361,10 +341,10 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
             <a href="/parties" class="btn">Learn More</a>
           </div>
         </div>
-        {/* Holiday Programs card — live with the Spring program. TODO(summer): re-comment when it finishes. */}
+
         <div class="card feature-card card-accent">
           <div class="card-content">
-            <h3 id="holiday-title" data-edit-file="src/pages/index.astro" data-edit-field="holiday_title">Holiday Programs <span class="age-label">Ages 5+</span></h3>
+            <h3 id="holiday-title" data-edit-file="src/pages/index.astro" data-edit-field="holiday_title">Holiday Programs</h3>
             <p id="holiday-description" data-edit-file="src/pages/index.astro" data-edit-field="holiday_description">Active school holiday sessions that help children keep moving, try new skills and enjoy coached gym time during the break.</p>
             <a href="/school-holidays" class="btn">Learn More</a>
           </div>

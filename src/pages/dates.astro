@@ -1,17 +1,18 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import calendar from '../content/term-dates.json';
 ---
 
 <Layout title="Gymnastics Term Dates Ringwood" description="Trident Gymnastics Ringwood class calendar, including term dates, holidays and scheduled events.">
   <section class="term-dates">
     <div class="container">
-      <h1 class="term-title">2026 Term Dates</h1>
-      <p class="term-subtitle muted">Our official class calendar, including terms, holidays and scheduled breaks.</p>
+      <h1 class="term-title">{calendar.title}</h1>
+      <p class="term-subtitle muted">{calendar.note}</p>
 
       <div class="term-dates-img">
         <img
-          src="/Images/Dates/term_dates_2026_v2.webp"
-          alt="2026 class calendar with terms, start and end dates, public holidays and scheduled holiday weeks."
+          src={calendar.image}
+          alt={`${calendar.title} — class calendar, holidays and scheduled breaks`}
           width="1700"
           height="859"
           loading="eager"
@@ -20,7 +21,7 @@ import Layout from "../layouts/Layout.astro";
       </div>
 
       <p class="term-download">
-        <a href="/Images/Dates/term_dates_2026_v2.webp" download>Download calendar (WebP)</a>
+        <a href={calendar.image} download>Download calendar</a>
       </p>
 
       <ul class="term-notes">

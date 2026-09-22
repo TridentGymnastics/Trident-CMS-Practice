@@ -1,3 +1,4 @@
+import { programNames as names, playgymSupervision, playgymSupervisionDetail } from './programContent';
 /**
  * School Holiday Programs Content Manifest
  *
@@ -7,7 +8,7 @@
  * Last manual verification: 2026-09-02
  */
 
-import playgymData from '../content/playgym.json';
+import playgymData from '../content/playgym.json' with { type: 'json' };
 
 /**
  * ── SEASON ON/OFF SWITCH ──────────────────────────────────────────────
@@ -105,7 +106,7 @@ export const playgymProgram: ProgramBlock = {
   sourceUrl: 'https://www.tridentgymnastics.com.au/playgym-1',
   lastVerifiedISO: '2026-09-02T00:00:00.000Z',
 
-  title: 'PlayGym',
+  title: names.playgym,
   summary: playgymData.tagline,
 
   ages: playgymData.age_range,
@@ -115,7 +116,7 @@ export const playgymProgram: ProgramBlock = {
   timeNote: 'Stay for part or the whole session!',
 
   bullets: [
-    'Parent/guardian supervision required at all times',
+    playgymSupervisionDetail,
     'Use gymnastics equipment at your own pace',
     'Develops fine and gross motor skills through active play',
     `Pay at door: ${playgymData.prices.items[0].price} or multi-visit passes available`
@@ -126,7 +127,7 @@ export const playgymProgram: ProgramBlock = {
     about: playgymData.about,
     features: [
       'Swing on bars, jump into foam pits, build cubby houses',
-      'Non-structured, parent-supervised play session',
+      playgymSupervision,
       'Vital for child development and school readiness',
       'Stay for as long or as little as you like'
     ],
@@ -291,7 +292,7 @@ export const skillWorkshopsProgram: ProgramBlock = {
       'Personalized attention and feedback',
       'Progressive skill development',
       'Common skills: handstands, cartwheels, back handsprings, aerials',
-      'UrbanGym workshops add vaults, swings, and safe flipping and tricking'
+      `${names.urbangym} workshops add vaults, swings, and safe flipping and tricking`
     ],
     requirements: [
       'Ages 5 to 18 years',
@@ -316,7 +317,7 @@ export const skillWorkshopsProgram: ProgramBlock = {
           sessions: [
             { day: 'Monday', date: '28 September 2026', title: 'Handstands & Cartwheels', time: '1:00 pm - 2:30 pm', description: 'Master the fundamentals with drills and apparatus-based activities designed to perfect your handstands and cartwheels.' },
             { day: 'Wednesday', date: '30 September 2026', title: 'Flips & Tricks', time: '1:00 pm - 2:30 pm', description: 'Work toward advanced skills like walkovers, round-offs, aerials, and flips with coaching and safe progressions.' },
-            { day: 'Thursday', date: '1 October 2026', title: 'UrbanGym', time: '1:00 pm - 2:30 pm', description: 'Urban-inspired movement training that builds gymnastics fundamentals, safe flipping and tricking, plus vaults, swings and creative movement in a coached environment.' }
+            { day: 'Thursday', date: '1 October 2026', title: names.urbangym, time: '1:00 pm - 2:30 pm', description: 'Urban-inspired movement training that builds gymnastics fundamentals, safe flipping and tricking, plus vaults, swings and creative movement in a coached environment.' }
           ]
         }
       ]

@@ -1,7 +1,8 @@
 ---
+import { programNames as names, playgymSupervision } from '../../data/programContent';
 // Fallback route for /school-holidays/playgym (SEO + no-JS support)
 import Layout from '../../layouts/Layout.astro';
-import playgymData from '../../content/playgym.json';
+import playgymData from '../../content/playgym.json' with { type: 'json' };
 import { holidayProgramStatus } from '../../data/holidayPrograms';
 
 // Off-season (live: false) hides the ended schedule + booking link. See
@@ -10,7 +11,7 @@ const { live: programLive } = holidayProgramStatus;
 
 const program = {
   id: 'playgym',
-  title: 'PlayGym',
+  title: names.playgym,
   tagline: playgymData.tagline,
   ageRange: playgymData.age_range,
   sessionLength: '1.5 hours',
@@ -47,8 +48,8 @@ const program = {
 <Layout
   title={programLive ? `${program.title} - Spring School Holidays` : `${program.title} - School Holidays`}
   description={programLive
-    ? `Drop-in PlayGym for ages ${program.ageRange} these Spring school holidays at Trident Gymnastics Ringwood. 11:00 am - 12:30 pm, 21 September to 2 October 2026.`
-    : `${program.tagline} Drop-in, parent-supervised PlayGym for ages ${program.ageRange} runs each Victorian school holiday break at Trident Gymnastics Ringwood. Dates for the next program announced soon.`}
+    ? `Drop-in ${names.playgym} for ages ${program.ageRange} these Spring school holidays at Trident Gymnastics Ringwood. 11:00 am - 12:30 pm, 21 September to 2 October 2026.`
+    : `${program.tagline} Drop-in, ${playgymSupervision.toLowerCase()} ${names.playgym} for ages ${program.ageRange} runs each Victorian school holiday break at Trident Gymnastics Ringwood. Dates for the next program announced soon.`}
 >
   <main>
     <section class="program-hero">
@@ -123,7 +124,7 @@ const program = {
                   )}
                 </Fragment>
               ) : (
-                <p class="notice-text">Holiday PlayGym runs each Victorian school holiday period, 11:00 am - 12:30 pm. Dates for the next program will be listed on our <a href="/school-holidays">School Holidays page</a> as soon as they're confirmed.</p>
+                <p class="notice-text">Holiday {names.playgym} runs each Victorian school holiday period, 11:00 am - 12:30 pm. Dates for the next program will be listed on our <a href="/school-holidays">School Holidays page</a> as soon as they're confirmed.</p>
               )}
             </section>
           )}

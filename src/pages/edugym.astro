@@ -1,6 +1,7 @@
 ---
 import ProgramPage from '../components/ProgramPage.astro';
-import program from '../content/program-edugym.json';
+import { programPages } from '../data/programContent';
+const program = programPages.edugym;
 import { resolveProgramMedia } from '../lib/cms-media';
 const media = resolveProgramMedia(program.media);
 ---

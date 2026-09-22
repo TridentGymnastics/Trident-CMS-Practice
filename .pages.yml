@@ -39,6 +39,13 @@ media:
     extensions:
       - pdf
     rename: safe
+  - name: program_videos
+    label: Program videos
+    input: public/videos/programs
+    output: /videos/programs
+    extensions:
+      - mp4
+    rename: safe
 content:
   - name: site_notice
     label: PRACTICE - Site-wide notice
@@ -79,7 +86,7 @@ content:
         label: Optional link destination
         type: string
         pattern:
-          regex: ^(?:/(?!/)[^\\\s]*|https://[^\s]+|#[A-Za-z][A-Za-z0-9_-]*)$
+          regex: (?:^$)|(?:^(?:/(?!/)[^\\\s]*|https://[^\s]+|#[A-Za-z][A-Za-z0-9_-]*)$)
           message: Use a page path such as /playgym, or a full https:// address.
   - name: playgym_practice
     label: PRACTICE - PlayGym
@@ -95,14 +102,19 @@ content:
         label: Program name
         type: string
         required: true
-        readonly: true
-        description: Names also appear in navigation and booking rules; renaming is a later step.
+        description: Shared by the page heading, navigation, program cards and class finder. URLs and booking IDs stay
+          the same. Review names written inside paragraphs and PDFs separately.
+        options:
+          maxlength: 60
       - name: age_range
         label: Age range
         type: string
         required: true
-        readonly: true
-        description: Protected while class finder age rules are linked separately.
+        description: Use years, e.g. 0–6 years or 1.5–5 years. The upper value is the maximum exact age; the class
+          finder asks for help if an age group only partly fits.
+        pattern:
+          regex: ^[0-9]+(?:\.[0-9]+)?[–-][0-9]+(?:\.[0-9]+)? years$
+          message: Use a range such as 0–6 years.
       - name: session_length
         label: Session length
         type: string
@@ -111,7 +123,8 @@ content:
         label: Adult helper required
         type: boolean
         required: true
-        readonly: true
+        description: Updates supervision labels on the website. Also review your written descriptions and policies
+          when changing how sessions operate.
       - name: tagline
         label: Short description
         type: text
@@ -251,7 +264,7 @@ content:
       - name: media
         label: Program photo gallery
         type: object
-        required: true
+        required: false
         fields:
           - name: heading
             label: Gallery heading
@@ -267,13 +280,22 @@ content:
               max: 3
           - name: maxWidth
             label: Gallery width
-            type: string
-            readonly: true
-            description: Existing layout setting.
+            type: select
+            description: Choose how wide the gallery can grow on large screens.
+            options:
+              values:
+                - name: 720px
+                  label: Compact
+                - name: 760px
+                  label: Medium
+                - name: 1100px
+                  label: Wide
+                - name: 1400px
+                  label: Extra wide
           - name: photos
             label: Photos
             type: object
-            required: true
+            required: false
             fields:
               - name: src
                 label: Photo
@@ -288,17 +310,57 @@ content:
                 description: Describe the activity without naming children.
               - name: position
                 label: Crop position
-                type: string
-                pattern:
-                  regex: "^(?:center|left|right)(?: (?:top|center|bottom))?$"
-                  message: Use center, center top, or center bottom.
-                description: Leave blank for a centred crop.
+                type: select
+                description: Choose which part of the photo stays visible in its crop.
+                default: center
+                options:
+                  values:
+                    - name: center
+                      label: Centre
+                    - name: center top
+                      label: Top
+                    - name: center bottom
+                      label: Bottom
+                    - name: left
+                      label: Left
+                    - name: right
+                      label: Right
             list:
               min: 0
               max: 6
               collapsible:
                 collapsed: true
                 summary: "{fields.alt}"
+          - name: video
+            label: Program video
+            type: object
+            required: true
+            description: Choose an MP4 and poster, then switch it on. Use a compressed MP4 under 25 MB. Uploading a video
+              does not compress it.
+            fields:
+              - name: enabled
+                label: Show video
+                type: boolean
+                required: true
+              - name: src
+                label: MP4 video
+                type: file
+                options:
+                  media: program_videos
+                  extensions:
+                    - mp4
+              - name: poster
+                label: Poster image
+                type: image
+                options:
+                  media: program_photos
+              - name: title
+                label: Video description
+                type: string
+              - name: autoplay
+                label: Play automatically when visible (muted)
+                type: boolean
+                required: true
   - name: program_preschool
     label: PRACTICE - Little Gymnasts
     type: file
@@ -313,7 +375,10 @@ content:
         label: Program name
         type: string
         required: true
-        readonly: true
+        description: Shared by the page heading, navigation, program cards and class finder. URLs and booking IDs stay
+          the same. Review names written inside paragraphs and PDFs separately.
+        options:
+          maxlength: 60
       - name: blurb
         label: Program page introduction
         type: text
@@ -346,8 +411,8 @@ content:
       - name: heroNote
         label: Extra message below introduction
         type: text
-      - name: levels
-        label: Existing programs / levels
+      - name: adventurers
+        label: Adventurers class
         type: object
         required: true
         fields:
@@ -355,12 +420,16 @@ content:
             label: Level name
             type: string
             required: true
-            readonly: true
+            options:
+              maxlength: 60
+            description: Level name only, without the program prefix. The program name is added automatically where
+              needed.
           - name: tag
             label: School year label
             type: string
             required: true
-            readonly: true
+            options:
+              maxlength: 60
           - name: tagBg
             label: Label background
             type: string
@@ -377,17 +446,20 @@ content:
             label: Level description
             type: text
             required: true
-        list:
-          min: 2
-          max: 2
-          collapsible:
-            collapsed: true
-            summary: "{fields.name}"
-        description: Edit descriptions. Level names and eligibility stay linked to the current booking setup.
+      - name: foundation
+        label: Foundation on the preschool page
+        type: object
+        required: true
+        description: Its name and school-year label come from the Foundation level in the EduGym editor.
+        fields:
+          - name: description
+            label: Description
+            type: text
+            required: true
       - name: media
         label: Program photo gallery
         type: object
-        required: true
+        required: false
         fields:
           - name: heading
             label: Gallery heading
@@ -403,13 +475,22 @@ content:
               max: 3
           - name: maxWidth
             label: Gallery width
-            type: string
-            readonly: true
-            description: Existing layout setting.
+            type: select
+            description: Choose how wide the gallery can grow on large screens.
+            options:
+              values:
+                - name: 720px
+                  label: Compact
+                - name: 760px
+                  label: Medium
+                - name: 1100px
+                  label: Wide
+                - name: 1400px
+                  label: Extra wide
           - name: photos
             label: Photos
             type: object
-            required: true
+            required: false
             fields:
               - name: src
                 label: Photo
@@ -424,17 +505,57 @@ content:
                 description: Describe the activity without naming children.
               - name: position
                 label: Crop position
-                type: string
-                pattern:
-                  regex: "^(?:center|left|right)(?: (?:top|center|bottom))?$"
-                  message: Use center, center top, or center bottom.
-                description: Leave blank for a centred crop.
+                type: select
+                description: Choose which part of the photo stays visible in its crop.
+                default: center
+                options:
+                  values:
+                    - name: center
+                      label: Centre
+                    - name: center top
+                      label: Top
+                    - name: center bottom
+                      label: Bottom
+                    - name: left
+                      label: Left
+                    - name: right
+                      label: Right
             list:
               min: 0
               max: 6
               collapsible:
                 collapsed: true
                 summary: "{fields.alt}"
+          - name: video
+            label: Program video
+            type: object
+            required: true
+            description: Choose an MP4 and poster, then switch it on. Use a compressed MP4 under 25 MB. Uploading a video
+              does not compress it.
+            fields:
+              - name: enabled
+                label: Show video
+                type: boolean
+                required: true
+              - name: src
+                label: MP4 video
+                type: file
+                options:
+                  media: program_videos
+                  extensions:
+                    - mp4
+              - name: poster
+                label: Poster image
+                type: image
+                options:
+                  media: program_photos
+              - name: title
+                label: Video description
+                type: string
+              - name: autoplay
+                label: Play automatically when visible (muted)
+                type: boolean
+                required: true
   - name: program_edugym
     label: PRACTICE - EduGym
     type: file
@@ -449,7 +570,10 @@ content:
         label: Program name
         type: string
         required: true
-        readonly: true
+        description: Shared by the page heading, navigation, program cards and class finder. URLs and booking IDs stay
+          the same. Review names written inside paragraphs and PDFs separately.
+        options:
+          maxlength: 60
       - name: blurb
         label: Program page introduction
         type: text
@@ -486,7 +610,7 @@ content:
         label: Extra message link
         type: string
         pattern:
-          regex: ^(?:/(?!/)[^\\\s]*|https://[^\s]+|#[A-Za-z][A-Za-z0-9_-]*)$
+          regex: (?:^$)|(?:^(?:/(?!/)[^\\\s]*|https://[^\s]+|#[A-Za-z][A-Za-z0-9_-]*)$)
           message: Use a page path such as /playgym, or a full https:// address.
       - name: heroNoteCta
         label: Extra message link text
@@ -496,16 +620,26 @@ content:
         type: object
         required: true
         fields:
+          - name: id
+            label: Internal class identity
+            type: string
+            required: true
+            hidden: true
+            readonly: true
           - name: name
             label: Level name
             type: string
             required: true
-            readonly: true
+            options:
+              maxlength: 60
+            description: Level name only, without the program prefix. The program name is added automatically where
+              needed.
           - name: tag
             label: School year label
             type: string
             required: true
-            readonly: true
+            options:
+              maxlength: 60
           - name: tagBg
             label: Label background
             type: string
@@ -528,11 +662,12 @@ content:
           collapsible:
             collapsed: true
             summary: "{fields.name}"
-        description: Edit descriptions. Level names and eligibility stay linked to the current booking setup.
+        description: Names and school-year labels are shared with the class finder. Real enrolment ages are set in
+          Class finder timetable and must match iClassPro.
       - name: media
         label: Program photo gallery
         type: object
-        required: true
+        required: false
         fields:
           - name: heading
             label: Gallery heading
@@ -548,13 +683,22 @@ content:
               max: 3
           - name: maxWidth
             label: Gallery width
-            type: string
-            readonly: true
-            description: Existing layout setting.
+            type: select
+            description: Choose how wide the gallery can grow on large screens.
+            options:
+              values:
+                - name: 720px
+                  label: Compact
+                - name: 760px
+                  label: Medium
+                - name: 1100px
+                  label: Wide
+                - name: 1400px
+                  label: Extra wide
           - name: photos
             label: Photos
             type: object
-            required: true
+            required: false
             fields:
               - name: src
                 label: Photo
@@ -569,17 +713,57 @@ content:
                 description: Describe the activity without naming children.
               - name: position
                 label: Crop position
-                type: string
-                pattern:
-                  regex: "^(?:center|left|right)(?: (?:top|center|bottom))?$"
-                  message: Use center, center top, or center bottom.
-                description: Leave blank for a centred crop.
+                type: select
+                description: Choose which part of the photo stays visible in its crop.
+                default: center
+                options:
+                  values:
+                    - name: center
+                      label: Centre
+                    - name: center top
+                      label: Top
+                    - name: center bottom
+                      label: Bottom
+                    - name: left
+                      label: Left
+                    - name: right
+                      label: Right
             list:
               min: 0
               max: 6
               collapsible:
                 collapsed: true
                 summary: "{fields.alt}"
+          - name: video
+            label: Program video
+            type: object
+            required: true
+            description: Choose an MP4 and poster, then switch it on. Use a compressed MP4 under 25 MB. Uploading a video
+              does not compress it.
+            fields:
+              - name: enabled
+                label: Show video
+                type: boolean
+                required: true
+              - name: src
+                label: MP4 video
+                type: file
+                options:
+                  media: program_videos
+                  extensions:
+                    - mp4
+              - name: poster
+                label: Poster image
+                type: image
+                options:
+                  media: program_photos
+              - name: title
+                label: Video description
+                type: string
+              - name: autoplay
+                label: Play automatically when visible (muted)
+                type: boolean
+                required: true
   - name: program_urbangym
     label: PRACTICE - UrbanGym
     type: file
@@ -594,7 +778,10 @@ content:
         label: Program name
         type: string
         required: true
-        readonly: true
+        description: Shared by the page heading, navigation, program cards and class finder. URLs and booking IDs stay
+          the same. Review names written inside paragraphs and PDFs separately.
+        options:
+          maxlength: 60
       - name: blurb
         label: Program page introduction
         type: text
@@ -629,16 +816,26 @@ content:
         type: object
         required: true
         fields:
+          - name: id
+            label: Internal class identity
+            type: string
+            required: true
+            hidden: true
+            readonly: true
           - name: name
             label: Level name
             type: string
             required: true
-            readonly: true
+            options:
+              maxlength: 60
+            description: Level name only, without the program prefix. The program name is added automatically where
+              needed.
           - name: tag
             label: School year label
             type: string
             required: true
-            readonly: true
+            options:
+              maxlength: 60
           - name: tagBg
             label: Label background
             type: string
@@ -661,11 +858,12 @@ content:
           collapsible:
             collapsed: true
             summary: "{fields.name}"
-        description: Edit descriptions. Level names and eligibility stay linked to the current booking setup.
+        description: Names and school-year labels are shared with the class finder. Real enrolment ages are set in
+          Class finder timetable and must match iClassPro.
       - name: media
         label: Program photo gallery
         type: object
-        required: true
+        required: false
         fields:
           - name: heading
             label: Gallery heading
@@ -681,13 +879,22 @@ content:
               max: 3
           - name: maxWidth
             label: Gallery width
-            type: string
-            readonly: true
-            description: Existing layout setting.
+            type: select
+            description: Choose how wide the gallery can grow on large screens.
+            options:
+              values:
+                - name: 720px
+                  label: Compact
+                - name: 760px
+                  label: Medium
+                - name: 1100px
+                  label: Wide
+                - name: 1400px
+                  label: Extra wide
           - name: photos
             label: Photos
             type: object
-            required: true
+            required: false
             fields:
               - name: src
                 label: Photo
@@ -702,11 +909,21 @@ content:
                 description: Describe the activity without naming children.
               - name: position
                 label: Crop position
-                type: string
-                pattern:
-                  regex: "^(?:center|left|right)(?: (?:top|center|bottom))?$"
-                  message: Use center, center top, or center bottom.
-                description: Leave blank for a centred crop.
+                type: select
+                description: Choose which part of the photo stays visible in its crop.
+                default: center
+                options:
+                  values:
+                    - name: center
+                      label: Centre
+                    - name: center top
+                      label: Top
+                    - name: center bottom
+                      label: Bottom
+                    - name: left
+                      label: Left
+                    - name: right
+                      label: Right
             list:
               min: 0
               max: 6
@@ -714,28 +931,35 @@ content:
                 collapsed: true
                 summary: "{fields.alt}"
           - name: video
-            label: Existing video
+            label: Program video
             type: object
             required: true
+            description: Choose an MP4 and poster, then switch it on. Use a compressed MP4 under 25 MB. Uploading a video
+              does not compress it.
             fields:
+              - name: enabled
+                label: Show video
+                type: boolean
+                required: true
               - name: src
-                label: Video file
-                type: string
-                required: true
+                label: MP4 video
+                type: file
+                options:
+                  media: program_videos
+                  extensions:
+                    - mp4
               - name: poster
-                label: Poster
+                label: Poster image
                 type: image
-                required: true
                 options:
                   media: program_photos
               - name: title
                 label: Video description
                 type: string
-                required: true
               - name: autoplay
-                label: Autoplay
+                label: Play automatically when visible (muted)
                 type: boolean
-            readonly: true
+                required: true
   - name: program_agc
     label: PRACTICE - AGC
     type: file
@@ -750,7 +974,10 @@ content:
         label: Program name
         type: string
         required: true
-        readonly: true
+        description: Shared by the page heading, navigation, program cards and class finder. URLs and booking IDs stay
+          the same. Review names written inside paragraphs and PDFs separately.
+        options:
+          maxlength: 60
       - name: blurb
         label: Program page introduction
         type: text
@@ -785,11 +1012,20 @@ content:
         type: object
         required: true
         fields:
+          - name: id
+            label: Internal class identity
+            type: string
+            required: true
+            hidden: true
+            readonly: true
           - name: name
             label: Level name
             type: string
             required: true
-            readonly: true
+            options:
+              maxlength: 60
+            description: Level name only, without the program prefix. The program name is added automatically where
+              needed.
           - name: description
             label: Level description
             type: text
@@ -800,11 +1036,12 @@ content:
           collapsible:
             collapsed: true
             summary: "{fields.name}"
-        description: Edit descriptions. Level names and eligibility stay linked to the current booking setup.
+        description: Names and school-year labels are shared with the class finder. Real enrolment ages are set in
+          Class finder timetable and must match iClassPro.
       - name: media
         label: Program photo gallery
         type: object
-        required: true
+        required: false
         fields:
           - name: heading
             label: Gallery heading
@@ -820,13 +1057,22 @@ content:
               max: 3
           - name: maxWidth
             label: Gallery width
-            type: string
-            readonly: true
-            description: Existing layout setting.
+            type: select
+            description: Choose how wide the gallery can grow on large screens.
+            options:
+              values:
+                - name: 720px
+                  label: Compact
+                - name: 760px
+                  label: Medium
+                - name: 1100px
+                  label: Wide
+                - name: 1400px
+                  label: Extra wide
           - name: photos
             label: Photos
             type: object
-            required: true
+            required: false
             fields:
               - name: src
                 label: Photo
@@ -841,17 +1087,57 @@ content:
                 description: Describe the activity without naming children.
               - name: position
                 label: Crop position
-                type: string
-                pattern:
-                  regex: "^(?:center|left|right)(?: (?:top|center|bottom))?$"
-                  message: Use center, center top, or center bottom.
-                description: Leave blank for a centred crop.
+                type: select
+                description: Choose which part of the photo stays visible in its crop.
+                default: center
+                options:
+                  values:
+                    - name: center
+                      label: Centre
+                    - name: center top
+                      label: Top
+                    - name: center bottom
+                      label: Bottom
+                    - name: left
+                      label: Left
+                    - name: right
+                      label: Right
             list:
               min: 0
               max: 6
               collapsible:
                 collapsed: true
                 summary: "{fields.alt}"
+          - name: video
+            label: Program video
+            type: object
+            required: true
+            description: Choose an MP4 and poster, then switch it on. Use a compressed MP4 under 25 MB. Uploading a video
+              does not compress it.
+            fields:
+              - name: enabled
+                label: Show video
+                type: boolean
+                required: true
+              - name: src
+                label: MP4 video
+                type: file
+                options:
+                  media: program_videos
+                  extensions:
+                    - mp4
+              - name: poster
+                label: Poster image
+                type: image
+                options:
+                  media: program_photos
+              - name: title
+                label: Video description
+                type: string
+              - name: autoplay
+                label: Play automatically when visible (muted)
+                type: boolean
+                required: true
   - name: class_timetable
     label: PRACTICE - Class finder timetable
     type: file
@@ -865,7 +1151,7 @@ content:
       - name: edu_adv
         label: EduGym Adventurers
         type: object
-        required: true
+        required: false
         fields:
           - name: day
             label: Day
@@ -921,7 +1207,7 @@ content:
       - name: edu_found
         label: EduGym Foundation
         type: object
-        required: true
+        required: false
         fields:
           - name: day
             label: Day
@@ -977,7 +1263,7 @@ content:
       - name: edu_1
         label: EduGym Level 1
         type: object
-        required: true
+        required: false
         fields:
           - name: day
             label: Day
@@ -1033,7 +1319,7 @@ content:
       - name: edu_2
         label: EduGym Level 2
         type: object
-        required: true
+        required: false
         fields:
           - name: day
             label: Day
@@ -1089,7 +1375,7 @@ content:
       - name: edu_3
         label: EduGym Level 3
         type: object
-        required: true
+        required: false
         fields:
           - name: day
             label: Day
@@ -1145,7 +1431,7 @@ content:
       - name: edu_4
         label: EduGym Level 4
         type: object
-        required: true
+        required: false
         fields:
           - name: day
             label: Day
@@ -1201,7 +1487,7 @@ content:
       - name: edu_5
         label: EduGym Level 5+
         type: object
-        required: true
+        required: false
         fields:
           - name: day
             label: Day
@@ -1257,7 +1543,7 @@ content:
       - name: urban_beg
         label: UrbanGym Beginner
         type: object
-        required: true
+        required: false
         fields:
           - name: day
             label: Day
@@ -1313,7 +1599,7 @@ content:
       - name: urban_int
         label: UrbanGym Intermediate
         type: object
-        required: true
+        required: false
         fields:
           - name: day
             label: Day
@@ -1369,7 +1655,7 @@ content:
       - name: urban_adv
         label: UrbanGym Advanced
         type: object
-        required: true
+        required: false
         fields:
           - name: day
             label: Day
@@ -1435,7 +1721,7 @@ content:
       - name: items
         label: Updates
         type: object
-        required: true
+        required: false
         fields:
           - name: live
             label: Publish this update
@@ -1479,7 +1765,7 @@ content:
           - name: images
             label: Photos
             type: object
-            required: true
+            required: false
             fields:
               - name: src
                 label: Photo
@@ -1590,7 +1876,7 @@ content:
           - name: logos
             label: Affiliation logos
             type: object
-            required: true
+            required: false
             fields:
               - name: src
                 label: Logo
@@ -1670,7 +1956,7 @@ content:
               - name: documents
                 label: Guides
                 type: object
-                required: true
+                required: false
                 fields:
                   - name: title
                     label: Document title
@@ -1696,7 +1982,7 @@ content:
           - name: legacy
             label: Older policies
             type: object
-            required: true
+            required: false
             fields:
               - name: title
                 label: Document title

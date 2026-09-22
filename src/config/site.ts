@@ -1,10 +1,11 @@
+import { programNames as names } from '../data/programContent';
 import { practiceSiteUrl } from '../../practice-origin.mjs';
 
 export const siteConfig = {
   phone: '61435060352', // Trident Gymnastics phone number (0435 060 352)
   whatsappMessage: 'Hi%20Trident%20Gymnastics%20-%20holiday%20program%20enquiry',
   siteName: 'Trident Gymnastics',
-  siteDescription: 'Ringwood gymnastics club offering preschool gymnastics, EduGym, UrbanGym, PlayGym, holiday programs and birthday parties for children and families.',
+  siteDescription: `Ringwood gymnastics club offering ${names.preschool}, ${names.edugym}, ${names.urbangym}, ${names.playgym}, holiday programs and birthday parties for children and families.`,
   // Canonical URLs stay on the separate practice host.
   siteUrl: practiceSiteUrl,
   email: 'info@tridentgymnastics.com.au',

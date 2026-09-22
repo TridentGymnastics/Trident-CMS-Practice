@@ -1,4 +1,5 @@
 ---
+import { programNames as names, playgym } from '../data/programContent';
 import { siteConfig } from '../config/site';
 
 const phoneNumber = siteConfig.phone.replace(/\D/g, '');
@@ -65,8 +66,8 @@ const structuredData = {
   knowsAbout: [
     'Gymnastics classes',
     'Kids gymnastics',
-    'PlayGym',
-    'UrbanGym',
+    `${names.playgym}`,
+    `${names.urbangym}`,
     'Birthday parties',
     'School holiday programs'
   ],
@@ -82,7 +83,7 @@ const structuredData = {
       '@type': 'Offer',
       itemOffered: {
         '@type': 'Service',
-        name: 'PlayGym for children aged 0-6'
+        name: `${names.playgym} for children aged ${playgym.age_range}`
       }
     },
     {
@@ -96,4 +97,4 @@ const structuredData = {
 };
 ---
 
-<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+<script type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")} />

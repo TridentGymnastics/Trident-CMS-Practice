@@ -8,18 +8,20 @@
   "heroNote": "Already enrolled in EduGym Adventurers? PlayGym sessions are free. Just let our staff know when you arrive.",
   "levels": [
     {
-      "name": "EduGym Adventurers",
+      "name": "Adventurers",
       "description": "An independent class easing children into the gymnastics structure, building confidence, listening skills and movement foundations on their own. Suits kinder and early Prep.",
       "tag": "Kinder",
       "tagBg": "#1573C2",
-      "tagColor": "#fff"
+      "tagColor": "#fff",
+      "id": "edu_adv"
     },
     {
-      "name": "EduGym Foundation",
+      "name": "Foundation",
       "description": "The step up from Adventurers, and where Prep children start the EduGym pathway: core shapes, rolls and safe landings, leading into Level 1 in Grade 1.",
       "tag": "Prep",
       "tagBg": "#1573C2",
-      "tagColor": "#fff"
+      "tagColor": "#fff",
+      "id": "edu_found"
     }
   ],
   "media": {
@@ -30,15 +32,35 @@
     "photos": [
       {
         "src": "/src/assets/images/programs/preschool/parachute-play.jpg",
-        "alt": "Children and coaches playing together under a rainbow parachute"
+        "alt": "Children and coaches playing together under a rainbow parachute",
+        "position": "center"
       },
       {
         "src": "/src/assets/images/programs/preschool/rope-ladder.jpg",
-        "alt": "A coach supporting a young child climbing on a rope ladder"
+        "alt": "A coach supporting a young child climbing on a rope ladder",
+        "position": "center"
       }
-    ]
+    ],
+    "video": {
+      "enabled": false,
+      "src": "",
+      "poster": "",
+      "title": "",
+      "autoplay": false
+    }
   },
   "colorScheme": "accent",
   "levelsHeading": "Our Preschool & Prep Programs",
-  "levelsSectionClass": "preschool-levels"
+  "levelsSectionClass": "preschool-levels",
+  "adventurers": {
+    "name": "Adventurers",
+    "description": "An independent class easing children into the gymnastics structure, building confidence, listening skills and movement foundations on their own. Suits kinder and early Prep.",
+    "tag": "Kinder",
+    "tagBg": "#1573C2",
+    "tagColor": "#fff",
+    "id": "edu_adv"
+  },
+  "foundation": {
+    "description": "The step up from Adventurers, and where Prep children start the EduGym pathway: core shapes, rolls and safe landings, leading into Level 1 in Grade 1."
+  }
 }

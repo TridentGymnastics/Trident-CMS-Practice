@@ -7,13 +7,24 @@ Use **Trident-CMS-Practice / main** in Pages CMS and the separate Vercel practic
 | Editor | Changes it controls |
 | --- | --- |
 | Site-wide notice | Turn a notice on/off across the website; edit its message, optional link and blue/yellow colour. |
-| PlayGym | Description, paragraphs, duration, regular days/times, New badges, prices and pass wording, joining instructions, button wording and gallery. |
-| Little Gymnasts, EduGym, UrbanGym, AGC | Each program page's introduction, search text, level descriptions, header colour preset, gallery photos and gallery text. |
+| PlayGym | Shared program name, ages and adult-helper setting; description, paragraphs, duration, regular days/times, New badges, prices and pass wording, joining instructions, button wording, gallery and video. |
+| Little Gymnasts, EduGym, UrbanGym, AGC | Shared program and level names, school-year labels, introductions, search text, level descriptions, header colour preset, gallery size/photos/crops and video. |
 | Class finder timetable | Regular EduGym/UrbanGym sessions displayed in Find a Class, including their iClassPro age ranges. |
 | News updates | Add, edit or hide an update on What's happening; change text, date and photos. |
 | About and policies | About page text, people and portraits, affiliations, current/older policies and parent-guide PDF links. Current policies also appear on PlayGym. |
 
-Program/level names and PlayGym eligibility are protected while navigation and booking rules are separate. Existing videos are retained but are not editable in this stage. Program introductions do not change homepage cards or class finder descriptions. The news editor does not add a new homepage section. There is no page-hide switch or drag-and-drop page builder yet.
+Program names update headings, navigation, program cards and applicable class-finder labels. Program introductions also feed the homepage and Classes page cards. Level descriptions feed the class finder. Existing page URLs and iClassPro booking IDs stay the same when names change. The news editor does not add a new homepage section. There is no page-hide switch or drag-and-drop page builder yet.
+
+Written paragraphs, gallery headings, search titles/descriptions, historical news and PDFs are separate wording: review them after a rename or change to session operation. The CMS does not rewrite prose for you or change iClassPro.
+
+## Testing the unlocked fields
+
+1. In PlayGym, temporarily change **Program name**, save, and check the menu, homepage, PlayGym heading, holiday program label and Find a Class result. Restore the name afterwards.
+2. In EduGym, rename the Foundation level and change its school-year label. Its new name/label should appear on both the EduGym and preschool pages, and in the class finder. Restore both fields. Enter level names without the program prefix: the website adds it where needed. The preschool editor separately controls the Adventurers name and its Foundation description.
+3. Change PlayGym's **Age range** using a format such as `2–7 years`. The values are exact ages in years, with decimals allowed. If the finder's selected age group only partly fits, it asks the family to contact the team rather than promising a suitable session. Restore the range after testing. School-year labels are display text; real coached-class enrolment ages come from the timetable and must match iClassPro.
+4. Toggle **Adult helper required** and check the supervision labels on PlayGym, the class finder and holiday information. Review the written paragraphs and policies as well. Restore the real setting afterwards.
+5. Open AGC and save a text edit with no photos. Empty galleries are allowed and stay hidden. In another program, expand a photo and try the **Crop position** dropdown. **Gallery width** is now an editable size choice.
+6. For videos, select an MP4 from **Program videos**, choose a poster image, add a description, then switch **Show video** on. Switch it off to hide the video while retaining its settings. Use a compressed MP4 under 25 MB; uploads are not automatically compressed.
 
 ## First exercise: turn a notice on and off
 
@@ -52,6 +63,6 @@ Have one staff member edit a given section at a time to avoid overwriting each o
 
 Have a nontechnical staff member complete the exercises without coaching. Confirm club-controlled access to GitHub, Pages CMS, Netlify and the domain, with a second authorised person able to recover access. Record who handles failed builds or changes beyond these forms.
 
-Remaining work includes program-wide renaming, page visibility, holiday seasons/promotions, birthday-party content, homepage cards and global contact details. These need their own content wiring and tests. Arbitrary new layouts will still need development unless a page-builder approach is adopted.
+Remaining work includes page visibility, holiday seasons/promotions, birthday-party content, homepage content outside the connected program cards and global contact details. These need their own content wiring and tests. Arbitrary new layouts will still need development unless a page-builder approach is adopted.
 
 Migration to the original repository and existing Netlify site is a later, separate step described in README.md. Do not copy the practice hosting or noindex/form-disable safeguards into production.

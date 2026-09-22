@@ -13,7 +13,7 @@ import GettingHere from '../components/shared/GettingHere.astro';
 
 
 // Import JSON data
-import playgymData from '../content/playgym.json';
+import playgymData from '../content/playgym.json' with { type: 'json' };
 
 const media = resolveProgramMedia(playgymData.media);
 
@@ -21,7 +21,7 @@ import { resolveProgramMedia } from '../lib/cms-media';
 import aboutData from '../content/about.json';
 ---
 
-<Layout title="PlayGym Ringwood" description="PlayGym at Trident Gymnastics Ringwood offers safe supervised play for toddlers and young children aged 0-6 years. No booking required.">
+<Layout title={`${playgymData.title} Ringwood`} description={`${playgymData.title} at Trident Gymnastics Ringwood for ages ${playgymData.age_range}. ${playgymData.tagline}`}>
   <!--
   ==============================================
   PLAYGYM ANNOUNCEMENT BANNER (HIDDEN — re-enable or repurpose as needed)

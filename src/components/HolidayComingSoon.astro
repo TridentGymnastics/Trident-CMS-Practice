@@ -1,4 +1,5 @@
 ---
+import { programNames as names, playgym, playgymSupervision } from '../data/programContent';
 /**
  * Off-season placeholder for /school-holidays.
  *
@@ -22,9 +23,9 @@ const nextLabel = status.datesLabel
 
 const programs = [
   {
-    title: 'PlayGym',
-    ages: '0–6 years',
-    blurb: 'Drop-in, parent-supervised play on our gymnastics equipment. No booking required.'
+    title: names.playgym,
+    ages: playgym.age_range,
+    blurb: `${playgymSupervision} on our gymnastics equipment. No booking required.`
   },
   {
     title: 'OpenGym',
@@ -47,7 +48,7 @@ const enquiryUrl = `https://wa.me/${siteConfig.phone}?text=Hi%20Trident!%20Pleas
       <p class="hs-eyebrow">School Holiday Programs · Ringwood</p>
       <h1>Holiday gymnastics for every age</h1>
       <p class="hs-sub">
-        PlayGym, OpenGym and Skill Workshops run every Victorian school holiday
+        {names.playgym}, OpenGym and Skill Workshops run every Victorian school holiday
         break at our Ringwood facility — from drop-in toddler play to coached
         Skill Workshops for teens.
       </p>

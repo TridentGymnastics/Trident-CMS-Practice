@@ -1,6 +1,8 @@
 ---
+import { programNames as names, playgym, playgymSupervision } from '../data/programContent';
 import ProgramPage from '../components/ProgramPage.astro';
-import program from '../content/program-preschool.json';
+import { programPages } from '../data/programContent';
+const program = programPages.preschool;
 import { resolveProgramMedia } from '../lib/cms-media';
 const media = resolveProgramMedia(program.media);
 ---
@@ -18,12 +20,11 @@ const media = resolveProgramMedia(program.media);
           <div class="too-young-text">
             <h3 id="too-young-title">Not quite old enough?</h3>
             <p>
-              Our coached classes start at 3 years 6 months. For younger children, PlayGym is
-              the place to begin: a casual, parent-supervised drop-in session with no booking required.
+              Our coached classes start at 3 years 6 months. For younger children, {names.playgym} offers drop-in sessions for ages {playgym.age_range}. {playgymSupervision}. No booking required.
             </p>
           </div>
           <a class="too-young-link" href="/playgym">
-            <span>Explore PlayGym</span>
+            <span>Explore {names.playgym}</span>
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M13 5l7 7-7 7M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>

@@ -19,7 +19,7 @@ export interface CmsMedia {
   columns?: number;
   maxWidth?: string;
   photos?: Array<{ src: string; alt: string; position?: string }>;
-  video?: { src: string; poster: string; title: string; autoplay?: boolean };
+  video?: { enabled?: boolean; src: string; poster: string; title: string; autoplay?: boolean };
 }
 
 export function resolveProgramMedia(media?: CmsMedia) {
@@ -30,6 +30,6 @@ export function resolveProgramMedia(media?: CmsMedia) {
     columns: media.columns ?? undefined,
     maxWidth: media.maxWidth || undefined,
     photos: (media.photos ?? []).map(photo => ({ ...photo, src: cmsImage(photo.src) })),
-    video: media.video?.src ? { ...media.video, poster: cmsImage(media.video.poster) } : undefined,
+    video: media.video?.enabled && media.video.src ? { ...media.video, poster: cmsImage(media.video.poster) } : undefined,
   };
 }

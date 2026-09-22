@@ -99,12 +99,21 @@
     "photos": [
       {
         "src": "/src/assets/images/programs/playgym/playgym-1.jpg",
-        "alt": "The PlayGym floor set up with a play parachute, soft rollers and foam blocks"
+        "alt": "The PlayGym floor set up with a play parachute, soft rollers and foam blocks",
+        "position": "center"
       },
       {
         "src": "/src/assets/images/programs/playgym/playgym-2.jpg",
-        "alt": "Low beams, soft blocks and mats laid out ready for PlayGym"
+        "alt": "Low beams, soft blocks and mats laid out ready for PlayGym",
+        "position": "center"
       }
-    ]
+    ],
+    "video": {
+      "enabled": false,
+      "src": "",
+      "poster": "",
+      "title": "",
+      "autoplay": false
+    }
   }
 }

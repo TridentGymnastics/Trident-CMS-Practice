@@ -40,8 +40,17 @@ Sign in through the GitHub account that owns the practice repository when import
 - The careers form is replaced by disabled controls. Booking, phone, email, map and social links are still real links; this is a content and appearance exercise.
 - Canonical URLs use the practice host. practice-origin.mjs rejects custom domains and checks the practice repository when Netlify or Vercel provides its Git metadata.
 - These build safeguards do not control hosting-account permissions. Do not import into or relink the existing live hosting project.
-- Program-wide renaming, page visibility, homepage marketing cards, seasonal holiday calendars/promotions, birthday parties, global contact details and arbitrary layout changes still need implementation. Current editors are a useful content pilot, not a complete no-code handover.
+- Shared program and level labels now come from the CMS, including navigation, program cards and applicable class-finder results. Stable URLs and booking IDs are preserved. PlayGym age bounds, supervision labels, gallery sizes/crops and video switches are editable. Written prose, search copy, gallery headings, historical news and PDFs still require a wording review after renames or operational changes.
+- Page visibility, other homepage content, seasonal holiday calendars/promotions, birthday parties, global contact details and arbitrary layout changes still need implementation. Current editors are a useful content pilot, not a complete no-code handover.
 - The build validates CMS field types, required values, media paths, dates, link formats and timetable consistency before generating pages. This catches structural mistakes, not inaccurate prices, policies, descriptions or booking information. Uploaded PDFs are linked, not edited.
+
+## Editor validation fixes
+
+Optional lists use required: false: in Pages CMS, required: true enforces at least one item even if list.min is zero. Photo crop positions use a select field with a centre default; the previous optional string pattern rejected the blank value that the CMS creates for omitted fields. Optional link patterns accept empty strings. Empty galleries and disabled videos are valid.
+
+The previous failures were reproduced against the public Pages CMS field/schema validation functions at source commit 6f4e860a35d934406580287e7042e5e111e207a1. All nine updated editor forms, including empty-gallery states, passed that check. This verifies the schema and field values; the final hosted save/deploy test is still performed in Pages CMS after pushing this update.
+
+The practice build and class-finder browser checks pass. Temporary content tests also verified shared renames, age limits, supervision, weekend sessions, empty galleries and video switches, then restored the original content. `astro check` separately reports 33 errors in existing code (including missing Node type declarations, untyped component props and legacy DOM handlers); it is not a passing check. Those diagnostics do not come from the new CMS fields or shared program-data module.
 
 ## Moving the finished CMS to the existing Netlify website
 
@@ -54,6 +63,7 @@ Do not replace the production repository with this practice copy. Do not copy it
 ## References
 
 - Pages CMS editing: https://pagescms.org/docs/
+- Pages CMS validation source used for the form checks: https://github.com/hunvreus/pagescms/blob/6f4e860a35d934406580287e7042e5e111e207a1/lib/schema.ts
 - Netlify repository connection: https://docs.netlify.com/start/quickstarts/deploy-from-repository/
 - Netlify shared usage: https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/billing-faq-for-credit-based-plans/
 - Cloudflare Pages build configuration: https://developers.cloudflare.com/pages/configuration/build-configuration/

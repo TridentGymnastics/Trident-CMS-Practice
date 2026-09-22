@@ -1,4 +1,5 @@
 ---
+import { programNames as names, programPages, playgym } from '../data/programContent';
 import Layout from '../layouts/Layout.astro';
 import { siteConfig } from '../config/site';
 import { Picture } from 'astro:assets';
@@ -219,7 +220,7 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
         <div class="find-class-text">
           <p class="find-class-kicker">Guided class finder</p>
           <h2 class="find-class-heading">Not sure where to start?</h2>
-          <p class="find-class-sub">Tell us a little about your child and we&apos;ll help you choose the right starting point, from PlayGym to school-age classes.</p>
+          <p class="find-class-sub">Tell us a little about your child and we&apos;ll help you choose the right starting point, from {names.playgym} to school-age classes.</p>
         </div>
 
         <button type="button" class="find-class-cta" data-open-class-selector aria-label="Find the right class">
@@ -256,7 +257,7 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
               formats={['avif', 'webp', 'jpeg']}
               widths={[320, 480, 640, 960]}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              alt="Preschool gymnastics program"
+              alt={names.preschool + ' program'}
               width={960}
               height={640}
               loading="lazy"
@@ -266,8 +267,8 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
             <span class="age-badge">Ages 3½-7</span>
           </a>
           <div class="card-content">
-            <h3 id="preschool-title" data-edit-file="src/pages/index.astro" data-edit-field="preschool_title">Preschool</h3>
-            <p id="preschool-description" data-edit-file="src/pages/index.astro" data-edit-field="preschool_description">EduGym Adventurers and EduGym Foundation — a warm, structured introduction to gymnastics for kinder and Prep children, building balance, coordination and confidence.</p>
+            <h3 id="preschool-title" data-edit-file="src/pages/index.astro" data-edit-field="preschool_title">{names.preschool}</h3>
+            <p id="preschool-description" data-edit-file="src/pages/index.astro" data-edit-field="preschool_description">{programPages.preschool.blurb}</p>
             <a href="/preschool" class="btn">Learn More</a>
           </div>
         </div>
@@ -278,7 +279,7 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
               formats={['avif', 'webp', 'jpeg']}
               widths={[320, 480, 640, 960]}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              alt="EduGym program"
+              alt={names.edugym + ' program'}
               width={960}
               height={640}
               loading="lazy"
@@ -288,8 +289,8 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
             <span class="age-badge">Ages 5+</span>
           </a>
           <div class="card-content">
-            <h3 id="edugym-title" data-edit-file="src/pages/index.astro" data-edit-field="edugym_title">EduGym</h3>
-            <p id="edugym-description" data-edit-file="src/pages/index.astro" data-edit-field="edugym_description">Curriculum-aligned movement for school groups, helping children develop physical confidence, coordination and fundamental movement skills.</p>
+            <h3 id="edugym-title" data-edit-file="src/pages/index.astro" data-edit-field="edugym_title">{names.edugym}</h3>
+            <p id="edugym-description" data-edit-file="src/pages/index.astro" data-edit-field="edugym_description">{programPages.edugym.blurb}</p>
             <a href="/edugym" class="btn">Learn More</a>
           </div>
         </div>
@@ -300,7 +301,7 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
               formats={['avif', 'webp', 'jpeg']}
               widths={[320, 480, 640, 960]}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              alt="UrbanGym program"
+              alt={names.urbangym + ' program'}
               width={960}
               height={640}
               loading="lazy"
@@ -310,8 +311,8 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
             <span class="age-badge">Ages 5+</span>
           </a>
           <div class="card-content">
-            <h3 id="urbangym-title" data-edit-file="src/pages/index.astro" data-edit-field="urbangym_title">UrbanGym</h3>
-            <p id="urbangym-description" data-edit-file="src/pages/index.astro" data-edit-field="urbangym_description">Urban-inspired flipping, vaulting and creative movement for children who love safe challenge, strength and skill-building.</p>
+            <h3 id="urbangym-title" data-edit-file="src/pages/index.astro" data-edit-field="urbangym_title">{names.urbangym}</h3>
+            <p id="urbangym-description" data-edit-file="src/pages/index.astro" data-edit-field="urbangym_description">{programPages.urbangym.blurb}</p>
             <a href="/urbangym" class="btn">Learn More</a>
           </div>
         </div>
@@ -322,7 +323,7 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
               formats={['avif', 'webp', 'jpeg']}
               widths={[320, 480, 640, 960]}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              alt="AGC Squad program"
+              alt={names.agc + ' program'}
               width={960}
               height={640}
               loading="lazy"
@@ -332,8 +333,8 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
             <span class="age-badge age-badge--invite">Invitation Only</span>
           </a>
           <div class="card-content">
-            <h3 id="agc-title" data-edit-file="src/pages/index.astro" data-edit-field="agc_title">AGC</h3>
-            <p id="agc-description" data-edit-file="src/pages/index.astro" data-edit-field="agc_description">An invitation-only pathway for gymnasts ready for a more focused Australian Gymnastics Club training stream.</p>
+            <h3 id="agc-title" data-edit-file="src/pages/index.astro" data-edit-field="agc_title">{names.agc}</h3>
+            <p id="agc-description" data-edit-file="src/pages/index.astro" data-edit-field="agc_description">{programPages.agc.blurb}</p>
             <a href="/agc" class="btn">Learn More</a>
           </div>
         </div>
@@ -343,13 +344,13 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
 
   <section class="features section" id="other-programs" aria-labelledby="programs-heading">
     <div class="container">
-      <h2 id="programs-heading" data-edit-file="src/pages/index.astro" data-edit-field="programs_title">PlayGym, recreational gymnastics and birthday parties</h2>
+      <h2 id="programs-heading" data-edit-file="src/pages/index.astro" data-edit-field="programs_title">{names.playgym}, recreational gymnastics and birthday parties</h2>
       <p class="section-intro">Families can choose from playful early-years movement, weekly gymnastics classes and active birthday parties at our Ringwood facility.</p>
       <div class="feature-grid">
         <div class="card feature-card card-accent">
           <div class="card-content">
-            <h3 id="playgym-title" data-edit-file="src/pages/index.astro" data-edit-field="playgym_title">PlayGym <span class="age-label">Ages 0-6</span></h3>
-            <p id="playgym-description" data-edit-file="src/pages/index.astro" data-edit-field="playgym_description">For toddlers and preschoolers building confidence through movement, climbing, balancing and play. A warm introduction to gymnastics in a fun, age-appropriate environment.</p>
+            <h3 id="playgym-title" data-edit-file="src/pages/index.astro" data-edit-field="playgym_title">{names.playgym} <span class="age-label">Ages {playgym.age_range}</span></h3>
+            <p id="playgym-description" data-edit-file="src/pages/index.astro" data-edit-field="playgym_description">{playgym.tagline}</p>
             <a href="/playgym" class="btn">Learn More</a>
           </div>
         </div>
@@ -428,7 +429,7 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
             </svg>
           </div>
           <div class="stat-content">
-            <h3>Unique UrbanGym</h3>
+            <h3>Unique {names.urbangym}</h3>
             <p>Urban-Inspired Movement</p>
           </div>
         </div>

@@ -1,4 +1,5 @@
 ---
+import { programNames as names, playgym, playgymSupervision } from '../data/programContent';
 /**
  * School Holiday Programs Page
  *
@@ -33,7 +34,7 @@ const { live: programLive } = holidayProgramStatus;
 
 const cardDetails = {
   playgym: {
-    tagline: 'Parent-supervised play'
+    tagline: playgymSupervision
   },
   opengym: {
     tagline: 'Access to all equipment'
@@ -119,8 +120,8 @@ const calendarWeeks = [1, 2].map((weekNumber) => ({
 <Layout
   title={programLive ? "Spring School Holiday Programs" : "School Holiday Programs"}
   description={programLive
-    ? "Spring school holiday gymnastics programs at Trident Gymnastics Ringwood. PlayGym, OpenGym and Skill Workshops run across 21 September to 2 October 2026."
-    : "School holiday gymnastics programs at Trident Gymnastics Ringwood — PlayGym, OpenGym and Skill Workshops. Dates for our next program are announced closer to each break."}
+    ? `Spring school holiday gymnastics programs at Trident Gymnastics Ringwood. ${names.playgym}, OpenGym and Skill Workshops run across 21 September to 2 October 2026.`
+    : `School holiday gymnastics programs at Trident Gymnastics Ringwood — ${names.playgym}, OpenGym and Skill Workshops. Dates for our next program are announced closer to each break.`}
 >
   {programLive ? (
   <Fragment>
@@ -132,7 +133,7 @@ const calendarWeeks = [1, 2].map((weekNumber) => ({
         <div class="container">
           <p class="hero-term-badge">Term 3 Spring Holiday Break</p>
           <h1>School Holiday Programs <span class="hero-h1-location">in Ringwood</span></h1>
-          <p class="hero-subtitle">Gymnastics-based programs for children of all ages at our Ringwood facility — from drop-in PlayGym to coached Skill Workshops.</p>
+          <p class="hero-subtitle">Gymnastics-based programs for children of all ages at our Ringwood facility — from drop-in {names.playgym} to coached Skill Workshops.</p>
           <p class="hero-dates">Spring holiday dates now available: 21 September - 2 October 2026</p>
 
           <div class="hero-cta-row">
@@ -157,7 +158,7 @@ const calendarWeeks = [1, 2].map((weekNumber) => ({
       <div class="container">
         <div class="holidays-intro">
           <h2>Explore Our Programs</h2>
-          <p>Choose from PlayGym, OpenGym, or Skill Workshops at our Ringwood facility, each designed for different ages and skill levels, from toddlers through to teenagers.</p>
+          <p>Choose from {names.playgym}, OpenGym, or Skill Workshops at our Ringwood facility, each designed for different ages and skill levels, from toddlers through to teenagers.</p>
           <p class="holidays-location-note">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
             Trident Gymnastics, Ringwood VIC, serving families from Croydon, Heathmont, Mitcham, Nunawading, Bayswater and the eastern suburbs.
@@ -245,7 +246,7 @@ const calendarWeeks = [1, 2].map((weekNumber) => ({
           </div>
 
           <div class="holiday-calendar__legend" aria-label="Calendar program legend">
-            <span class="holiday-calendar__legend-item holiday-calendar__legend-item--playgym">PlayGym</span>
+            <span class="holiday-calendar__legend-item holiday-calendar__legend-item--playgym">{names.playgym}</span>
             <span class="holiday-calendar__legend-item holiday-calendar__legend-item--skill-workshops">Skill Workshops</span>
             <span class="holiday-calendar__legend-item holiday-calendar__legend-item--opengym">OpenGym</span>
           </div>
@@ -288,7 +289,7 @@ const calendarWeeks = [1, 2].map((weekNumber) => ({
           </span>
           <div class="notify-strip__text">
             <strong>Need help choosing?</strong>
-            <span>Message us and we'll help you pick the right Spring 2026 PlayGym, OpenGym or Skill Workshop session.</span>
+            <span>Message us and we'll help you pick the right Spring 2026 {names.playgym}, OpenGym or Skill Workshop session.</span>
           </div>
           <a
             href={`https://wa.me/${siteConfig.phone}?text=Hi%20Trident!%20Can%20you%20help%20me%20choose%20a%20Spring%202026%20holiday%20program%20session%3F`}
@@ -303,7 +304,7 @@ const calendarWeeks = [1, 2].map((weekNumber) => ({
 
         <div class="cta-section">
           <h2>Ready to Book or Have Questions?</h2>
-          <p>Spring 2026 PlayGym, OpenGym and Skill Workshop dates are now available. Reach out to secure your spot or find out which program suits your child best.</p>
+          <p>Spring 2026 {names.playgym}, OpenGym and Skill Workshop dates are now available. Reach out to secure your spot or find out which program suits your child best.</p>
           <div class="cta-section__btns">
             <a
               href="https://portal.iclasspro.com/trident/camps/9?typeId=9&next=camps&nextTitle=Holiday%20Program&pluralTitle=Holiday%20Programs&sortBy=name"
@@ -336,9 +337,9 @@ const calendarWeeks = [1, 2].map((weekNumber) => ({
           <div class="faq-answer">
             <p>We run three programs at our Ringwood gymnastics facility:</p>
             <ul>
-              <li><strong>PlayGym</strong> (ages 0–6): drop-in, parent-supervised play on gymnastics equipment. No booking required.</li>
+              <li><strong>{names.playgym}</strong> (ages {playgym.age_range}): {playgymSupervision.toLowerCase()} on gymnastics equipment. No booking required.</li>
               <li><strong>OpenGym</strong> (ages 5–12): supervised access to all equipment for unstructured play and practice. Booking ahead preferred; in-person booking available if spaces remain.</li>
-              <li><strong>Skill Workshops</strong> (ages 5–18): coaching-focused sessions on handstands, cartwheels, flips, Parkour and UrbanGym. Advance booking required.</li>
+              <li><strong>Skill Workshops</strong> (ages 5–18): coaching-focused sessions on handstands, cartwheels, flips, Parkour and {names.urbangym}. Advance booking required.</li>
             </ul>
           </div>
         </details>
@@ -353,7 +354,7 @@ const calendarWeeks = [1, 2].map((weekNumber) => ({
         <details class="faq-item">
           <summary class="faq-question">Do I need to book in advance?</summary>
           <div class="faq-answer">
-            <p><strong>PlayGym</strong> is drop-in — just show up during session times and pay at the door ($15/child). No booking needed.</p>
+            <p><strong>{names.playgym}</strong> is drop-in — just show up during session times and pay at the door ({playgym.prices.items[0].price}). No booking needed.</p>
             <p><strong>OpenGym</strong> bookings are preferred ahead of time, but families can attend and book in person if spaces are available.</p>
             <p><strong>Skill Workshops</strong> require advance booking as spaces are limited.</p>
           </div>
@@ -363,7 +364,7 @@ const calendarWeeks = [1, 2].map((weekNumber) => ({
           <summary class="faq-question">How much does it cost?</summary>
           <div class="faq-answer">
             <ul>
-              <li><strong>PlayGym:</strong> $15 per child (casual drop-in). Multi-visit passes available.</li>
+              <li><strong>{names.playgym}:</strong> {playgym.prices.items[0].price} (casual drop-in). Multi-visit passes available.</li>
               <li><strong>OpenGym:</strong> $20 per session.</li>
               <li><strong>Skill Workshops:</strong> $35 per session.</li>
             </ul>
@@ -374,7 +375,7 @@ const calendarWeeks = [1, 2].map((weekNumber) => ({
         <details class="faq-item">
           <summary class="faq-question">What ages are catered for?</summary>
           <div class="faq-answer">
-            <p>We have something for almost every age: PlayGym covers babies through to age 6 (with a parent), OpenGym is for 5 to 12 year olds, and Skill Workshops run from 5 to 18 years. If you're unsure which program suits your child, <a href="/contact">get in touch</a> and we'll help you choose.</p>
+            <p>We have something for almost every age: {names.playgym} covers ages {playgym.age_range} ({playgymSupervision.toLowerCase()}), OpenGym is for 5 to 12 year olds, and Skill Workshops run from 5 to 18 years. If you're unsure which program suits your child, <a href="/contact">get in touch</a> and we'll help you choose.</p>
           </div>
         </details>
 
@@ -388,7 +389,7 @@ const calendarWeeks = [1, 2].map((weekNumber) => ({
         <details class="faq-item">
           <summary class="faq-question">When are the Spring 2026 dates?</summary>
           <div class="faq-answer">
-            <p>Spring holiday sessions run from Monday 21 September to Friday 2 October 2026, with the gym closed on Friday 25 September for the public holiday. PlayGym runs every program day from 11:00 am - 12:30 pm. Skill Workshops start at 1:00 pm on selected days. OpenGym starts at 2:30 pm from Monday 21 to Thursday 24 September, and at 1:00 pm on Tuesday 29 September and Friday 2 October. <a href={`https://wa.me/${siteConfig.phone}?text=Hi%20Trident!%20Can%20you%20help%20me%20choose%20a%20Spring%202026%20holiday%20program%20session%3F`} target="_blank" rel="noopener">Message us on WhatsApp</a> or <a href="/contact">use our contact form</a> if you need help choosing.</p>
+            <p>Spring holiday sessions run from Monday 21 September to Friday 2 October 2026, with the gym closed on Friday 25 September for the public holiday. {names.playgym} runs every program day from 11:00 am - 12:30 pm. Skill Workshops start at 1:00 pm on selected days. OpenGym starts at 2:30 pm from Monday 21 to Thursday 24 September, and at 1:00 pm on Tuesday 29 September and Friday 2 October. <a href={`https://wa.me/${siteConfig.phone}?text=Hi%20Trident!%20Can%20you%20help%20me%20choose%20a%20Spring%202026%20holiday%20program%20session%3F`} target="_blank" rel="noopener">Message us on WhatsApp</a> or <a href="/contact">use our contact form</a> if you need help choosing.</p>
           </div>
         </details>
 

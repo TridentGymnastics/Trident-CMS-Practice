@@ -1,4 +1,5 @@
 ---
+import { programNames as names } from '../data/programContent';
 // Header component with centered logo and flat navigation
 import { readFileSync } from 'fs';
 import { parse } from 'yaml';
@@ -71,14 +72,14 @@ const isAboutActive = aboutPages.some(page => currentPath.startsWith(page));
             Classes ▾
           </a>
           <div class="dropdown" role="menu">
-            <a href="/preschool" role="menuitem">Preschool</a>
-            <a href="/edugym" role="menuitem">EduGym</a>
-            <a href="/urbangym" role="menuitem">UrbanGym</a>
-            <a href="/agc" role="menuitem">AGC</a>
+            <a href="/preschool" role="menuitem">{names.preschool}</a>
+            <a href="/edugym" role="menuitem">{names.edugym}</a>
+            <a href="/urbangym" role="menuitem">{names.urbangym}</a>
+            <a href="/agc" role="menuitem">{names.agc}</a>
           </div>
         </li>
 
-        <li><a class="tab" href="/playgym" aria-current={isActiveLink('/playgym') ? 'page' : undefined}>PlayGym</a></li>
+        <li><a class="tab" href="/playgym" aria-current={isActiveLink('/playgym') ? 'page' : undefined}>{names.playgym}</a></li>
         {/* Holiday Program nav link — live with the Spring program. TODO(summer): re-comment when it finishes. */}
         <li><a class="tab" href="/school-holidays" aria-current={isActiveLink('/school-holidays') ? 'page' : undefined}>Holiday Program</a></li>
         <li><a class="tab" href="/parties" aria-current={isActiveLink('/parties') ? 'page' : undefined}>Birthday Parties</a></li>

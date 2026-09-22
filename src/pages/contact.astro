@@ -1,4 +1,5 @@
 ---
+import { programNames as names } from '../data/programContent';
 import Layout from '../layouts/Layout.astro';
 import { siteConfig } from '../config/site';
 
@@ -13,14 +14,14 @@ const ld = {
 };
 ---
 
-<Layout title="Contact Trident Gymnastics Ringwood" description="Contact Trident Gymnastics in Ringwood for class enquiries, PlayGym, birthday parties and free trial bookings.">
+<Layout title="Contact Trident Gymnastics Ringwood" description={`Contact Trident Gymnastics in Ringwood for class enquiries, ${names.playgym}, birthday parties and free trial bookings.`}>
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(ld)}></script>
   </Fragment>
 
   <section class="contact-hero">
     <h1>Contact Trident Gymnastics Ringwood</h1>
-    <p class="sub">Get in touch about classes, PlayGym, parties or free trial bookings.</p>
+    <p class="sub">Get in touch about classes, {names.playgym}, parties or free trial bookings.</p>
   </section>
 
   <section class="contact-grid">

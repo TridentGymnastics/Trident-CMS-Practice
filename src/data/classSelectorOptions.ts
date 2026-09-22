@@ -1,3 +1,4 @@
+import { programNames, levelName, levelDescription, playgymSupervision, playgymAcceptsAgeSpan } from './programContent.ts';
 import timetable from '../content/class-timetable.json' with { type: 'json' };
 import playgym from '../content/playgym.json' with { type: 'json' };
 
@@ -36,6 +37,8 @@ export interface Recommendation {
   key: string;
   name: string;
   stream: 'PlayGym' | 'EduGym' | 'UrbanGym';
+  streamLabel: string;
+  requiresContact?: boolean;
   levelId: number | null;
   availableDays: DayName[];
   sessions: ClassSession[];
@@ -74,61 +77,61 @@ export const CLASS_SELECTOR_SESSIONS = {
 export const CLASS_SELECTOR_OPTIONS: ClassSelectorOption[] = [
   makeClassSelectorOption({
     key: 'edu_adv',
-    displayName: 'EduGym Adventurers',
+    displayName: levelName('edu_adv'),
     levelId: 9,
     sessions: CLASS_SELECTOR_SESSIONS.edu_adv,
   }),
   makeClassSelectorOption({
     key: 'edu_found',
-    displayName: 'EduGym Foundation',
+    displayName: levelName('edu_found'),
     levelId: 39,
     sessions: CLASS_SELECTOR_SESSIONS.edu_found,
   }),
   makeClassSelectorOption({
     key: 'edu_1',
-    displayName: 'EduGym Level 1',
+    displayName: levelName('edu_1'),
     levelId: 10,
     sessions: CLASS_SELECTOR_SESSIONS.edu_1,
   }),
   makeClassSelectorOption({
     key: 'edu_2',
-    displayName: 'EduGym Level 2',
+    displayName: levelName('edu_2'),
     levelId: 11,
     sessions: CLASS_SELECTOR_SESSIONS.edu_2,
   }),
   makeClassSelectorOption({
     key: 'edu_3',
-    displayName: 'EduGym Level 3',
+    displayName: levelName('edu_3'),
     levelId: 12,
     sessions: CLASS_SELECTOR_SESSIONS.edu_3,
   }),
   makeClassSelectorOption({
     key: 'edu_4',
-    displayName: 'EduGym Level 4',
+    displayName: levelName('edu_4'),
     levelId: 13,
     sessions: CLASS_SELECTOR_SESSIONS.edu_4,
   }),
   makeClassSelectorOption({
     key: 'edu_5',
-    displayName: 'EduGym Level 5+',
+    displayName: levelName('edu_5'),
     levelId: 36,
     sessions: CLASS_SELECTOR_SESSIONS.edu_5,
   }),
   makeClassSelectorOption({
     key: 'urban_beg',
-    displayName: 'UrbanGym Beginner',
+    displayName: levelName('urban_beg'),
     levelId: 19,
     sessions: CLASS_SELECTOR_SESSIONS.urban_beg,
   }),
   makeClassSelectorOption({
     key: 'urban_int',
-    displayName: 'UrbanGym Intermediate',
+    displayName: levelName('urban_int'),
     levelId: 20,
     sessions: CLASS_SELECTOR_SESSIONS.urban_int,
   }),
   makeClassSelectorOption({
     key: 'urban_adv',
-    displayName: 'UrbanGym Advanced',
+    displayName: levelName('urban_adv'),
     levelId: 21,
     sessions: CLASS_SELECTOR_SESSIONS.urban_adv,
   }),
@@ -257,11 +260,6 @@ function restrictToAgeSpan(base: ClassBase, ageSpan?: { max: number; min: number
     return band ? ageSpan.min >= band.min && ageSpan.max <= band.max : true;
   });
 
-  // Never strand the family with no days at all — an imperfect list beats none.
-  if (sessions.length === 0) {
-    return base;
-  }
-
   return { ...base, availableDays: getAvailableDays(sessions), sessions };
 }
 
@@ -279,134 +277,145 @@ function addUrl(base: ClassBase, selectedDay?: DayName): Recommendation {
 
 const PLAYGYM: ClassBase = {
   key: 'playgym',
-  name: 'PlayGym',
+  name: programNames.playgym,
   stream: 'PlayGym',
+  streamLabel: programNames.playgym,
   levelId: null,
   availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.playgym),
   sessions: CLASS_SELECTOR_SESSIONS.playgym,
   programPage: '/playgym',
   fallbackMode: 'contact-page',
-  summary: 'A casual, parent-supervised drop-in session with no booking needed. Just arrive, sign in, and play. Great as a first introduction to the gym before committing to a weekly class.',
+  summary: `${playgym.tagline} Ages ${playgym.age_range}. ${playgymSupervision}.`,
 };
 
 const EDUGYM_ADV: ClassBase = {
   key: 'edu_adv',
-  name: 'EduGym Adventurers',
+  name: levelName('edu_adv'),
   stream: 'EduGym',
+  streamLabel: programNames.edugym,
   levelId: 9,
   availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_adv),
   sessions: CLASS_SELECTOR_SESSIONS.edu_adv,
   programPage: '/preschool',
   fallbackMode: 'portal',
-  summary: 'An independent class for children ready to join the floor on their own. Parents watch from the viewing area while coaches guide your child through gymnastics shapes, listening skills, and movement foundations.',
+  summary: levelDescription('edu_adv'),
 };
 
 const EDUGYM_FOUND: ClassBase = {
   key: 'edu_found',
-  name: 'EduGym Foundation',
+  name: levelName('edu_found'),
   stream: 'EduGym',
+  streamLabel: programNames.edugym,
   levelId: 39,
   availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_found),
   sessions: CLASS_SELECTOR_SESSIONS.edu_found,
   programPage: '/edugym',
   fallbackMode: 'portal',
-  summary: 'The Prep-year class, and the step up from Adventurers. It builds confidence, listening skills, and the first EduGym movement progressions of core shapes, rolls and safe landings.',
+  summary: levelDescription('edu_found'),
 };
 
 const EDUGYM_1: ClassBase = {
   key: 'edu_1',
-  name: 'EduGym Level 1',
+  name: levelName('edu_1'),
   stream: 'EduGym',
+  streamLabel: programNames.edugym,
   levelId: 10,
   availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_1),
   sessions: CLASS_SELECTOR_SESSIONS.edu_1,
   programPage: '/edugym',
   fallbackMode: 'portal',
-  summary: 'A structured weekly class building clear progressions across floor, beam, bars, and basic apparatus skills. Coaches guide each child through the EduGym pathway at a steady, supportive pace.',
+  summary: levelDescription('edu_1'),
 };
 
 const EDUGYM_2: ClassBase = {
   key: 'edu_2',
-  name: 'EduGym Level 2',
+  name: levelName('edu_2'),
   stream: 'EduGym',
+  streamLabel: programNames.edugym,
   levelId: 11,
   availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_2),
   sessions: CLASS_SELECTOR_SESSIONS.edu_2,
   programPage: '/edugym',
   fallbackMode: 'portal',
-  summary: 'Cleaner technique, stronger basics, and more confident movement combinations across the main apparatus. A great step up for gymnasts who have solid foundations.',
+  summary: levelDescription('edu_2'),
 };
 
 const EDUGYM_3: ClassBase = {
   key: 'edu_3',
-  name: 'EduGym Level 3',
+  name: levelName('edu_3'),
   stream: 'EduGym',
+  streamLabel: programNames.edugym,
   levelId: 12,
   availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_3),
   sessions: CLASS_SELECTOR_SESSIONS.edu_3,
   programPage: '/edugym',
   fallbackMode: 'portal',
-  summary: 'Stronger combinations, steadier technique, and more confident apparatus work. Gymnasts at this level are developing real fluency across the program.',
+  summary: levelDescription('edu_3'),
 };
 
 const EDUGYM_4: ClassBase = {
   key: 'edu_4',
-  name: 'EduGym Level 4',
+  name: levelName('edu_4'),
   stream: 'EduGym',
+  streamLabel: programNames.edugym,
   levelId: 13,
   availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_4),
   sessions: CLASS_SELECTOR_SESSIONS.edu_4,
   programPage: '/edugym',
   fallbackMode: 'portal',
-  summary: 'Advanced skills, longer sessions, and greater technical detail. Designed for dedicated gymnasts moving into more demanding combinations and refined execution.',
+  summary: levelDescription('edu_4'),
 };
 
 const EDUGYM_5: ClassBase = {
   key: 'edu_5',
-  name: 'EduGym Level 5+',
+  name: levelName('edu_5'),
   stream: 'EduGym',
+  streamLabel: programNames.edugym,
   levelId: 36,
   availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_5),
   sessions: CLASS_SELECTOR_SESSIONS.edu_5,
   programPage: '/edugym',
   fallbackMode: 'portal',
-  summary: 'Advanced progressions, longer training blocks, and high-level skill refinement. The top tier of the EduGym pathway for experienced gymnasts.',
+  summary: levelDescription('edu_5'),
 };
 
 const URBAN_BEG: ClassBase = {
   key: 'urban_beg',
-  name: 'UrbanGym Beginner',
+  name: levelName('urban_beg'),
   stream: 'UrbanGym',
+  streamLabel: programNames.urbangym,
   levelId: 19,
   availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.urban_beg),
   sessions: CLASS_SELECTOR_SESSIONS.urban_beg,
   programPage: '/urbangym',
   fallbackMode: 'portal',
-  summary: 'An energetic introduction to urban movement: safe landings, basic vaulting patterns, and controlled swings. Perfect for children who love to jump, climb, and move freely.',
+  summary: levelDescription('urban_beg'),
 };
 
 const URBAN_INT: ClassBase = {
   key: 'urban_int',
-  name: 'UrbanGym Intermediate',
+  name: levelName('urban_int'),
   stream: 'UrbanGym',
+  streamLabel: programNames.urbangym,
   levelId: 20,
   availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.urban_int),
   sessions: CLASS_SELECTOR_SESSIONS.urban_int,
   programPage: '/urbangym',
   fallbackMode: 'portal',
-  summary: 'More linked movement, cleaner take-offs, and growing confidence in an urban-style format. For children with some experience who want to push their movement further.',
+  summary: levelDescription('urban_int'),
 };
 
 const URBAN_ADV: ClassBase = {
   key: 'urban_adv',
-  name: 'UrbanGym Advanced',
+  name: levelName('urban_adv'),
   stream: 'UrbanGym',
+  streamLabel: programNames.urbangym,
   levelId: 21,
   availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.urban_adv),
   sessions: CLASS_SELECTOR_SESSIONS.urban_adv,
   programPage: '/urbangym',
   fallbackMode: 'portal',
-  summary: 'Stronger power, cleaner lines, and advanced urban combinations. The top tier of UrbanGym, for older or more capable movers ready for a real challenge.',
+  summary: levelDescription('urban_adv'),
 };
 
 /**
@@ -422,18 +431,23 @@ export function getClassRecommendation(
   selectedDay?: DayName,
   ageSpan?: { max: number; min: number },
 ): Recommendation {
-  const recommend = (base: ClassBase) => addUrl(restrictToAgeSpan(base, ageSpan), selectedDay);
+  const recommend = (base: ClassBase) => {
+    const filtered = restrictToAgeSpan(base, ageSpan);
+    const playgymFits = base.key !== 'playgym' || playgymAcceptsAgeSpan(ageSpan?.min ?? ageYears, ageSpan?.max ?? ageYears);
+    if (!playgymFits || filtered.sessions.length === 0) {
+      return { ...filtered, requiresContact: true, url: null, sessions: [], availableDays: [] };
+    }
+    return addUrl(filtered, selectedDay);
+  };
+  if (classType === 'free-play' || classType === 'parent-assisted') return recommend(PLAYGYM);
 
   // Adventurers takes children from 3y6m, so coached classes start at 3½ — below
   // that, PlayGym is the only option regardless of what the family asks for.
   if (ageYears < 3.5) {
-    return addUrl(PLAYGYM, selectedDay);
+    return recommend(PLAYGYM);
   }
   // Kinder — not at school yet.
   if (ageYears < 5.5) {
-    if (classType === 'free-play' || classType === 'parent-assisted') {
-      return addUrl(PLAYGYM, selectedDay);
-    }
     return recommend(EDUGYM_ADV);
   }
   // Prep. Deliberately keyed off a Prep-specific bucket rather than age, because a

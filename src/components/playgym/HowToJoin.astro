@@ -10,7 +10,7 @@ const { data } = Astro.props;
         <p class="join-text">{data.how_to_join.text}</p>
         <p class="join-note">{data.how_to_join.note}</p>
         <a class="holiday-join-link" href={data.schedule.holiday_link_href}>
-          Holiday PlayGym for ages {data.age_range}: view current holiday dates
+          Holiday {data.title} for ages {data.age_range}: view current holiday dates
         </a>
       </div>
 
@@ -18,7 +18,7 @@ const { data } = Astro.props;
         <div class="step">
           <div class="step-content">
             <h3>Just Show Up</h3>
-            <p>Come along during our scheduled PlayGym times</p>
+            <p>Come along during our scheduled {data.title} times</p>
           </div>
         </div>
 

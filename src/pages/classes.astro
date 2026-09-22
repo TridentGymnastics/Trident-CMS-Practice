@@ -1,8 +1,9 @@
 ---
+import { programNames as names, programPages, levelName } from '../data/programContent';
 import Layout from '../layouts/Layout.astro';
 import { Picture } from 'astro:assets';
-import { readFileSync } from 'fs';
-import path from 'path';
+
+
 
 // Import optimized images
 import preschoolImg from '../assets/images/homepage/preschool.webp';
@@ -11,8 +12,7 @@ import urbanGymImg from '../assets/images/homepage/UrbanGym.webp';
 import agcSquadImg from '../assets/images/homepage/agc-squad.webp';
 
 // Load classes data
-const classesPath = path.join(process.cwd(), 'content', 'classes', 'classes.json');
-const classesData = JSON.parse(readFileSync(classesPath, 'utf8'));
+const classesData = Object.entries(programPages).map(([slug, data]) => ({ slug, title: data.title, blurb: data.blurb }));
 
 // Map slug to optimized images
 const imageMap: Record<string, any> = {
@@ -23,7 +23,7 @@ const imageMap: Record<string, any> = {
 };
 ---
 
-<Layout title="Gymnastics Classes Ringwood" description="Discover Ringwood gymnastics classes at Trident Gymnastics, including preschool gymnastics, EduGym, UrbanGym and AGC competitive training.">
+<Layout title="Gymnastics Classes Ringwood" description={`Discover Ringwood gymnastics classes at Trident Gymnastics, including ${names.preschool}, ${names.edugym}, ${names.urbangym} and ${names.agc}.`}>
   {/* The Mon/Wed 10-11am morning slots carried over from the retired 2-4 program
       and now run as EduGym Adventurers classes, so this banner still holds. */}
   <a href="/preschool" class="announcement-banner announcement-banner--classes">
@@ -38,7 +38,7 @@ const imageMap: Record<string, any> = {
         <span class="badge-text">New Class Times</span>
       </div>
       <div class="announcement-info">
-        <span class="announcement-title">EduGym Adventurers Morning Sessions</span>
+        <span class="announcement-title">{levelName('edu_adv')} Morning Sessions</span>
         <div class="announcement-times">
           <span class="time-pill">Mon 10-11am</span>
           <span class="time-pill">Wed 10-11am</span>

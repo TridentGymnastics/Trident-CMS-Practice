@@ -7,31 +7,35 @@
   "trialUrl": "https://portal.iclasspro.com/trident",
   "levels": [
     {
-      "name": "UrbanGym Beginner",
+      "name": "Beginner",
       "tag": "Prep – Grade 1",
       "tagBg": "#1573C2",
       "tagColor": "#fff",
-      "description": "Build strong movement foundations through safe landings, hand support, basic vaults and swings, and core gymnastics-style movement."
+      "description": "Build strong movement foundations through safe landings, hand support, basic vaults and swings, and core gymnastics-style movement.",
+      "id": "urban_beg"
     },
     {
-      "name": "UrbanGym Intermediate",
+      "name": "Intermediate",
       "tag": "Grade 2 – 3",
       "tagBg": "#1573C2",
       "tagColor": "#fff",
-      "description": "Progress into controlled flipping and linking, with a focus on cleaner take-offs and landings, flowing movement sequences, and confidence across obstacles."
+      "description": "Progress into controlled flipping and linking, with a focus on cleaner take-offs and landings, flowing movement sequences, and confidence across obstacles.",
+      "id": "urban_int"
     },
     {
-      "name": "UrbanGym Advanced",
+      "name": "Advanced",
       "tag": "Grade 4+",
       "tagBg": "#1573C2",
       "tagColor": "#fff",
-      "description": "Develop advanced flipping, power and precision, combining complex movement patterns with creativity, control and style."
+      "description": "Develop advanced flipping, power and precision, combining complex movement patterns with creativity, control and style.",
+      "id": "urban_adv"
     }
   ],
   "media": {
     "heading": "UrbanGym in Action",
     "subtitle": "Flipping, vaulting and creative movement in a coached environment",
     "video": {
+      "enabled": true,
       "src": "/videos/programs/urbangym.mp4",
       "poster": "/src/assets/images/programs/urbangym/urbangym-video-poster.jpg",
       "title": "An UrbanGym session at Trident Gymnastics",
@@ -40,13 +44,17 @@
     "photos": [
       {
         "src": "/src/assets/images/programs/urbangym/foam-pit-roll.jpg",
-        "alt": "A young athlete rolling out of a skill onto a landing mat beside the foam pit"
+        "alt": "A young athlete rolling out of a skill onto a landing mat beside the foam pit",
+        "position": "center"
       },
       {
         "src": "/src/assets/images/programs/urbangym/vault-box.jpg",
-        "alt": "Athletes running and vaulting over a padded box onto a landing mat"
+        "alt": "Athletes running and vaulting over a padded box onto a landing mat",
+        "position": "center"
       }
-    ]
+    ],
+    "maxWidth": "1100px",
+    "columns": 3
   },
   "colorScheme": "secondary",
   "levelsSectionClass": "urbangym-levels"

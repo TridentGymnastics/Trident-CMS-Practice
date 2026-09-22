@@ -6,17 +6,28 @@
   "bookingUrl": "https://portal.iclasspro.com/trident",
   "levels": [
     {
-      "name": "AGC Junior",
-      "description": "Foundation strength, shapes and discipline for competition readiness."
+      "name": "Junior",
+      "description": "Foundation strength, shapes and discipline for competition readiness.",
+      "id": "agc_junior"
     },
     {
-      "name": "AGC Senior",
-      "description": "Advanced routines, conditioning and performance mindset."
+      "name": "Senior",
+      "description": "Advanced routines, conditioning and performance mindset.",
+      "id": "agc_senior"
     }
   ],
   "colorScheme": "secondary-accent",
   "media": {
     "heading": "AGC in Action",
-    "photos": []
+    "photos": [],
+    "maxWidth": "1100px",
+    "video": {
+      "enabled": false,
+      "src": "",
+      "poster": "",
+      "title": "",
+      "autoplay": false
+    },
+    "columns": 3
   }
 }

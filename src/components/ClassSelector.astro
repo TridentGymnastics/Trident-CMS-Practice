@@ -1065,6 +1065,9 @@
 </style>
 
 <script>
+  import { programNames, levelName, levelTag, playgym, playgymSupervision, playgymAcceptsAgeSpan } from '../data/programContent';
+  // CMS text is plain text, including inside the client-rendered wizard.
+  const escapeHtml = (value: string) => value.replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]!);
   import { firePartyPopper } from '../scripts/confetti-burst';
   import {
     getClassRecommendation,
@@ -1135,13 +1138,13 @@
   const AGE_BUCKETS: AgeBucket[] = [
     { label: 'Under 2', sub: 'Babies and very young toddlers', topline: 'Age', minAge: 0,   maxAge: 1.99, ageYears: 1,   classTypes: [], defaultClassType: 'free-play' },
     { label: '2 – 3½',  sub: 'Toddler stage',                  topline: 'Age', minAge: 2,   maxAge: 3.49, ageYears: 3,   classTypes: [], defaultClassType: 'free-play' },
-    { label: '3½ – 5',  sub: 'Not at school yet (kinder)',     topline: 'Age', minAge: 3.5, maxAge: 5.49, ageYears: 4.5, classTypes: [], defaultClassType: 'independent' },
-    { label: '5 – 6',   sub: 'In Prep — first year of school', topline: 'Age', minAge: 5,   maxAge: 6.99, ageYears: 5.8, classTypes: STYLE_OLDER },
-    { label: '6',       sub: 'Grade 1 age',                    topline: 'Age', minAge: 6,   maxAge: 6.99, ageYears: 6.5, classTypes: STYLE_OLDER },
-    { label: '7',       sub: 'Grade 2 age',                    topline: 'Age', minAge: 7,   maxAge: 7.99, ageYears: 7.5, classTypes: STYLE_OLDER },
-    { label: '8',       sub: 'Grade 3 age',                    topline: 'Age', minAge: 8,   maxAge: 8.99, ageYears: 8.5, classTypes: STYLE_OLDER },
-    { label: '9',       sub: 'Grade 4 age',                    topline: 'Age', minAge: 9,   maxAge: 9.99, ageYears: 9.2, classTypes: STYLE_OLDER },
-    { label: '10 +',    sub: 'Grade 5 and above',              topline: 'Age', minAge: 10,  maxAge: 14,   ageYears: 10,  classTypes: STYLE_OLDER },
+    { label: '3½ – 5',  sub: levelTag('edu_adv'),     topline: 'Age', minAge: 3.5, maxAge: 5.49, ageYears: 4.5, classTypes: [], defaultClassType: 'independent' },
+    { label: '5 – 6',   sub: levelTag('edu_found'), topline: 'Age', minAge: 5,   maxAge: 6.99, ageYears: 5.8, classTypes: STYLE_OLDER },
+    { label: '6',       sub: levelTag('edu_1'),                    topline: 'Age', minAge: 6,   maxAge: 6.99, ageYears: 6.5, classTypes: STYLE_OLDER },
+    { label: '7',       sub: levelTag('edu_2'),                    topline: 'Age', minAge: 7,   maxAge: 7.99, ageYears: 7.5, classTypes: STYLE_OLDER },
+    { label: '8',       sub: levelTag('edu_3'),                    topline: 'Age', minAge: 8,   maxAge: 8.99, ageYears: 8.5, classTypes: STYLE_OLDER },
+    { label: '9',       sub: levelTag('edu_4'),                    topline: 'Age', minAge: 9,   maxAge: 9.99, ageYears: 9.2, classTypes: STYLE_OLDER },
+    { label: '10 +',    sub: levelTag('edu_5'),              topline: 'Age', minAge: 10,  maxAge: 14,   ageYears: 10,  classTypes: STYLE_OLDER },
   ];
 
   // ─── DOM refs ─────────────────────────────────────────────────────────────────
@@ -1253,7 +1256,7 @@
             <button class="cs-choice" type="button" data-bucket-index="${i}">
               <span class="cs-choice-topline">${bucket.topline}</span>
               <span class="cs-choice-label">${bucket.label}</span>
-              <span class="cs-choice-sub">${bucket.sub}</span>
+              <span class="cs-choice-sub">${escapeHtml(bucket.sub)}</span>
               <span class="cs-choice-arrow">Select</span>
             </button>`).join('')}
         </div>
@@ -1282,6 +1285,10 @@
   // ─── Step 2: Class type ───────────────────────────────────────────────────────
 
   function renderTypeStep(bucket: AgeBucket) {
+    const options = [...bucket.classTypes];
+    if (playgymAcceptsAgeSpan(bucket.minAge, bucket.maxAge)) {
+      options.push({ label: programNames.playgym, sub: `${playgymSupervision}. Ages ${playgym.age_range}.`, classType: 'free-play' });
+    }
     bodyEl.innerHTML = `
       <section class="cs-question cs-stage">
         <div class="cs-stage-hero">
@@ -1291,11 +1298,11 @@
         </div>
 
         <div class="cs-choices">
-          ${bucket.classTypes.map((opt, i) => `
+          ${options.map((opt, i) => `
             <button class="cs-choice" type="button" data-type-index="${i}">
               <span class="cs-choice-topline">Class style</span>
-              <span class="cs-choice-label">${opt.label}</span>
-              <span class="cs-choice-sub">${opt.sub}</span>
+              <span class="cs-choice-label">${escapeHtml(opt.label)}</span>
+              <span class="cs-choice-sub">${escapeHtml(opt.sub)}</span>
               <span class="cs-choice-arrow">Choose style</span>
             </button>`).join('')}
         </div>
@@ -1303,7 +1310,7 @@
 
     bodyEl.querySelectorAll<HTMLButtonElement>('.cs-choice').forEach((btn) => {
       btn.addEventListener('click', () => {
-        const opt = bucket.classTypes[Number(btn.dataset.typeIndex)];
+        const opt = options[Number(btn.dataset.typeIndex)];
         if (!opt) return;
         history.push(currentStep);
         const rec = getClassRecommendation(bucket.ageYears, opt.classType, undefined, { max: bucket.maxAge, min: bucket.minAge });
@@ -1362,6 +1369,17 @@
   }
 
   function renderResult(rec: Recommendation, selectedDay: DayName | null, isFirstVisit = false) {
+    if (rec.requiresContact) {
+      bodyEl.innerHTML = `<section class="cs-outcome"><div class="cs-result-panel">
+        <div class="cs-result-hero"><h2 class="cs-outcome-program">Let's check the right class</h2>
+        <p class="cs-outcome-desc">We couldn't confirm a suitable session for the whole age group you selected. Contact our team to check your child's exact age and available classes.</p>
+        ${rec.key === 'playgym' ? `<p>${escapeHtml(programNames.playgym)}: ages ${escapeHtml(playgym.age_range)}.</p>` : ''}</div>
+        <div class="cs-outcome-actions"><a href="/contact" class="cs-btn-primary">Contact our team</a><button class="cs-restart" id="cs-restart" type="button">Start again</button></div>
+      </div></section>`;
+      document.getElementById('cs-restart')?.addEventListener('click', () => { history = []; currentStep = { name: 'age' }; renderCurrent(); });
+      focusFirstInteractive();
+      return;
+    }
     const isPlayGym = rec.stream === 'PlayGym';
     const url = portalUrl(rec, selectedDay);
     const dayLabel = selectedDay ? formatDayName(selectedDay) : null;
@@ -1373,7 +1391,7 @@
     const availabilityHtml = isPlayGym
       ? `<div class="cs-result-detail">
            <p class="cs-result-detail-label">Availability</p>
-           <p class="cs-result-detail-value">Monday - Friday, ${formatClassSessionTime(rec.sessions[0])}</p>
+           <p class="cs-result-detail-value">${rec.sessions.map(session => `${formatDayName(session.day)}: ${escapeHtml(formatClassSessionTime(session))}`).join('<br>')}</p>
          </div>`
       : `<div class="cs-result-detail cs-result-detail-days">
            <p class="cs-result-detail-label">Pick a day to get started</p>
@@ -1387,7 +1405,7 @@
          </div>`;
 
     const ctaHtml = isPlayGym
-      ? `<a href="${rec.programPage}" class="cs-btn-primary">View PlayGym details</a>`
+      ? `<a href="${rec.programPage}" class="cs-btn-primary">View ${escapeHtml(rec.name)} details</a>`
       : selectedDay && url
       ? `<a href="${url}" class="cs-btn-primary" target="_blank" rel="noopener">View ${dayLabel} classes</a>`
       : `<a href="${url ?? rec.programPage}" class="cs-btn-secondary" target="_blank" rel="noopener">Browse all classes</a>`;
@@ -1404,13 +1422,13 @@
     const crossLinkHtml = rec.key === 'edu_adv'
       ? `<div class="cs-crosslink">
            <p class="cs-crosslink-title">Want to visit us first?</p>
-           <p class="cs-crosslink-copy">PlayGym is our casual drop-in session — no booking, no commitment. A relaxed way to get comfortable in the gym before starting weekly classes.</p>
-           <a href="/playgym" class="cs-crosslink-link">Learn about PlayGym →</a>
+           <p class="cs-crosslink-copy">${escapeHtml(programNames.playgym)} is our casual drop-in session for ages ${escapeHtml(playgym.age_range)}. ${escapeHtml(playgymSupervision)}. No booking required.</p>
+           <a href="/playgym" class="cs-crosslink-link">Learn about ${escapeHtml(programNames.playgym)} →</a>
          </div>`
       : rec.stream === 'PlayGym'
       ? `<div class="cs-crosslink">
            <p class="cs-crosslink-title">What comes next?</p>
-           <p class="cs-crosslink-copy">Our coached classes start at 3 years 6 months. When they get there, EduGym Adventurers is the natural next step — an independent weekly class with parents watching from the viewing area.</p>
+           <p class="cs-crosslink-copy">Our coached classes start at 3 years 6 months. When they get there, ${escapeHtml(levelName('edu_adv'))} is the natural next step — an independent weekly class with parents watching from the viewing area.</p>
            <a href="/preschool" class="cs-crosslink-link">Learn about preschool classes →</a>
          </div>`
       : '';
@@ -1421,12 +1439,12 @@
           <div class="${heroClass}">
             <div class="cs-result-topline">
               <p class="cs-result-eyebrow">${eyebrow}</p>
-              <span class="cs-program-chip">${rec.stream}</span>
+              <span class="cs-program-chip">${escapeHtml(rec.streamLabel)}</span>
             </div>
 
             ${isFirstVisit ? '<p class="cs-match-label">Your class is</p>' : ''}
-            <h2 class="cs-outcome-program">${rec.name}</h2>
-            <p class="cs-outcome-desc">${rec.summary}</p>
+            <h2 class="cs-outcome-program">${escapeHtml(rec.name)}</h2>
+            <p class="cs-outcome-desc">${escapeHtml(rec.summary)}</p>
           </div>
 
           <div class="cs-result-grid">
@@ -1437,7 +1455,7 @@
 
           <div class="cs-outcome-actions">
             ${ctaHtml}
-            ${isPlayGym ? '' : `<a href="${rec.programPage}" class="cs-btn-secondary">Learn more about ${rec.stream}</a>`}
+            ${isPlayGym ? '' : `<a href="${rec.programPage}" class="cs-btn-secondary">Learn more about ${escapeHtml(rec.streamLabel)}</a>`}
             <button class="cs-restart" type="button" id="cs-restart">Start again</button>
           </div>
 

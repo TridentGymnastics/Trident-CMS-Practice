@@ -65,8 +65,12 @@ export function formatClassSessionTime(classSession: ClassSession): string {
   return `${classSession.startTime} - ${classSession.endTime}`;
 }
 
+// Pages CMS removes optional list keys when the last session is deleted.
+// Keep every stable class identity, with no available sessions for omitted lists.
+const timetableKeys = ['edu_adv', 'edu_found', 'edu_1', 'edu_2', 'edu_3', 'edu_4', 'edu_5', 'urban_beg', 'urban_int', 'urban_adv'] as const;
+const timetableByClass = timetable as Partial<Record<typeof timetableKeys[number], ClassSession[]>>;
 export const CLASS_SELECTOR_SESSIONS = {
-  ...timetable as Record<keyof typeof timetable, ClassSession[]>,
+  ...Object.fromEntries(timetableKeys.map(key => [key, timetableByClass[key] ?? []])) as Record<typeof timetableKeys[number], ClassSession[]>,
   // One timetable drives the PlayGym page and the class finder.
   playgym: playgym.schedule.days.map(({ day, time }) => {
     const [startTime, endTime] = time.split(/\s*[–—-]\s*/);

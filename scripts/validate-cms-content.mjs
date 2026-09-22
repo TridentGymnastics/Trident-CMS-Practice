@@ -92,7 +92,7 @@ function checkSessions(sessions, where) {
 if (!errors.length) {
   const notice = readJSON('src/content/site-notice.json');
   if (!!notice.link_text !== !!notice.link_href) fail('Site-wide notice', 'supply both link text and link destination, or leave both blank');
-  const news = readJSON('src/content/announcements.json').items;
+  const news = readJSON('src/content/announcements.json').items ?? [];
   if (new Set(news.map(item => item.id)).size !== news.length) fail('News updates', 'reference names must be unique');
   for (const item of news) {
     const date = new Date(`${item.dateISO}T00:00:00Z`);

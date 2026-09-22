@@ -46,6 +46,8 @@ Sign in through the GitHub account that owns the practice repository when import
 
 ## Editor validation fixes
 
+See [CMS-TEST-REPORT.md](CMS-TEST-REPORT.md) for the final practice audit, the empty-field fixes, and the remaining hosted/account checks.
+
 Optional lists use required: false: in Pages CMS, required: true enforces at least one item even if list.min is zero. Photo crop positions use a select field with a centre default; the previous optional string pattern rejected the blank value that the CMS creates for omitted fields. Optional link patterns accept empty strings. Empty galleries and disabled videos are valid.
 
 The previous failures were reproduced against the public Pages CMS field/schema validation functions at source commit 6f4e860a35d934406580287e7042e5e111e207a1. All nine updated editor forms, including empty-gallery states, passed that check. This verifies the schema and field values; the final hosted save/deploy test is still performed in Pages CMS after pushing this update.

@@ -9,7 +9,7 @@ export interface Announcement {
 }
 
 // Pages CMS edits this JSON; resolve uploaded photos through Astro optimisation.
-export const announcements: Announcement[] = content.items.map(item => ({
+export const announcements: Announcement[] = (content.items ?? []).map(item => ({
   ...item,
   images: (item.images ?? []).map(image => ({ ...image, src: cmsImage(image.src) })),
 }));

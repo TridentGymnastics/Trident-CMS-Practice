@@ -19,17 +19,21 @@ export interface CmsMedia {
   columns?: number;
   maxWidth?: string;
   photos?: Array<{ src: string; alt: string; position?: string }>;
-  video?: { enabled?: boolean; src: string; poster: string; title: string; autoplay?: boolean };
+  video?: { enabled?: boolean; src?: string; poster?: string; title?: string; autoplay?: boolean };
 }
 
 export function resolveProgramMedia(media?: CmsMedia) {
   if (!media) return undefined;
+  const video = media.video;
+  const resolvedVideo = video?.enabled && video.src && video.poster && video.title
+    ? { ...video, src: video.src, poster: cmsImage(video.poster), title: video.title }
+    : undefined;
   return {
     ...media,
     heading: media.heading?.trim() || undefined,
     columns: media.columns ?? undefined,
     maxWidth: media.maxWidth || undefined,
     photos: (media.photos ?? []).map(photo => ({ ...photo, src: cmsImage(photo.src) })),
-    video: media.video?.enabled && media.video.src ? { ...media.video, poster: cmsImage(media.video.poster) } : undefined,
+    video: resolvedVideo,
   };
 }

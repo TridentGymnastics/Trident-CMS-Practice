@@ -15,7 +15,7 @@ const { band, affiliations } = Astro.props;
     <div class="affiliations-content">
       <h3>{affiliations.title}</h3>
       <div class="logos-grid">
-        {affiliations.logos.map((logo) => (
+        {(affiliations.logos ?? []).map((logo) => (
           logo.href ? (
             <a href={logo.href} target="_blank" rel="noopener noreferrer" class="logo-link">
               <img

@@ -4,7 +4,7 @@ const { policies } = Astro.props;
 
 <section class="policies-section">
   <div class="container">
-    {policies.guides && policies.guides.documents.length > 0 && (
+    {(policies.guides?.documents?.length ?? 0) > 0 && (
       <div id="iclasspro-guides" class="resource-group guide-group">
         <div class="section-heading">
           <p class="section-kicker">Parent Guides</p>

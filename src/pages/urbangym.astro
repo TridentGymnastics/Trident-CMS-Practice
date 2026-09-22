@@ -1,0 +1,41 @@
+---
+import ProgramPage from "../components/ProgramPage.astro";
+import foamPitRoll from "../assets/images/programs/urbangym/foam-pit-roll.jpg";
+import vaultBox from "../assets/images/programs/urbangym/vault-box.jpg";
+import videoPoster from "../assets/images/programs/urbangym/urbangym-video-poster.jpg";
+
+const title = "UrbanGym";
+const blurb = "Urban-inspired movement training that builds gymnastics fundamentals, safe flipping and tricking, plus vaults, swings and creative movement in a coached environment.";
+const bookingUrl = "https://portal.iclasspro.com/trident";
+const metaTitle = "UrbanGym Movement Classes Ringwood";
+const description = "UrbanGym at Trident Gymnastics Ringwood — gymnastics fundamentals, safe flipping and tricking, plus vaults, swings and creative movement, all coached.";
+const trialUrl = "https://portal.iclasspro.com/trident";
+// Parked — the grades each level maps to now sit on the cards above, so the
+// diagram only repeated them. Add `diagramImage={diagramImage}` back to restore.
+const diagramImage = "/Images/levels/urbangym-levels.svg";
+// The school grades each level maps to. This used to live only in the levels
+// diagram — putting it on the cards is what let the diagram go.
+const gradeTag = { tagBg: "#1573C2", tagColor: "#fff" };
+const levels = [
+  { name: "UrbanGym Beginner", tag: "Prep – Grade 1", ...gradeTag, description: "Build strong movement foundations through safe landings, hand support, basic vaults and swings, and core gymnastics-style movement." },
+  { name: "UrbanGym Intermediate", tag: "Grade 2 – 3", ...gradeTag, description: "Progress into controlled flipping and linking, with a focus on cleaner take-offs and landings, flowing movement sequences, and confidence across obstacles." },
+  { name: "UrbanGym Advanced", tag: "Grade 4+", ...gradeTag, description: "Develop advanced flipping, power and precision, combining complex movement patterns with creativity, control and style." }
+];
+
+const media = {
+  heading: "UrbanGym in Action",
+  subtitle: "Flipping, vaulting and creative movement in a coached environment",
+  video: {
+    src: "/videos/programs/urbangym.mp4",
+    poster: videoPoster,
+    title: "An UrbanGym session at Trident Gymnastics",
+    autoplay: true
+  },
+  photos: [
+    { src: foamPitRoll, alt: "A young athlete rolling out of a skill onto a landing mat beside the foam pit" },
+    { src: vaultBox, alt: "Athletes running and vaulting over a padded box onto a landing mat" }
+  ]
+};
+---
+
+<ProgramPage {title} {metaTitle} {description} {blurb} {levels} {bookingUrl} {trialUrl} {media} colorScheme="secondary" levelsSectionClass="urbangym-levels" />

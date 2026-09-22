@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page Not Found" description="The requested Trident Gymnastics page could not be found." noindex={true}>
+  <section class="not-found">
+    <div class="container">
+      <h1>Page not found</h1>
+      <p>The page may have moved. Head back to Trident Gymnastics or choose one of the main sections below.</p>
+      <div class="not-found-actions">
+        <a class="cta-trial" href="/">Home</a>
+        <a class="btn btn-secondary" href="/classes">Classes</a>
+        <a class="btn btn-secondary" href="/contact">Contact</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .not-found {
+    min-height: 55vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 5rem 0;
+    background: var(--light-bg);
+  }
+
+  .not-found p {
+    max-width: 640px;
+    margin: 0 auto 2rem;
+    color: var(--text-muted);
+    font-size: 1.08rem;
+  }
+
+  .not-found-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

@@ -1,0 +1,21 @@
+{
+  "title": "CONTACT",
+  "tagline": "Get in touch with us today!",
+  "phone_label": "Phone",
+  "phone": "0435 060 352",
+  "email_label": "Mail",
+  "email": "info@tridentgymnastics.com.au",
+  "location_label": "Location",
+  "address_lines": [
+    "4/8-10 Maroondah Highway",
+    "Ringwood 3134",
+    "VIC"
+  ],
+  "carpark_note": "Please note that entry off Maroondah Highway can be difficult. The carpark for Trident is ONLY accessible when travelling in a westerly direction (towards the city, away from Ringwood).",
+  "map_image": "/images/contact/find-us.png",
+  "social_title": "Follow us on social media",
+  "social": [
+    { "label": "Facebook", "href": "https://www.facebook.com/tridentgymnastics" },
+    { "label": "Instagram", "href": "https://www.instagram.com/tridentgymnastics" }
+  ]
+}

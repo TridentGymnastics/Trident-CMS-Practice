@@ -1,0 +1,544 @@
+export const ICLASSPRO_CLASSES_URL =
+  'https://portal.iclasspro.com/trident/classes';
+
+export const DAY_CODE_BY_NAME = {
+  sunday: 1,
+  monday: 2,
+  tuesday: 3,
+  wednesday: 4,
+  thursday: 5,
+  friday: 6,
+  saturday: 7,
+} as const;
+
+export type DayName = keyof typeof DAY_CODE_BY_NAME;
+export type ClassType = 'free-play' | 'parent-assisted' | 'independent' | 'structured' | 'energetic';
+
+export interface ClassSession {
+  day: DayName;
+  startTime: string;
+  endTime: string;
+  ageRange?: string;
+}
+
+export interface ClassSelectorOption {
+  key: string;
+  displayName: string;
+  levelId: number;
+  availableDays: DayName[];
+  sessions: ClassSession[];
+}
+
+export interface Recommendation {
+  key: string;
+  name: string;
+  stream: 'PlayGym' | 'EduGym' | 'UrbanGym';
+  levelId: number | null;
+  availableDays: DayName[];
+  sessions: ClassSession[];
+  programPage: string;
+  fallbackMode: 'portal' | 'contact-page';
+  summary: string;
+  url: string | null;
+}
+
+function session(day: DayName, startTime: string, endTime: string, ageRange?: string): ClassSession {
+  return { day, startTime, endTime, ageRange };
+}
+
+function getAvailableDays(sessions: ClassSession[]): DayName[] {
+  return Array.from(new Set(sessions.map((classSession) => classSession.day)));
+}
+
+function makeClassSelectorOption(
+  option: Omit<ClassSelectorOption, 'availableDays'>,
+): ClassSelectorOption {
+  return {
+    ...option,
+    availableDays: getAvailableDays(option.sessions),
+  };
+}
+
+export function formatClassSessionTime(classSession: ClassSession): string {
+  return `${classSession.startTime} - ${classSession.endTime}`;
+}
+
+export const CLASS_SELECTOR_SESSIONS = {
+  playgym: [
+    session('monday', '11:00am', '12:30pm'),
+    session('tuesday', '11:00am', '12:30pm'),
+    session('wednesday', '11:00am', '12:30pm'),
+    session('thursday', '11:00am', '12:30pm'),
+    session('friday', '11:00am', '12:30pm'),
+  ],
+  // Mirrors the 2026 EduGym Adventurers timetable in iClassPro. The Monday and
+  // Wednesday morning slots are the converted ex-2–4 morning classes.
+  edu_adv: [
+    session('monday', '10:00am', '11:00am', '3Y, 6M - 5Y, 6M'),
+    session('monday', '4:00pm', '5:00pm', '3Y, 6M - 5Y, 6M'),
+    session('wednesday', '10:00am', '11:00am', '3Y, 6M - 5Y, 6M'),
+    session('thursday', '10:00am', '11:00am', '3Y, 6M - 5Y, 6M'),
+    session('thursday', '4:00pm', '5:00pm', '3Y, 6M - 5Y, 6M'),
+    session('friday', '10:00am', '11:00am', '3Y, 6M - 5Y, 6M'),
+    session('saturday', '8:30am', '9:30am', '3Y, 6M - 5Y, 6M'),
+    session('saturday', '9:30am', '10:30am', '3Y, 6M - 5Y, 6M'),
+  ],
+  edu_found: [
+    session('monday', '4:00pm', '5:00pm', '4Y, 11M - 7Y, 0M'),
+    session('tuesday', '4:00pm', '5:00pm', '5Y, 0M - 7Y, 0M'),
+    session('wednesday', '4:00pm', '5:00pm', '5Y, 0M - 7Y, 0M'),
+    session('thursday', '4:00pm', '5:00pm', '5Y, 0M - 7Y, 0M'),
+    session('saturday', '9:30am', '10:30am', '4Y, 11M - 7Y, 0M'),
+  ],
+  edu_1: [
+    session('monday', '4:00pm', '5:00pm', '5Y, 10M - 7Y, 0M'),
+    session('tuesday', '4:00pm', '5:00pm', '5Y, 10M - 7Y, 0M'),
+    session('wednesday', '4:00pm', '5:00pm', '5Y, 10M - 7Y, 0M'),
+    session('thursday', '4:00pm', '5:00pm', '5Y, 10M - 7Y, 0M'),
+    session('friday', '4:00pm', '5:00pm', '5Y, 10M - 7Y, 0M'),
+    session('saturday', '9:30am', '10:30am', '5Y, 10M - 7Y, 0M'),
+    session('saturday', '10:30am', '11:30am', '5Y, 10M - 7Y, 0M'),
+  ],
+  edu_2: [
+    session('monday', '5:00pm', '6:00pm', '6Y, 0M - 8Y, 0M'),
+    session('tuesday', '4:00pm', '5:00pm', '6Y - 8Y'),
+    session('wednesday', '4:00pm', '5:00pm', '6Y - 8Y'),
+    session('wednesday', '5:00pm', '6:00pm', '6Y - 8Y'),
+    session('thursday', '5:00pm', '6:00pm', '6Y - 8Y'),
+    session('friday', '5:00pm', '6:00pm', '6Y, 0M - 8Y, 0M'),
+    session('saturday', '9:30am', '10:30am', '6Y - 8Y'),
+    session('saturday', '10:30am', '11:30am', '6Y - 8Y'),
+  ],
+  edu_3: [
+    session('monday', '5:00pm', '6:00pm', '7Y, 0M - 9Y, 0M'),
+    session('tuesday', '5:00pm', '6:00pm', '7Y - 9Y'),
+    session('wednesday', '5:00pm', '6:00pm', '7Y - 9Y'),
+    session('thursday', '5:00pm', '6:00pm', '7Y - 9Y'),
+    session('friday', '5:00pm', '6:00pm', '7Y, 0M - 9Y, 0M'),
+    session('saturday', '10:30am', '11:30am', '7Y - 9Y'),
+  ],
+  edu_4: [
+    session('monday', '5:00pm', '6:30pm', '8Y, 0M - 10Y, 0M'),
+    session('tuesday', '6:00pm', '7:30pm', '8Y - 11Y'),
+    session('wednesday', '6:00pm', '7:30pm', '8Y - 10Y'),
+    session('thursday', '6:00pm', '7:30pm', '8Y - 10Y'),
+    session('friday', '6:00pm', '7:30pm', '8Y, 0M - 10Y, 0M'),
+    session('saturday', '11:30am', '1:00pm', '8Y - 10Y'),
+  ],
+  edu_5: [
+    session('wednesday', '6:00pm', '7:30pm', '9Y, 6M - 14Y, 0M'),
+    session('thursday', '6:00pm', '7:30pm', '9Y, 6M - 14Y'),
+    session('friday', '6:00pm', '7:30pm', '9Y, 6M - 14Y, 0M'),
+    session('saturday', '11:30am', '1:00pm', '9Y, 6M - 14Y'),
+  ],
+  urban_beg: [
+    session('monday', '4:00pm', '5:00pm', '5Y, 0M - 6Y, 9M'),
+    session('wednesday', '4:00pm', '5:00pm', '5Y, 0M - 8Y, 11M'),
+    session('saturday', '9:30am', '10:30am', '5Y - 8Y'),
+  ],
+  urban_int: [
+    session('monday', '5:00pm', '6:00pm', '6Y - 9Y'),
+    session('wednesday', '5:00pm', '6:00pm', '6Y - 9Y'),
+    session('saturday', '10:30am', '11:30am', '6Y, 6M - 8Y, 6M'),
+  ],
+  urban_adv: [
+    session('monday', '6:00pm', '7:30pm', '8Y, 0M - 99Y, 0M'),
+    session('wednesday', '6:00pm', '7:30pm', '8Y - 99Y'),
+    session('saturday', '11:30am', '1:00pm', '8Y - 99Y'),
+  ],
+} satisfies Record<string, ClassSession[]>;
+
+export const CLASS_SELECTOR_OPTIONS: ClassSelectorOption[] = [
+  makeClassSelectorOption({
+    key: 'edu_adv',
+    displayName: 'EduGym Adventurers',
+    levelId: 9,
+    sessions: CLASS_SELECTOR_SESSIONS.edu_adv,
+  }),
+  makeClassSelectorOption({
+    key: 'edu_found',
+    displayName: 'EduGym Foundation',
+    levelId: 39,
+    sessions: CLASS_SELECTOR_SESSIONS.edu_found,
+  }),
+  makeClassSelectorOption({
+    key: 'edu_1',
+    displayName: 'EduGym Level 1',
+    levelId: 10,
+    sessions: CLASS_SELECTOR_SESSIONS.edu_1,
+  }),
+  makeClassSelectorOption({
+    key: 'edu_2',
+    displayName: 'EduGym Level 2',
+    levelId: 11,
+    sessions: CLASS_SELECTOR_SESSIONS.edu_2,
+  }),
+  makeClassSelectorOption({
+    key: 'edu_3',
+    displayName: 'EduGym Level 3',
+    levelId: 12,
+    sessions: CLASS_SELECTOR_SESSIONS.edu_3,
+  }),
+  makeClassSelectorOption({
+    key: 'edu_4',
+    displayName: 'EduGym Level 4',
+    levelId: 13,
+    sessions: CLASS_SELECTOR_SESSIONS.edu_4,
+  }),
+  makeClassSelectorOption({
+    key: 'edu_5',
+    displayName: 'EduGym Level 5+',
+    levelId: 36,
+    sessions: CLASS_SELECTOR_SESSIONS.edu_5,
+  }),
+  makeClassSelectorOption({
+    key: 'urban_beg',
+    displayName: 'UrbanGym Beginner',
+    levelId: 19,
+    sessions: CLASS_SELECTOR_SESSIONS.urban_beg,
+  }),
+  makeClassSelectorOption({
+    key: 'urban_int',
+    displayName: 'UrbanGym Intermediate',
+    levelId: 20,
+    sessions: CLASS_SELECTOR_SESSIONS.urban_int,
+  }),
+  makeClassSelectorOption({
+    key: 'urban_adv',
+    displayName: 'UrbanGym Advanced',
+    levelId: 21,
+    sessions: CLASS_SELECTOR_SESSIONS.urban_adv,
+  }),
+];
+
+export const CLASS_SELECTOR_OPTIONS_BY_KEY: Record<string, ClassSelectorOption> =
+  Object.fromEntries(
+    CLASS_SELECTOR_OPTIONS.map((option) => [option.key, option]),
+  );
+
+export function normalizeDayName(dayName: string): DayName | null {
+  const normalizedDayName = dayName.trim().toLowerCase();
+  if (!(normalizedDayName in DAY_CODE_BY_NAME)) {
+    return null;
+  }
+
+  return normalizedDayName as DayName;
+}
+
+export function formatDayName(dayName: string): string {
+  const normalizedDayName = normalizeDayName(dayName);
+  if (!normalizedDayName) {
+    return dayName;
+  }
+
+  return normalizedDayName.charAt(0).toUpperCase() + normalizedDayName.slice(1);
+}
+
+export function getClassSelectorOption(classKey: string): ClassSelectorOption | null {
+  return CLASS_SELECTOR_OPTIONS_BY_KEY[classKey] ?? null;
+}
+
+export function getClassSessions(classKey: string, dayName?: string): ClassSession[] {
+  const classOption = getClassSelectorOption(classKey);
+  if (!classOption) {
+    return [];
+  }
+
+  if (!dayName) {
+    return classOption.sessions;
+  }
+
+  const normalizedDayName = normalizeDayName(dayName);
+  if (!normalizedDayName) {
+    return [];
+  }
+
+  return classOption.sessions.filter((classSession) => classSession.day === normalizedDayName);
+}
+
+export function isClassDayAvailable(classKey: string, dayName: string): boolean {
+  const classOption = getClassSelectorOption(classKey);
+  const normalizedDayName = normalizeDayName(dayName);
+
+  if (!classOption || !normalizedDayName) {
+    return false;
+  }
+
+  return classOption.availableDays.includes(normalizedDayName);
+}
+
+export function buildIClassProUrl(levelId: number, dayName: string): string | null {
+  const normalizedDayName = normalizeDayName(dayName);
+  if (!normalizedDayName) {
+    return null;
+  }
+
+  const dayCode = DAY_CODE_BY_NAME[normalizedDayName];
+  return `${ICLASSPRO_CLASSES_URL}?levels=${levelId}&days=${dayCode}`;
+}
+
+export function buildClassSelectorUrl(classKey: string, dayName: string): string | null {
+  const classOption = getClassSelectorOption(classKey);
+  if (!classOption || !isClassDayAvailable(classKey, dayName)) {
+    return null;
+  }
+
+  return buildIClassProUrl(classOption.levelId, dayName);
+}
+
+// ─── Recommendation engine ────────────────────────────────────────────────────
+
+type ClassBase = Omit<Recommendation, 'url'>;
+
+/** Parses an iClassPro age string — "5Y, 10M - 7Y, 0M" or "6Y - 8Y" — into years. */
+function parseAgeBand(ageRange: string): { max: number; min: number } | null {
+  const sides = ageRange.split('-').map((side) => side.trim());
+  if (sides.length !== 2) {
+    return null;
+  }
+
+  const toYears = (side: string): number | null => {
+    const parsed = side.match(/^(\d+)Y(?:,\s*(\d+)M)?$/);
+    return parsed ? Number(parsed[1]) + Number(parsed[2] ?? 0) / 12 : null;
+  };
+
+  const min = toYears(sides[0]);
+  const max = toYears(sides[1]);
+  return min === null || max === null ? null : { max, min };
+}
+
+/**
+ * Drops any session that cannot admit every child the bucket covers.
+ *
+ * The wizard knows the age bucket a parent picked, not the child's exact age, so a
+ * day is only safe to offer if its class accepts the whole span. Sibling classes do
+ * not always share a band — UrbanGym Beginner runs 5y–6y9m on Monday but 5y–8y11m
+ * on Wednesday — and offering the narrow one would tell a 6y10m family "this is your
+ * class, Monday", then show them nothing in the portal. Hiding a day costs a little
+ * choice; the alternative breaks the tool's whole promise.
+ *
+ * This is data-driven: widen a band in iClassPro, update the sessions above, and the
+ * day returns on its own.
+ */
+function restrictToAgeSpan(base: ClassBase, ageSpan?: { max: number; min: number }): ClassBase {
+  if (!ageSpan) {
+    return base;
+  }
+
+  const sessions = base.sessions.filter((classSession) => {
+    if (!classSession.ageRange) {
+      return true;
+    }
+
+    const band = parseAgeBand(classSession.ageRange);
+    return band ? ageSpan.min >= band.min && ageSpan.max <= band.max : true;
+  });
+
+  // Never strand the family with no days at all — an imperfect list beats none.
+  if (sessions.length === 0) {
+    return base;
+  }
+
+  return { ...base, availableDays: getAvailableDays(sessions), sessions };
+}
+
+function addUrl(base: ClassBase, selectedDay?: DayName): Recommendation {
+  let url: string | null = null;
+  if (base.levelId !== null) {
+    if (selectedDay) {
+      url = buildIClassProUrl(base.levelId, selectedDay) ?? `${ICLASSPRO_CLASSES_URL}?levels=${base.levelId}`;
+    } else {
+      url = `${ICLASSPRO_CLASSES_URL}?levels=${base.levelId}`;
+    }
+  }
+  return { ...base, url };
+}
+
+const PLAYGYM: ClassBase = {
+  key: 'playgym',
+  name: 'PlayGym',
+  stream: 'PlayGym',
+  levelId: null,
+  availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.playgym),
+  sessions: CLASS_SELECTOR_SESSIONS.playgym,
+  programPage: '/playgym',
+  fallbackMode: 'contact-page',
+  summary: 'A casual, parent-supervised drop-in session with no booking needed. Just arrive, sign in, and play. Great as a first introduction to the gym before committing to a weekly class.',
+};
+
+const EDUGYM_ADV: ClassBase = {
+  key: 'edu_adv',
+  name: 'EduGym Adventurers',
+  stream: 'EduGym',
+  levelId: 9,
+  availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_adv),
+  sessions: CLASS_SELECTOR_SESSIONS.edu_adv,
+  programPage: '/preschool',
+  fallbackMode: 'portal',
+  summary: 'An independent class for children ready to join the floor on their own. Parents watch from the viewing area while coaches guide your child through gymnastics shapes, listening skills, and movement foundations.',
+};
+
+const EDUGYM_FOUND: ClassBase = {
+  key: 'edu_found',
+  name: 'EduGym Foundation',
+  stream: 'EduGym',
+  levelId: 39,
+  availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_found),
+  sessions: CLASS_SELECTOR_SESSIONS.edu_found,
+  programPage: '/edugym',
+  fallbackMode: 'portal',
+  summary: 'The Prep-year class, and the step up from Adventurers. It builds confidence, listening skills, and the first EduGym movement progressions of core shapes, rolls and safe landings.',
+};
+
+const EDUGYM_1: ClassBase = {
+  key: 'edu_1',
+  name: 'EduGym Level 1',
+  stream: 'EduGym',
+  levelId: 10,
+  availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_1),
+  sessions: CLASS_SELECTOR_SESSIONS.edu_1,
+  programPage: '/edugym',
+  fallbackMode: 'portal',
+  summary: 'A structured weekly class building clear progressions across floor, beam, bars, and basic apparatus skills. Coaches guide each child through the EduGym pathway at a steady, supportive pace.',
+};
+
+const EDUGYM_2: ClassBase = {
+  key: 'edu_2',
+  name: 'EduGym Level 2',
+  stream: 'EduGym',
+  levelId: 11,
+  availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_2),
+  sessions: CLASS_SELECTOR_SESSIONS.edu_2,
+  programPage: '/edugym',
+  fallbackMode: 'portal',
+  summary: 'Cleaner technique, stronger basics, and more confident movement combinations across the main apparatus. A great step up for gymnasts who have solid foundations.',
+};
+
+const EDUGYM_3: ClassBase = {
+  key: 'edu_3',
+  name: 'EduGym Level 3',
+  stream: 'EduGym',
+  levelId: 12,
+  availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_3),
+  sessions: CLASS_SELECTOR_SESSIONS.edu_3,
+  programPage: '/edugym',
+  fallbackMode: 'portal',
+  summary: 'Stronger combinations, steadier technique, and more confident apparatus work. Gymnasts at this level are developing real fluency across the program.',
+};
+
+const EDUGYM_4: ClassBase = {
+  key: 'edu_4',
+  name: 'EduGym Level 4',
+  stream: 'EduGym',
+  levelId: 13,
+  availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_4),
+  sessions: CLASS_SELECTOR_SESSIONS.edu_4,
+  programPage: '/edugym',
+  fallbackMode: 'portal',
+  summary: 'Advanced skills, longer sessions, and greater technical detail. Designed for dedicated gymnasts moving into more demanding combinations and refined execution.',
+};
+
+const EDUGYM_5: ClassBase = {
+  key: 'edu_5',
+  name: 'EduGym Level 5+',
+  stream: 'EduGym',
+  levelId: 36,
+  availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.edu_5),
+  sessions: CLASS_SELECTOR_SESSIONS.edu_5,
+  programPage: '/edugym',
+  fallbackMode: 'portal',
+  summary: 'Advanced progressions, longer training blocks, and high-level skill refinement. The top tier of the EduGym pathway for experienced gymnasts.',
+};
+
+const URBAN_BEG: ClassBase = {
+  key: 'urban_beg',
+  name: 'UrbanGym Beginner',
+  stream: 'UrbanGym',
+  levelId: 19,
+  availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.urban_beg),
+  sessions: CLASS_SELECTOR_SESSIONS.urban_beg,
+  programPage: '/urbangym',
+  fallbackMode: 'portal',
+  summary: 'An energetic introduction to urban movement: safe landings, basic vaulting patterns, and controlled swings. Perfect for children who love to jump, climb, and move freely.',
+};
+
+const URBAN_INT: ClassBase = {
+  key: 'urban_int',
+  name: 'UrbanGym Intermediate',
+  stream: 'UrbanGym',
+  levelId: 20,
+  availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.urban_int),
+  sessions: CLASS_SELECTOR_SESSIONS.urban_int,
+  programPage: '/urbangym',
+  fallbackMode: 'portal',
+  summary: 'More linked movement, cleaner take-offs, and growing confidence in an urban-style format. For children with some experience who want to push their movement further.',
+};
+
+const URBAN_ADV: ClassBase = {
+  key: 'urban_adv',
+  name: 'UrbanGym Advanced',
+  stream: 'UrbanGym',
+  levelId: 21,
+  availableDays: getAvailableDays(CLASS_SELECTOR_SESSIONS.urban_adv),
+  sessions: CLASS_SELECTOR_SESSIONS.urban_adv,
+  programPage: '/urbangym',
+  fallbackMode: 'portal',
+  summary: 'Stronger power, cleaner lines, and advanced urban combinations. The top tier of UrbanGym, for older or more capable movers ready for a real challenge.',
+};
+
+/**
+ * Picks the class for a family, and the days they can actually book it.
+ *
+ * `ageSpan` is the full range of ages the chosen bucket covers. Pass it wherever it
+ * is known: it filters out days whose class would reject part of that range, so the
+ * wizard never recommends a class the portal then refuses to show.
+ */
+export function getClassRecommendation(
+  ageYears: number,
+  classType: ClassType,
+  selectedDay?: DayName,
+  ageSpan?: { max: number; min: number },
+): Recommendation {
+  const recommend = (base: ClassBase) => addUrl(restrictToAgeSpan(base, ageSpan), selectedDay);
+
+  // Adventurers takes children from 3y6m, so coached classes start at 3½ — below
+  // that, PlayGym is the only option regardless of what the family asks for.
+  if (ageYears < 3.5) {
+    return addUrl(PLAYGYM, selectedDay);
+  }
+  // Kinder — not at school yet.
+  if (ageYears < 5.5) {
+    if (classType === 'free-play' || classType === 'parent-assisted') {
+      return addUrl(PLAYGYM, selectedDay);
+    }
+    return recommend(EDUGYM_ADV);
+  }
+  // Prep. Deliberately keyed off a Prep-specific bucket rather than age, because a
+  // 5-year-old may be in kinder or in Prep (Victoria's cutoff is "turns 5 by 30
+  // April") and those are different classes. This is the ONLY place the school year
+  // is needed — every band below is age-based, which is what iClassPro enforces at
+  // registration, so an age-driven recommendation is always one the family can
+  // actually enrol in. Mapping the wider year level onto these narrower bands would
+  // send half of each cohort to a class that rejects them.
+  if (ageYears < 6) {
+    return classType === 'energetic' ? recommend(URBAN_BEG) : recommend(EDUGYM_FOUND);
+  }
+  // Age 6 — Grade 1
+  if (ageYears < 7) {
+    return classType === 'energetic' ? recommend(URBAN_BEG) : recommend(EDUGYM_1);
+  }
+  // Age 7 — Grade 2
+  if (ageYears < 8) {
+    return classType === 'energetic' ? recommend(URBAN_INT) : recommend(EDUGYM_2);
+  }
+  // Age 8 — Grade 3
+  if (ageYears < 9) {
+    return classType === 'energetic' ? recommend(URBAN_ADV) : recommend(EDUGYM_3);
+  }
+  // Age 9 — Grade 4
+  if (ageYears < 9.5) {
+    return classType === 'energetic' ? recommend(URBAN_ADV) : recommend(EDUGYM_4);
+  }
+  // Age 10+ — Grade 5 and above
+  return classType === 'energetic' ? recommend(URBAN_ADV) : recommend(EDUGYM_5);
+}

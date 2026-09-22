@@ -1,0 +1,410 @@
+---
+export interface Props {
+  title: string;
+  subtitle?: string;
+  eyebrow?: string;
+  note?: string;
+  /** Makes the note a link. Use whenever the note points somewhere — text that says
+   *  "see our X" with nothing to click is a dead end. */
+  noteHref?: string;
+  /** Link label shown after the note text. Required alongside noteHref. */
+  noteCta?: string;
+  primaryCta?: string;
+  primaryCtaHref?: string;
+  secondaryCta?: string;
+  secondaryCtaHref?: string;
+  colorScheme?: 'primary' | 'secondary' | 'accent' | 'primary-secondary' | 'primary-accent' | 'secondary-accent';
+}
+
+const { title, subtitle, eyebrow, note, noteHref, noteCta, primaryCta, primaryCtaHref, secondaryCta, secondaryCtaHref = "/contact", colorScheme = 'primary-secondary' } = Astro.props;
+---
+
+<section class={`universal-hero hero-${colorScheme}`}>
+  <div class="container">
+    {eyebrow && <p class="hero-eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {subtitle && <p class="hero-subtitle">{subtitle}</p>}
+    {note && (
+      <p class="hero-note">
+        <span class="hero-note-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z" />
+          </svg>
+        </span>
+        <span class="hero-note-text">
+          {note}
+          {noteHref && noteCta && (
+            <a class="hero-note-link" href={noteHref}>
+              {noteCta}
+              <svg class="hero-note-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M13 5l7 7-7 7M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </a>
+          )}
+        </span>
+      </p>
+    )}
+    {(primaryCta || secondaryCta) && (
+      <div class="hero-cta-buttons">
+        {primaryCta && (
+          primaryCtaHref ?
+            <a href={primaryCtaHref} class="btn btn-primary" target="_blank" rel="noopener">{primaryCta}</a> :
+            <span class="primary-cta">{primaryCta}</span>
+        )}
+        {secondaryCta && (
+          secondaryCta.toLowerCase().includes('free trial') || secondaryCta.toLowerCase().includes('book a trial') ?
+            <a href={secondaryCtaHref} class="cta-trial cta-trial--lg" target="_blank" rel="noopener" aria-label="Book a free trial">
+              <span class="cta-label">{secondaryCta}</span>
+              <svg class="cta-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M13 5l7 7-7 7M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </a> :
+            <a href={secondaryCtaHref} class="btn btn-secondary" target="_blank" rel="noopener">{secondaryCta}</a>
+        )}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  /* The site header is position:fixed and body carries a matching padding-top, so
+     the hero begins immediately beneath the nav with nothing between them. Without
+     padding of its own the heading crowds the nav bar, so the top value is the
+     larger of the pair — it sets the hero content down clear of the header rather
+     than just growing the section. */
+  .universal-hero {
+    color: white;
+    min-height: 50vh;
+    padding: 64px 0 48px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Primary (#67a0d7) to Secondary (#151957) - Default */
+  .hero-primary-secondary {
+    background: linear-gradient(135deg, #67a0d7 0%, #151957 100%);
+  }
+
+  /* Primary (#67a0d7) to Accent (#ffe037) */
+  .hero-primary-accent {
+    background: linear-gradient(135deg, #67a0d7 0%, #ffe037 100%);
+    color: #151957; /* Dark text for better contrast on yellow */
+  }
+
+  /* Secondary (#151957) to Primary (#67a0d7) */
+  .hero-secondary-primary {
+    background: linear-gradient(135deg, #151957 0%, #67a0d7 100%);
+  }
+
+  /* Secondary (#151957) to Accent (#ffe037) */
+  .hero-secondary-accent {
+    background: linear-gradient(135deg, #151957 0%, #ffe037 100%);
+  }
+
+  /* Accent (#ffe037) to Primary (#67a0d7) */
+  .hero-accent-primary {
+    background: linear-gradient(135deg, #ffe037 0%, #67a0d7 100%);
+    color: #151957; /* Dark text for better contrast */
+  }
+
+  /* Single color schemes */
+  .hero-primary {
+    background: linear-gradient(135deg, #67a0d7 0%, #5a8cc7 100%);
+  }
+
+  .hero-secondary {
+    background: linear-gradient(135deg, #151957 0%, #1f2968 100%);
+  }
+
+  .hero-accent {
+    background: linear-gradient(135deg, #ffe037 0%, #f0d030 100%);
+    color: #151957; /* Dark text for better contrast on yellow */
+  }
+
+  .universal-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    color: white;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    background: var(--accent-yellow, #ffe037);
+    color: var(--dark-navy, #151957);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+  }
+
+  /* Dark text on yellow backgrounds for better contrast */
+  .hero-primary-accent h1,
+  .hero-accent-primary h1,
+  .hero-accent h1 {
+    color: var(--dark-navy);
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+    color: white;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Dark text on yellow backgrounds for better contrast */
+  .hero-primary-accent .hero-subtitle,
+  .hero-accent-primary .hero-subtitle,
+  .hero-accent .hero-subtitle {
+    color: var(--dark-navy);
+  }
+
+  /* inline-flex so the note hugs its text and is centred by the hero's own
+     text-align, while the text inside stays left-aligned — a centred two-line
+     paragraph was the main reason this read as an untidy blob. */
+  .hero-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 46rem;
+    margin: -0.5rem auto 2rem;
+    padding: 14px 22px;
+    /* The card radius, not a pill. 999px only ever looks deliberate on a single
+       line; the moment the text wraps it turns into a lozenge. */
+    border-radius: var(--radius, 20px);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.94);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-align: left;
+  }
+
+  .hero-note-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  .hero-note-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  /* nowrap keeps the label and its arrow together, so a long note can never leave
+     the arrow stranded on a line of its own. Only the link is underlined — running
+     a rule under the whole three-line note read as heavy and hid where to click. */
+  .hero-note-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 6px;
+    color: inherit;
+    font-weight: 700;
+    white-space: nowrap;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .hero-note-arrow {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.18s ease;
+  }
+
+  .hero-note-link:hover .hero-note-arrow {
+    transform: translateX(2px);
+  }
+
+  .hero-note-link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-note-arrow {
+      transition: none;
+    }
+
+    .hero-note-link:hover .hero-note-arrow {
+      transform: none;
+    }
+  }
+
+  .hero-primary-accent .hero-eyebrow,
+  .hero-accent-primary .hero-eyebrow,
+  .hero-accent .hero-eyebrow {
+    background: var(--dark-navy);
+    color: white;
+  }
+
+  /* Solid white rather than an 8% navy tint — on yellow that tint washed out to a
+     muddy mustard barely distinct from the hero behind it. */
+  .hero-primary-accent .hero-note,
+  .hero-accent-primary .hero-note,
+  .hero-accent .hero-note {
+    background: #fff;
+    border-color: transparent;
+    color: var(--dark-navy);
+    box-shadow: 0 6px 20px rgba(21, 25, 87, 0.16);
+  }
+
+  /* On white, the translucent-white badge would vanish — tint it with the brand
+     blue instead so the icon keeps its contrast. */
+  .hero-primary-accent .hero-note-icon,
+  .hero-accent-primary .hero-note-icon,
+  .hero-accent .hero-note-icon {
+    background: rgba(21, 115, 194, 0.12);
+    color: var(--primary-blue, #1573c2);
+  }
+
+  .hero-cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .primary-cta {
+    font-size: 1.125rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-primary {
+    background: rgba(255, 255, 255, 0.9);
+    color: #151957;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-primary:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* Button styles for different color schemes */
+  .hero-primary-accent .btn-primary,
+  .hero-accent-primary .btn-primary,
+  .hero-accent .btn-primary {
+    background: rgba(21, 25, 87, 0.9);
+    color: white;
+  }
+
+  .hero-primary-accent .btn-primary:hover,
+  .hero-accent-primary .btn-primary:hover,
+  .hero-accent .btn-primary:hover {
+    background: rgba(21, 25, 87, 1);
+  }
+
+  .hero-primary-accent .btn-secondary,
+  .hero-accent-primary .btn-secondary,
+  .hero-accent .btn-secondary {
+    background: var(--dark-navy);
+    border: 2px solid var(--dark-navy);
+    color: var(--white);
+  }
+
+  .hero-primary-accent .btn-secondary:hover,
+  .hero-accent-primary .btn-secondary:hover,
+  .hero-accent .btn-secondary:hover {
+    background: rgba(21, 25, 87, 0.9);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    /* Smaller than desktop — the mobile header is ~100px rather than 250px, and
+       vertical space is scarcer. Still up from the previous 2rem so the heading
+       clears the nav. */
+    .universal-hero {
+      min-height: 50vh;
+      padding: 40px 0 32px;
+    }
+
+    .universal-hero h1 {
+      font-size: 2rem;
+    }
+
+    .hero-eyebrow {
+      width: 100%;
+    }
+
+    .hero-subtitle {
+      font-size: 1.125rem;
+    }
+
+    /* Radius no longer needs overriding here — the base rule is already the card
+       radius rather than a pill. */
+    .hero-note {
+      width: 100%;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px 16px;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      box-sizing: border-box;
+    }
+
+    .hero-note-icon {
+      width: 30px;
+      height: 30px;
+    }
+
+    .hero-note-icon svg {
+      width: 17px;
+      height: 17px;
+    }
+
+
+    .hero-cta-buttons {
+      flex-direction: column;
+      padding-bottom: 2rem;
+    }
+
+    .btn,
+    .primary-cta {
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      padding-top: 1.1rem;
+      padding-bottom: 1.1rem;
+    }
+  }
+</style>

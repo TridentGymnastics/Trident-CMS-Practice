@@ -1,0 +1,110 @@
+{
+  "hero": {
+    "title": "Meet the Owners and Directors",
+    "intro": "Meet husband and wife duo Tim Lees and Alyona Kvasha OLY – owners and directors of Trident Gymnastics!"
+  },
+  "bios": [
+    {
+      "name": "Alyona Kvasha OLY",
+      "body": [
+        "Alyona is a dual Ukrainian Olympian and European champion in Women's Artistic Gymnastics (WAG). Having represented Ukraine at the Games of the XXVII Olympiad - Sydney 2000 and Games of the XXVIII Olympiad, Athens 2004, Alyona is a three-time Olympic finalist, assisting her team to a 4th place finish and individual 6th place ranking on Vault in Athens.",
+        "Since retiring from the sport in 2008, Alyona has transitioned into coaching and moved to Australia. With over 15 years coaching experience both in Australia and Ukraine, she is now a part time coach and proud full-time mum to three gorgeous boys."
+      ],
+      "image": "/Images/About/compressed-alyona.webp"
+    },
+    {
+      "name": "Tim Lees",
+      "body": [
+        "Tim is a former athlete scholarship holder at the Australian Institute of Sport and three-time Commonwealth Games medallist for Australia in Men's Artistic Gymnastics (MAG). Tim's lengthy career representing Australia took him across the world, competing in three World Championships and medalling at multiple international events.",
+        "With over 30 years coaching experience in MAG and WAG, Tim is recognised by the Federation International de Gymnastique (world governing body) as an expert status coach in both disciplines. Tim is also part of an exclusive group of coaches around the world who hold an FIG III coaching qualification in multiple gymnastics disciplines."
+      ],
+      "image": "/Images/About/compressed-tim.webp"
+    }
+  ],
+  "closing": [
+    "Having had successful careers as athletes and coaches, Alyona and Tim are excited to embrace the next part of their gymnastics journey as club owners. Having curated an understanding of the best in Australian and European gymnastics curriculums, they have carefully designed a bespoke learning system to suit all abilities.",
+    "Their three training pillars; strength, coordination and flexibility, allow participants to achieve and develop in both a gymnastic and holistic sense. With fond memories of growing up in the gym and the life skills they developed there, Tim and Alyona are eager to share the best sport in the world with the next generation, starting with their energetic young family.",
+    "Alyona and Tim look forward to welcoming you through the doors of Trident Gymnastics soon!"
+  ],
+  "band": {
+    "line1": "EMPOWER",
+    "line2": "MOVEMENT",
+    "with": "with"
+  },
+  "affiliations": {
+    "title": "Our Affiliations",
+    "logos": [
+      {
+        "alt": "Gymnastics Victoria logo",
+        "src": "/Images/About/compressed-gv_Logo.webp",
+        "href": "https://vic.gymnastics.org.au/"
+      },
+      {
+        "alt": "Gymnastics Australia logo",
+        "src": "/Images/About/compressed-ga-logo.webp",
+        "href": "https://www.gymnastics.org.au/"
+      }
+    ]
+  },
+  "policies": {
+    "title": "POLICIES & PARENT GUIDES",
+    "intro": "Find helpful parent guides for the IClassPro app, plus our current policies, terms, and operating guidelines.",
+    "documents": [
+      {
+        "title": "2026 Tuition & Payment Policy",
+        "href": "/policies/trident-tuition-and-payment-policy-2026-updated.pdf",
+        "description": "Our tuition rates, payment terms, and membership conditions. Valid as of 1 July 2026."
+      },
+      {
+        "title": "Member Protection Policy",
+        "href": "/policies/member-protection-policy.pdf",
+        "description": "Our commitment to providing a safe environment for all members, including child protection protocols."
+      },
+      {
+        "title": "Media Policy",
+        "href": "/policies/media-policy.pdf",
+        "description": "Guidelines for photography, video recording, and social media use within our facility."
+      },
+      {
+        "title": "Privacy Policy",
+        "href": "/policies/privacy-policy-trident.pdf",
+        "description": "How we collect, use, and protect your personal information in compliance with privacy laws."
+      }
+    ],
+    "guides": {
+      "title": "IClassPro App Guides",
+      "intro": "Step-by-step PDF guides for common parent portal tasks.",
+      "documents": [
+        {
+          "title": "Book a Make Up",
+          "href": "/guides/book-a-make-up-in-the-iclasspro-app.pdf",
+          "description": "How to book an available make up class through the IClassPro app."
+        },
+        {
+          "title": "Make a Payment",
+          "href": "/guides/make-a-payment-in-the-iclasspro-app.pdf",
+          "description": "How to review your account and make a payment in the IClassPro app."
+        },
+        {
+          "title": "Mark an Absence",
+          "href": "/guides/mark-an-absence-in-the-iclasspro-app.pdf",
+          "description": "How to let us know when your child will be away from class."
+        }
+      ]
+    },
+    "legacy": [
+      {
+        "title": "2026 Tuition & Payment Policy (January 2026)",
+        "href": "/policies/trident-tuition-and-payment-policy-2026.pdf"
+      },
+      {
+        "title": "2025 Tuition & Payment Policy",
+        "href": "/policies/trident-tuition-and-payment-policy.pdf"
+      },
+      {
+        "title": "2024 Tuition & Payment Policy",
+        "href": "/policies/trident-tuition-and-payment-policy.pdf"
+      }
+    ]
+  }
+}

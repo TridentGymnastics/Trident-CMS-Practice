@@ -1,0 +1,15 @@
+---
+import ProgramPage from "../components/ProgramPage.astro";
+
+const title = "AGC";
+const blurb = "Australian Gymnastics Club competitive stream, with structured training and clear progressions.";
+const bookingUrl = "https://portal.iclasspro.com/trident";
+const metaTitle = "AGC Competitive Gymnastics Ringwood";
+const description = "AGC competitive gymnastics at Trident Gymnastics Ringwood. Structured Junior and Senior training with clear progressions, routines and conditioning.";
+const levels = [
+  { name: "AGC Junior", description: "Foundation strength, shapes and discipline for competition readiness." },
+  { name: "AGC Senior", description: "Advanced routines, conditioning and performance mindset." }
+];
+---
+
+<ProgramPage {title} {metaTitle} {description} {blurb} {levels} {bookingUrl} colorScheme="secondary-accent" />

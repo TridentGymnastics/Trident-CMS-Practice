@@ -1,0 +1,126 @@
+---
+interface Level {
+  name: string;
+  age?: string;
+  description?: string;
+  icon?: string;
+  tag?: string;
+  tagColor?: string;
+  tagBg?: string;
+}
+
+// `levelsHeading` and `description` exist because not every program page is a
+// ladder of levels — /preschool carries two distinct programs, so "Levels" reads
+// wrong there and the derived meta description came out as "X gymnastics gymnastics".
+// `metaTitle` lets the on-page H1 be a brand name while the browser tab and search
+// result keep the words people actually search for. /preschool needs both: the hero
+// reads "Little Gymnasts", the title tag still says "Preschool & Prep Gymnastics".
+const { title, metaTitle, blurb, heroImage, levels = [], bookingUrl, trialUrl, diagramImage, colorScheme = 'primary-secondary', levelsSectionClass = '', levelsHeading = 'Levels', description, heroBadge, heroNote, heroNoteHref, heroNoteCta, media } = Astro.props;
+
+import Layout from "../layouts/Layout.astro";
+import UniversalHero from "./shared/UniversalHero.astro";
+import ProgramMedia from "./shared/ProgramMedia.astro";
+---
+
+<Layout title={metaTitle ?? title} description={description ?? `${title} gymnastics classes at Trident Gymnastics in Ringwood.`}>
+  <slot name="announcement" />
+  <UniversalHero
+    title={title}
+    subtitle={blurb}
+    eyebrow={heroBadge}
+    note={heroNote}
+    noteHref={heroNoteHref}
+    noteCta={heroNoteCta}
+    primaryCta="Make a Booking"
+    primaryCtaHref={bookingUrl}
+    secondaryCta={trialUrl ? "Book a Free Trial" : undefined}
+    secondaryCtaHref={trialUrl}
+    colorScheme={colorScheme}
+  />
+
+  <section class={`levels ${levelsSectionClass}`}>
+    <div class="container">
+      <h2>{levelsHeading}</h2>
+      <div class="level-grid">
+        {levels.map((L) => (
+          <article class="card level-card">
+            {L.icon && (
+              <img
+                class="level-icon"
+                src={L.icon}
+                alt={`${L.name} icon`}
+                width="80"
+                height="80"
+                loading="lazy"
+                decoding="async"
+                style="display:block"
+              />
+            )}
+            <h3>{L.name}</h3>
+            {L.tag && <span class="level-tag" style={`${L.tagBg ? `background:${L.tagBg};` : ''}${L.tagColor ? `color:${L.tagColor};` : ''}`}>{L.tag}</span>}
+            {L.age && <p class="muted">{L.age}</p>}
+            {L.description && <p>{L.description}</p>}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* For "none of the above fits you" notes. Sits after the programs on purpose:
+      a family only needs it once they have looked at the levels and found nothing
+      suitable, and putting it above the hero would outrank the page's own content. */}
+  <slot name="after-levels" />
+
+  {media && <ProgramMedia {...media} />}
+
+  {diagramImage && (
+    <section class="levels-diagram">
+      <div class="container">
+        <img
+          src={diagramImage}
+          alt={`${title} levels diagram`}
+          width="960"
+          height="720"
+          loading="lazy"
+          decoding="async"
+          style="display:block"
+        />
+      </div>
+    </section>
+  )}
+
+  <section class="trial-nudge">
+    <div class="container">
+      <div class="nudge card">
+        <div>
+          <h3>Try a Free Class</h3>
+          <p class="muted">Not sure which level fits? Book a free trial and we'll place your child in the right class.</p>
+        </div>
+        <div>
+          <a class="cta-trial" href={trialUrl ?? bookingUrl} target="_blank" rel="noopener" aria-label="Book a free trial">
+            <span class="cta-label">Book Free Trial</span>
+            <svg class="cta-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M13 5l7 7-7 7M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .level-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-top: 0.35rem;
+    margin-bottom: 0.35rem;
+    background: var(--dark-navy, #151957);
+    color: #fff;
+  }
+</style>

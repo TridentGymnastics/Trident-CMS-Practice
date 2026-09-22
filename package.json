@@ -1,0 +1,42 @@
+{
+  "name": "trident-cms-practice",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "optimise:video": "node scripts/optimise-video.mjs",
+    "build:poster:winter": "tsx scripts/build-winter-holiday-poster.ts",
+    "build:posters:winter-a4": "tsx scripts/build-winter-a4-posters.ts",
+    "verify:class-selector": "node scripts/verify-class-selector.ts",
+    "verify:mobile-nav": "tsx scripts/verify-mobile-nav.ts",
+    "verify:holidays": "tsx scripts/verify-holidays-content.ts",
+    "assets:sync": "powershell -NoProfile -Command \"New-Item -ItemType Directory -Force 'src/assets/images/homepage' | Out-Null; Copy-Item -Path 'public/Images/Homepage/*.jpg','public/Images/Homepage/*.jpeg' -Destination 'src/assets/images/homepage' -Force\"",
+    "assets:sync:dry": "powershell -NoProfile -Command \"Get-ChildItem 'public/Images/Homepage' -Include *.jpg,*.jpeg -File -Recurse | Select-Object FullName\""
+  },
+  "dependencies": {
+    "astro": "^6.1.7",
+    "caniuse-lite": "^1.0.30001788",
+    "canvas-confetti": "^1.9.4",
+    "sharp": "^0.34.5",
+    "tslib": "^2.8.1",
+    "yaml": "^2.3.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.8",
+    "@astrojs/tailwind": "^6.0.2",
+    "@types/canvas-confetti": "^1.9.0",
+    "baseline-browser-mapping": "^2.10.19",
+    "ffmpeg-static": "^5.3.0",
+    "heic-convert": "^2.1.0",
+    "puppeteer": "^25.1.0",
+    "tailwindcss": "^3.4.19",
+    "terser": "^5.46.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.0.0"
+  },
+  "private": true
+}

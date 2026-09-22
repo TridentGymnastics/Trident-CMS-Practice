@@ -1,0 +1,1837 @@
+---
+/**
+ * School Holiday Programs Page
+ *
+ * CONTENT PROVENANCE & VERIFICATION:
+ * All program text is source-locked to official Trident Gymnastics pages.
+ * See src/data/holidayPrograms.ts for detailed provenance manifest.
+ *
+ * Run `npm run verify:holidays` to check content similarity with source pages.
+ *
+ * MANUAL QA CHECKLIST:
+ * [ ] Every claim appears on the official program page
+ * [ ] No invented ages, session lengths, prerequisites, or prices
+ * [ ] Links labeled "Official program page" open in new tab with rel="noopener"
+ * [ ] All TODO items are clearly marked and not presented as facts
+ * [ ] Content verification script passes (or warns if offline)
+ *
+ * Last verified: 2026-09-02
+ */
+
+import Layout from '../layouts/Layout.astro';
+import HolidayFullView from '../components/HolidayFullView.astro';
+import SpringBlossomField from '../components/SpringBlossomField.astro';
+import HolidayStructuredData from '../components/HolidayStructuredData.astro';
+import HolidayComingSoon from '../components/HolidayComingSoon.astro';
+import { holidayPrograms, holidayProgramStatus } from '../data/holidayPrograms';
+import { siteConfig } from '../config/site';
+
+// Master on/off switch for the whole holiday program (see holidayPrograms.ts).
+// When false, the page renders the evergreen "coming soon" placeholder and no
+// season-specific dates, calendar, FAQ or structured data are emitted.
+const { live: programLive } = holidayProgramStatus;
+
+const cardDetails = {
+  playgym: {
+    tagline: 'Parent-supervised play'
+  },
+  opengym: {
+    tagline: 'Access to all equipment'
+  },
+  'skill-workshops': {
+    tagline: 'Coaching focused on specific skills'
+  }
+} as const;
+
+// Transform data for template compatibility
+const programs = holidayPrograms.map(p => ({
+  id: p.id,
+  title: p.title,
+  summary: p.summary,
+  ages: p.ages,
+  sessionLength: p.sessionLength,
+  bookingType: p.bookingType,
+  time: p.time,
+  timeNote: p.timeNote,
+  bullets: p.bullets,
+  bookHref: p.bookHref,
+  // Full view data (Complete Information with schedule)
+  tagline: p.fullView.tagline,
+  ageRange: p.ages,
+  about: p.fullView.about,
+  features: p.fullView.features,
+  requirements: p.fullView.requirements,
+  schedule: p.fullView.schedule,
+  pricing: p.fullView.pricing,
+  howToJoin: p.fullView.howToJoin,
+  sourceUrl: p.sourceUrl,
+  cardTagline: cardDetails[p.id].tagline
+}));
+
+// Friday 25 September is a public holiday — the gym is closed, so it carries no
+// sessions but still shows in the grid so families are not left guessing.
+const holidayCalendarDays = [
+  { week: 1, day: 'Monday', date: '21 September', iso: '2026-09-21', closedLabel: '' },
+  { week: 1, day: 'Tuesday', date: '22 September', iso: '2026-09-22', closedLabel: '' },
+  { week: 1, day: 'Wednesday', date: '23 September', iso: '2026-09-23', closedLabel: '' },
+  { week: 1, day: 'Thursday', date: '24 September', iso: '2026-09-24', closedLabel: '' },
+  { week: 1, day: 'Friday', date: '25 September', iso: '2026-09-25', closedLabel: 'Public holiday — closed' },
+  { week: 2, day: 'Monday', date: '28 September', iso: '2026-09-28', closedLabel: '' },
+  { week: 2, day: 'Tuesday', date: '29 September', iso: '2026-09-29', closedLabel: '' },
+  { week: 2, day: 'Wednesday', date: '30 September', iso: '2026-09-30', closedLabel: '' },
+  { week: 2, day: 'Thursday', date: '1 October', iso: '2026-10-01', closedLabel: '' },
+  { week: 2, day: 'Friday', date: '2 October', iso: '2026-10-02', closedLabel: '' }
+] as const;
+
+const sessionStartOrder = (time = '') => {
+  if (time.startsWith('11:00')) return 0;
+  if (time.startsWith('1:00')) return 1;
+  if (time.startsWith('2:30')) return 2;
+  return 3;
+};
+
+const calendarWeeks = [1, 2].map((weekNumber) => ({
+  weekNumber,
+  label: weekNumber === 1 ? 'Week 1: 21 - 25 September' : 'Week 2: 28 September - 2 October',
+  days: holidayCalendarDays
+    .filter((day) => day.week === weekNumber)
+    .map((day) => {
+      const fullDate = `${day.date} 2026`;
+      const sessions = holidayPrograms
+        .flatMap((program) =>
+          (program.fullView.schedule?.weeks ?? []).flatMap((week) =>
+            week.sessions
+              .filter((session) => session.date === fullDate)
+              .map((session) => ({
+                programId: program.id,
+                sessionTitle: session.title ?? program.title,
+                time: session.time ?? program.time ?? ''
+              }))
+          )
+        )
+        .sort((a, b) => sessionStartOrder(a.time) - sessionStartOrder(b.time));
+
+      return { ...day, fullDate, sessions };
+    })
+}));
+---
+
+<Layout
+  title={programLive ? "Spring School Holiday Programs" : "School Holiday Programs"}
+  description={programLive
+    ? "Spring school holiday gymnastics programs at Trident Gymnastics Ringwood. PlayGym, OpenGym and Skill Workshops run across 21 September to 2 October 2026."
+    : "School holiday gymnastics programs at Trident Gymnastics Ringwood — PlayGym, OpenGym and Skill Workshops. Dates for our next program are announced closer to each break."}
+>
+  {programLive ? (
+  <Fragment>
+  <main>
+    <!-- Hero: WCAG AA/AAA contrast, no content claims -->
+    <section class="hero-section">
+      <SpringBlossomField />
+      <div class="hero-content">
+        <div class="container">
+          <p class="hero-term-badge">Term 3 Spring Holiday Break</p>
+          <h1>School Holiday Programs <span class="hero-h1-location">in Ringwood</span></h1>
+          <p class="hero-subtitle">Gymnastics-based programs for children of all ages at our Ringwood facility — from drop-in PlayGym to coached Skill Workshops.</p>
+          <p class="hero-dates">Spring holiday dates now available: 21 September - 2 October 2026</p>
+
+          <div class="hero-cta-row">
+            <a href="https://portal.iclasspro.com/trident/camps/9?typeId=9&next=camps&nextTitle=Holiday%20Program&pluralTitle=Holiday%20Programs&sortBy=name" class="btn btn-accent btn-large" target="_blank" rel="noopener noreferrer">Book Now</a>
+            <a href="#holiday-calendar" class="btn btn-secondary btn-large">View Timetable</a>
+            <a href="/contact" class="btn btn-secondary btn-large">Contact Us</a>
+          </div>
+
+          <div class="hero-age-strip" aria-label="Program age ranges">
+            {programs.map((program) => (
+              <div class="hero-age-item">
+                <span class="hero-age-program">{program.title}</span>
+                <span class="hero-age-range">{program.ages}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content" id="programs">
+      <div class="container">
+        <div class="holidays-intro">
+          <h2>Explore Our Programs</h2>
+          <p>Choose from PlayGym, OpenGym, or Skill Workshops at our Ringwood facility, each designed for different ages and skill levels, from toddlers through to teenagers.</p>
+          <p class="holidays-location-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Trident Gymnastics, Ringwood VIC, serving families from Croydon, Heathmont, Mitcham, Nunawading, Bayswater and the eastern suburbs.
+          </p>
+        </div>
+
+        <div class="programs-grid">
+          {programs.map((program) => (
+            <!-- provenance: {program.title} content from {program.sourceUrl} lastVerified=2026-09-02 -->
+            <article
+              class="program-card"
+              data-testid={`card-${program.id}`}
+              data-provenance={`${program.id}:${program.sourceUrl}`}
+            >
+              <div class="program-summary">
+                <div class="program-age">
+                  <span class="program-age-label">Ages</span>
+                  <span class="program-age-value">{program.ages}</span>
+                </div>
+                <h3 id={`title-${program.id}`}>{program.title}</h3>
+                <p class="program-tagline">{program.cardTagline}</p>
+                <!-- Source: {program.sourceUrl} -->
+                <p class="summary-text">{program.summary}</p>
+
+                <div class="meta-row">
+                  {program.time && (
+                    <div class="meta-item">
+                      <span class="meta-label">Time:</span>
+                      <span class="meta-value">{program.time}</span>
+                    </div>
+                  )}
+                  <div class="meta-item">
+                    <span class="meta-label">Session:</span>
+                    <span class="meta-value">{program.sessionLength}</span>
+                  </div>
+                  <div class={`meta-item${program.bookingType === 'Advance booking required' ? ' meta-item--booking-required' : ''}`}>
+                    <span class="meta-label">Booking:</span>
+                    <span class={`meta-value${program.bookingType === 'Advance booking required' ? ' meta-value--booking-required' : ''}`}>{program.bookingType}</span>
+                  </div>
+                </div>
+
+                <div class="cta-row">
+                  <button
+                    class="btn-full-view"
+                    data-open-full={program.id}
+                    data-testid={`open-full-${program.id}`}
+                  >
+                    View Ages, Times & Details
+                  </button>
+                  {program.bookHref ? (
+                    <a
+                      href={program.bookHref}
+                      class="book-btn"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-testid={`book-${program.id}`}
+                    >
+                      Book Now
+                    </a>
+                  ) : (
+                    <a
+                      href="/contact"
+                      class={program.id === 'playgym' ? 'book-btn-blue' : 'book-btn'}
+                      data-testid={`book-${program.id}`}
+                    >
+                      {program.id === 'playgym' ? 'Get Directions' : 'Contact to Book'}
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <section id="holiday-calendar" class="holiday-calendar" aria-labelledby="holiday-calendar-heading">
+          <div class="holiday-calendar__header">
+            <div>
+              <p class="holiday-calendar__eyebrow">Quick glance timetable</p>
+              <h2 id="holiday-calendar-heading">Spring Holiday Calendar</h2>
+              <p>See what is running each weekday from 21 September to 2 October 2026. The gym is closed on Friday 25 September for the public holiday.</p>
+            </div>
+            <button type="button" class="holiday-calendar__print" data-print-calendar>
+              Print Timetable
+            </button>
+          </div>
+
+          <div class="holiday-calendar__legend" aria-label="Calendar program legend">
+            <span class="holiday-calendar__legend-item holiday-calendar__legend-item--playgym">PlayGym</span>
+            <span class="holiday-calendar__legend-item holiday-calendar__legend-item--skill-workshops">Skill Workshops</span>
+            <span class="holiday-calendar__legend-item holiday-calendar__legend-item--opengym">OpenGym</span>
+          </div>
+
+          <div class="holiday-calendar__weeks">
+            {calendarWeeks.map((week) => (
+              <article class="holiday-calendar__week">
+                <h3>{week.label}</h3>
+                <div class="holiday-calendar__grid">
+                  {week.days.map((day) => (
+                    <div class="holiday-calendar__day">
+                      <div class="holiday-calendar__day-heading">
+                        <span class="holiday-calendar__day-name">{day.day}</span>
+                        <span class="holiday-calendar__day-date">{day.date}</span>
+                      </div>
+                      <div class="holiday-calendar__sessions">
+                        {day.closedLabel ? (
+                          <p class="calendar-session calendar-session--closed">{day.closedLabel}</p>
+                        ) : (
+                          day.sessions.map((session) => (
+                            <div class={`calendar-session calendar-session--${session.programId}`}>
+                              <span class="calendar-session__time">{session.time}</span>
+                              <span class="calendar-session__name">{session.sessionTitle}</span>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <!-- Help strip for choosing sessions -->
+        <div class="notify-strip" role="region" aria-label="Get help choosing a holiday program session">
+          <span class="notify-strip__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </span>
+          <div class="notify-strip__text">
+            <strong>Need help choosing?</strong>
+            <span>Message us and we'll help you pick the right Spring 2026 PlayGym, OpenGym or Skill Workshop session.</span>
+          </div>
+          <a
+            href={`https://wa.me/${siteConfig.phone}?text=Hi%20Trident!%20Can%20you%20help%20me%20choose%20a%20Spring%202026%20holiday%20program%20session%3F`}
+            class="notify-strip__btn"
+            target="_blank"
+            rel="noopener"
+            aria-label="Message Trident Gymnastics on WhatsApp about Spring 2026 holiday program sessions"
+          >
+            Ask Us
+          </a>
+        </div>
+
+        <div class="cta-section">
+          <h2>Ready to Book or Have Questions?</h2>
+          <p>Spring 2026 PlayGym, OpenGym and Skill Workshop dates are now available. Reach out to secure your spot or find out which program suits your child best.</p>
+          <div class="cta-section__btns">
+            <a
+              href="https://portal.iclasspro.com/trident/camps/9?typeId=9&next=camps&nextTitle=Holiday%20Program&pluralTitle=Holiday%20Programs&sortBy=name"
+              class="btn btn-accent"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Book a Session</a>
+            <a
+              href={`https://wa.me/${siteConfig.phone}?text=Hi%20Trident!%20I%27d%20like%20to%20know%20more%20about%20the%20Spring%202026%20holiday%20programs.`}
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener"
+            >WhatsApp Us</a>
+            <a href="/contact" class="btn btn-secondary">Contact Form</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FAQ section — also powers FAQPage structured data -->
+  <section class="faq-section" aria-labelledby="faq-heading">
+    <div class="container">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      <p class="faq-intro">Everything you need to know about our school holiday programs in Ringwood.</p>
+      <div class="faq-list">
+
+        <details class="faq-item">
+          <summary class="faq-question">What programs do you offer during school holidays?</summary>
+          <div class="faq-answer">
+            <p>We run three programs at our Ringwood gymnastics facility:</p>
+            <ul>
+              <li><strong>PlayGym</strong> (ages 0–6): drop-in, parent-supervised play on gymnastics equipment. No booking required.</li>
+              <li><strong>OpenGym</strong> (ages 5–12): supervised access to all equipment for unstructured play and practice. Booking ahead preferred; in-person booking available if spaces remain.</li>
+              <li><strong>Skill Workshops</strong> (ages 5–18): coaching-focused sessions on handstands, cartwheels, flips, Parkour and UrbanGym. Advance booking required.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">Where are the programs held?</summary>
+          <div class="faq-answer">
+            <p>All programs are held at <strong>Trident Gymnastics, {siteConfig.address}</strong>. We're a short drive from Croydon, Heathmont, Mitcham, Nunawading, Bayswater and the surrounding eastern suburbs of Melbourne.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">Do I need to book in advance?</summary>
+          <div class="faq-answer">
+            <p><strong>PlayGym</strong> is drop-in — just show up during session times and pay at the door ($15/child). No booking needed.</p>
+            <p><strong>OpenGym</strong> bookings are preferred ahead of time, but families can attend and book in person if spaces are available.</p>
+            <p><strong>Skill Workshops</strong> require advance booking as spaces are limited.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">How much does it cost?</summary>
+          <div class="faq-answer">
+            <ul>
+              <li><strong>PlayGym:</strong> $15 per child (casual drop-in). Multi-visit passes available.</li>
+              <li><strong>OpenGym:</strong> $20 per session.</li>
+              <li><strong>Skill Workshops:</strong> $35 per session.</li>
+            </ul>
+            <p>Contact us for full pricing details and any package options.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">What ages are catered for?</summary>
+          <div class="faq-answer">
+            <p>We have something for almost every age: PlayGym covers babies through to age 6 (with a parent), OpenGym is for 5 to 12 year olds, and Skill Workshops run from 5 to 18 years. If you're unsure which program suits your child, <a href="/contact">get in touch</a> and we'll help you choose.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">What should my child wear?</summary>
+          <div class="faq-answer">
+            <p>Comfortable, close-fitting active wear — shorts, leggings or bike shorts. <strong>Bare feet are required</strong> on the gym floor (no socks). Tie back long hair, and bring a water bottle. Avoid skirts, dresses or very loose clothing.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">When are the Spring 2026 dates?</summary>
+          <div class="faq-answer">
+            <p>Spring holiday sessions run from Monday 21 September to Friday 2 October 2026, with the gym closed on Friday 25 September for the public holiday. PlayGym runs every program day from 11:00 am - 12:30 pm. Skill Workshops start at 1:00 pm on selected days. OpenGym starts at 2:30 pm from Monday 21 to Thursday 24 September, and at 1:00 pm on Tuesday 29 September and Friday 2 October. <a href={`https://wa.me/${siteConfig.phone}?text=Hi%20Trident!%20Can%20you%20help%20me%20choose%20a%20Spring%202026%20holiday%20program%20session%3F`} target="_blank" rel="noopener">Message us on WhatsApp</a> or <a href="/contact">use our contact form</a> if you need help choosing.</p>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Full-screen detail views with source-locked content -->
+  <HolidayFullView programs={programs} />
+
+  <!-- Page-specific structured data: FAQPage, BreadcrumbList, ItemList -->
+  <HolidayStructuredData />
+  </Fragment>
+  ) : (
+  <HolidayComingSoon status={holidayProgramStatus} />
+  )}
+</Layout>
+
+<style>
+  /* HERO DESIGN - WCAG AA/AAA Compliant (no content claims) */
+  .hero-section {
+    background:
+      radial-gradient(circle at 50% 10%, rgba(147, 210, 255, 0.14), transparent 26%),
+      radial-gradient(circle at 14% 82%, rgba(96, 165, 250, 0.12), transparent 28%),
+      radial-gradient(circle at 88% 22%, rgba(186, 230, 253, 0.12), transparent 24%),
+      linear-gradient(135deg, #07184d 0%, #0d2764 48%, #081844 100%);
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(circle at 8% 28%, rgba(255, 255, 255, 0.28) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 18% 72%, rgba(255, 211, 56, 0.28) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.18) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 74% 20%, rgba(255, 211, 56, 0.24) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 84% 66%, rgba(255, 255, 255, 0.2) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 92% 34%, rgba(255, 211, 56, 0.18) 0 1px, transparent 1.5px);
+    pointer-events: none;
+    opacity: 0.85;
+  }
+
+  .hero-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 44%, rgba(96, 165, 250, 0.14), transparent 24%),
+      radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.08), transparent 18%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 18%),
+      linear-gradient(0deg, rgba(147, 210, 255, 0.10), transparent 20%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 4rem 0;
+    text-align: center;
+  }
+
+  .hero-term-badge {
+    display: inline-block;
+    background: rgba(134, 239, 172, 0.18);
+    border: 1px solid rgba(134, 239, 172, 0.4);
+    color: #c7f9d8;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+  }
+
+  .hero-section h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: var(--white); /* White on dark blue = AAA contrast */
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    color: var(--white); /* White on dark blue = AAA contrast */
+    max-width: 700px;
+    margin: 0 auto 0.75rem;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+
+  .hero-dates {
+    font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+    color: var(--accent-yellow);
+    font-weight: 700;
+    margin: 0 auto 2.5rem;
+    line-height: 1.4;
+  }
+
+  .hero-cta-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-age-strip {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 2rem;
+  }
+
+  .hero-age-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(10px);
+    color: var(--white);
+  }
+
+  .hero-age-program {
+    font-weight: 700;
+  }
+
+  .hero-age-range {
+    color: var(--accent-yellow);
+    font-weight: 700;
+  }
+
+  .btn-large {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    min-width: 180px;
+  }
+
+  .content {
+    padding: 5rem 0;
+  }
+
+  .holidays-intro {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .holidays-intro h2 {
+    font-size: 2.25rem;
+    margin-bottom: 1.25rem;
+    color: var(--dark-navy); /* AAA contrast */
+    font-weight: 600;
+  }
+
+  .holidays-intro p {
+    font-size: 1.15rem;
+    color: var(--color-black); /* WCAG AA+ contrast */
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  .programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  @media (min-width: 1024px) {
+    .programs-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .program-card {
+    background: white;
+    border-radius: 2rem;
+    box-shadow: 0 18px 42px rgba(11, 17, 80, 0.08);
+    border: 1px solid rgba(155, 184, 230, 0.55);
+    padding: 1.95rem 1.85rem 1.8rem;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .program-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 54px rgba(11, 17, 80, 0.12);
+    border-color: rgba(21, 115, 194, 0.35);
+  }
+
+  .holiday-calendar {
+    margin: 0 0 3rem;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: 24px;
+    background:
+      linear-gradient(135deg, rgba(147, 210, 255, 0.18), rgba(255, 255, 255, 0.96)),
+      #f7faff;
+    border: 1px solid rgba(147, 210, 255, 0.45);
+  }
+
+  .holiday-calendar__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .holiday-calendar__eyebrow {
+    margin: 0 0 0.35rem;
+    color: var(--primary-blue);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .holiday-calendar h2 {
+    margin: 0 0 0.45rem;
+    color: var(--dark-navy);
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
+    line-height: 1.15;
+  }
+
+  .holiday-calendar__header p:last-child {
+    margin: 0;
+    color: var(--color-black);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .holiday-calendar__print {
+    flex-shrink: 0;
+    min-height: 44px;
+    padding: 0.75rem 1.15rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--dark-navy);
+    color: white;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 22px rgba(11, 17, 80, 0.18);
+    transition: transform 0.16s ease, background 0.16s ease;
+  }
+
+  .holiday-calendar__print:hover {
+    background: var(--primary-blue);
+    transform: translateY(-1px);
+  }
+
+  .holiday-calendar__print:focus-visible {
+    outline: 3px solid var(--accent-yellow);
+    outline-offset: 3px;
+  }
+
+  .holiday-calendar__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-bottom: 1.35rem;
+  }
+
+  .holiday-calendar__legend-item {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    border: 1px solid transparent;
+  }
+
+  .holiday-calendar__legend-item--playgym {
+    background: #dff2ff;
+    color: var(--dark-navy);
+    border-color: rgba(21, 115, 194, 0.18);
+  }
+
+  .holiday-calendar__legend-item--skill-workshops {
+    background: var(--accent-yellow);
+    color: var(--dark-navy);
+    border-color: rgba(21, 25, 87, 0.12);
+  }
+
+  .holiday-calendar__legend-item--opengym {
+    background: var(--dark-navy);
+    color: white;
+    border-color: var(--dark-navy);
+  }
+
+  .holiday-calendar__weeks {
+    display: grid;
+    gap: 1.4rem;
+  }
+
+  .holiday-calendar__week {
+    break-inside: avoid;
+  }
+
+  .holiday-calendar__week h3 {
+    margin: 0 0 0.8rem;
+    color: var(--primary-blue);
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+
+  .holiday-calendar__grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .holiday-calendar__day {
+    min-width: 0;
+    background: white;
+    border: 1px solid rgba(21, 25, 87, 0.10);
+    border-radius: 16px;
+    padding: 0.9rem;
+    box-shadow: 0 10px 24px rgba(11, 17, 80, 0.07);
+  }
+
+  .holiday-calendar__day-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-bottom: 0.7rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(21, 25, 87, 0.08);
+  }
+
+  .holiday-calendar__day-name {
+    color: var(--dark-navy);
+    font-size: 0.95rem;
+    font-weight: 800;
+  }
+
+  .holiday-calendar__day-date {
+    color: var(--primary-blue);
+    font-size: 0.78rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .holiday-calendar__sessions {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .calendar-session {
+    display: grid;
+    gap: 0.16rem;
+    min-width: 0;
+    padding: 0.65rem 0.7rem;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    line-height: 1.25;
+  }
+
+  .calendar-session--playgym {
+    background: #dff2ff;
+    color: var(--dark-navy);
+    border-color: rgba(21, 115, 194, 0.16);
+  }
+
+  .calendar-session--skill-workshops {
+    background: linear-gradient(180deg, #fff1a8, var(--accent-yellow));
+    color: var(--dark-navy);
+    border-color: rgba(21, 25, 87, 0.10);
+  }
+
+  .calendar-session--opengym {
+    background: var(--dark-navy);
+    color: white;
+    border-color: var(--dark-navy);
+  }
+
+  /* Public holiday / gym closed — no session, just a plain note. */
+  .calendar-session--closed {
+    margin: 0;
+    background: #f1f5f9;
+    color: #475569;
+    border-color: rgba(71, 85, 105, 0.18);
+    border-style: dashed;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .calendar-session__time {
+    font-size: 0.75rem;
+    font-weight: 900;
+    white-space: normal;
+  }
+
+  .calendar-session__name {
+    font-size: 0.86rem;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+  }
+
+  .program-summary {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .program-age {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    margin-bottom: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .program-age-label {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(21, 25, 87, 0.72);
+  }
+
+  .program-age-value {
+    display: inline-block;
+    font-size: clamp(1.05rem, 1.55vw, 1.28rem);
+    line-height: 1.1;
+    font-weight: 800;
+    color: var(--dark-navy);
+    padding: 0 0.12em 0.04em;
+    background:
+      linear-gradient(180deg, transparent 62%, rgba(255, 224, 55, 0.95) 62%);
+  }
+
+  .program-summary h3 {
+    color: var(--dark-navy); /* AAA contrast */
+    font-size: clamp(1.5rem, 2.35vw, 2.1rem);
+    line-height: 1.08;
+    margin-bottom: 0.7rem;
+    font-weight: 600;
+  }
+
+  .program-tagline {
+    color: var(--primary-blue);
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.45;
+    margin-bottom: 0.95rem;
+  }
+
+  .summary-text {
+    color: var(--color-black); /* WCAG AA+ contrast */
+    line-height: 1.65;
+    margin-bottom: 1.45rem;
+    font-size: 0.96rem;
+  }
+
+  .meta-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-bottom: 1.5rem;
+    padding: 1.2rem 1.25rem;
+    background: linear-gradient(180deg, #f7faff 0%, #f1f5fb 100%);
+    border: 1px solid rgba(21, 25, 87, 0.08);
+    border-radius: 1.5rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  }
+
+  .meta-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.72rem 0;
+  }
+
+  .meta-item + .meta-item {
+    border-top: 1px solid rgba(21, 25, 87, 0.08);
+  }
+
+  .meta-item--booking-required {
+    align-items: center;
+  }
+
+  .meta-label {
+    font-weight: 700;
+    color: var(--dark-navy); /* AAA contrast */
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .meta-value {
+    color: var(--color-black); /* WCAG AA+ contrast */
+    font-size: 0.9rem;
+    text-align: right;
+  }
+
+  .meta-value--booking-required {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(255, 224, 55, 0.28);
+    border: 1px solid rgba(255, 211, 56, 0.6);
+    color: var(--dark-navy);
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  .cta-row {
+    margin-top: auto;
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .btn-full-view {
+    width: 100%;
+    min-width: 0;
+    min-height: 54px;
+    padding: 0.9rem 1.1rem;
+    background: var(--dark-navy);
+    color: white; /* AAA contrast */
+    border: none;
+    border-radius: 1rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-full-view:hover {
+    background: var(--primary-blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-button);
+  }
+
+  .btn-full-view:focus {
+    outline: 3px solid var(--accent-yellow);
+    outline-offset: 3px;
+  }
+
+  .book-btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 18px;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.2px;
+    color: var(--tg-navy);
+    text-decoration: none;
+    background: linear-gradient(180deg, var(--tg-yellow-2), var(--tg-yellow));
+    border-radius: 999px;
+    border: 2px solid rgba(21, 25, 87, 0.15);
+    box-shadow: 0 8px 20px rgba(11, 17, 80, 0.25);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    will-change: transform;
+    cursor: pointer;
+  }
+
+  .book-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--tg-shadow-strong);
+    filter: saturate(1.03);
+  }
+
+  .book-btn:focus-visible {
+    box-shadow: var(--tg-shadow-strong), 0 0 0 4px rgba(255, 211, 59, 0.45);
+    outline: none;
+  }
+
+  .book-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--tg-shadow);
+  }
+
+  .book-btn-blue {
+    width: 100%;
+    min-width: 0;
+    min-height: 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 18px;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: white;
+    text-decoration: none;
+    background: var(--primary-blue);
+    border-radius: 50px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .book-btn-blue:hover {
+    background: var(--dark-navy);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  }
+
+  .book-btn-blue:focus {
+    outline: 3px solid var(--accent-yellow);
+    outline-offset: 3px;
+  }
+
+  .book-btn-blue:active {
+    transform: translateY(0);
+  }
+
+  .cta-section {
+    text-align: center;
+    background: var(--light-bg);
+    padding: 3.5rem 2rem;
+    border-radius: var(--radius);
+    border: 2px solid var(--border-subtle);
+  }
+
+  .cta-section h2 {
+    margin-bottom: 1.25rem;
+    color: var(--dark-navy);
+    font-size: 2rem;
+  }
+
+  .cta-section p {
+    margin-bottom: 2rem;
+    color: var(--color-black);
+    line-height: 1.65;
+    font-size: 1.1rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.875rem 1.75rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+  }
+
+  .btn-primary {
+    background: linear-gradient(180deg, var(--tg-yellow-2, #ffeaa3), var(--tg-yellow, #ffe037));
+    color: var(--tg-navy, #151957);
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(180deg, var(--tg-yellow-2, #ffeaa3), var(--tg-yellow, #ffe037));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+    filter: saturate(1.03);
+  }
+
+  .btn-primary:focus {
+    outline: 3px solid var(--accent-yellow);
+    outline-offset: 3px;
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-secondary {
+    background: var(--white);
+    color: var(--dark-navy);
+    border: 2px solid var(--white);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  }
+
+  .btn-secondary:focus {
+    outline: 3px solid var(--accent-yellow);
+    outline-offset: 3px;
+  }
+
+  .btn-accent {
+    background: linear-gradient(180deg, var(--tg-yellow-2, #ffeaa3), var(--tg-yellow, #ffe037));
+    color: var(--tg-navy, #151957);
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  .btn-accent:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+    filter: saturate(1.03);
+  }
+
+  .btn-accent:focus {
+    outline: 3px solid var(--accent-yellow);
+    outline-offset: 3px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (max-width: 768px) {
+    .content > .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .holidays-intro {
+      order: 1;
+    }
+
+    .programs-grid {
+      order: 2;
+      grid-template-columns: 1fr;
+    }
+
+    .holiday-calendar {
+      order: 3;
+    }
+
+    .notify-strip {
+      order: 4;
+    }
+
+    .cta-section {
+      order: 5;
+    }
+
+    .faq-section {
+      order: 6;
+    }
+
+    .holiday-calendar {
+      padding: 1rem;
+      border-radius: 18px;
+      margin-bottom: 2rem;
+      scroll-margin-top: 1rem;
+    }
+
+    .holiday-calendar__header {
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .holiday-calendar__eyebrow {
+      font-size: 0.68rem;
+    }
+
+    .holiday-calendar h2 {
+      font-size: 1.45rem;
+    }
+
+    .holiday-calendar__header p:last-child {
+      font-size: 0.92rem;
+    }
+
+    .holiday-calendar__print {
+      width: 100%;
+    }
+
+    .holiday-calendar__legend {
+      gap: 0.45rem;
+      margin-bottom: 1rem;
+    }
+
+    .holiday-calendar__legend-item {
+      min-height: 28px;
+      padding: 0.35rem 0.55rem;
+      font-size: 0.72rem;
+    }
+
+    .holiday-calendar__weeks {
+      gap: 1rem;
+    }
+
+    .holiday-calendar__week h3 {
+      margin-bottom: 0.55rem;
+      font-size: 0.98rem;
+    }
+
+    .holiday-calendar__grid {
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+    }
+
+    .holiday-calendar__day {
+      padding: 0.72rem;
+      border-radius: 12px;
+    }
+
+    .holiday-calendar__day-heading {
+      padding-bottom: 0.45rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .holiday-calendar__sessions {
+      gap: 0.4rem;
+    }
+
+    .calendar-session {
+      padding: 0.52rem 0.58rem;
+      border-radius: 10px;
+    }
+
+    .calendar-session__time {
+      font-size: 0.7rem;
+    }
+
+    .calendar-session__name {
+      font-size: 0.8rem;
+    }
+
+    .hero-section {
+      min-height: auto;
+    }
+
+    .hero-content {
+      padding: 2.25rem 0 2.6rem;
+      padding-inline: 0.75rem;
+    }
+
+    .hero-term-badge {
+      font-size: 0.66rem;
+      padding: 0.38rem 0.7rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-section h1 {
+      font-size: clamp(1.9rem, 8.5vw, 2.2rem);
+      line-height: 1.12;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-h1-location {
+      display: block !important;
+      margin-top: 0.25rem;
+      font-size: 0.76em !important;
+    }
+
+    .hero-subtitle {
+      max-width: 19.5rem;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      margin-bottom: 0.65rem;
+      overflow-wrap: break-word;
+    }
+
+    .hero-dates {
+      max-width: 19rem;
+      font-size: 0.96rem;
+      margin-bottom: 1.6rem;
+      overflow-wrap: break-word;
+    }
+
+    .hero-cta-row {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-age-strip {
+      display: none;
+    }
+
+    .btn-large {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .content {
+      padding: 2.25rem 0;
+    }
+
+    .holidays-intro {
+      margin-bottom: 1.6rem;
+    }
+
+    .holidays-intro h2 {
+      font-size: 1.7rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .holidays-intro p {
+      max-width: 20rem;
+      margin-inline: auto;
+      font-size: 0.96rem;
+    }
+
+    .holidays-location-note {
+      display: block !important;
+      max-width: 18.5rem;
+      font-size: 0.82rem !important;
+      line-height: 1.5 !important;
+    }
+
+    .holidays-location-note svg {
+      display: inline !important;
+      margin-right: 0.25rem;
+      vertical-align: -0.15rem;
+    }
+
+    .cta-row {
+      gap: 0.85rem;
+    }
+
+    .btn-full-view,
+    .book-btn,
+    .book-btn-blue {
+      width: 100%;
+    }
+
+    .cta-section {
+      padding: 2.5rem 1.5rem;
+    }
+  }
+
+  /* ── H1 location suffix ─────────────────────────────────── */
+  .hero-h1-location {
+    display: inline;
+    font-size: 0.68em;
+    font-weight: 600;
+    opacity: 0.82;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── Intro location note ────────────────────────────────── */
+  .holidays-location-note {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    justify-content: center;
+    margin-top: 0.75rem;
+    font-size: 0.86rem;
+    color: var(--text-muted, #555e80);
+    font-style: italic;
+  }
+
+  .holidays-location-note svg {
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  /* ── CTA section dual buttons ───────────────────────────── */
+  .cta-section__btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ── Notify strip ───────────────────────────────────────── */
+  .notify-strip {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, rgba(147, 197, 253, 0.14), rgba(186, 230, 253, 0.10));
+    border: 1px solid rgba(147, 210, 255, 0.45);
+    border-radius: 16px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .notify-strip__icon {
+    display: flex;
+    align-items: center;
+    color: var(--primary-blue);
+    flex-shrink: 0;
+  }
+
+  .notify-strip__text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.5rem;
+    align-items: baseline;
+    font-size: 0.95rem;
+    color: var(--dark-navy);
+  }
+
+  .notify-strip__text strong {
+    font-weight: 800;
+  }
+
+  .notify-strip__btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1.25rem;
+    border-radius: 999px;
+    background: var(--dark-navy);
+    color: white;
+    font-weight: 700;
+    font-size: 0.88rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .notify-strip__btn:hover {
+    background: var(--primary-blue);
+    transform: translateY(-1px);
+  }
+
+  .notify-strip__btn:focus-visible {
+    outline: 3px solid var(--accent-yellow);
+    outline-offset: 3px;
+  }
+
+  /* ── FAQ section ────────────────────────────────────────── */
+  .faq-section {
+    padding: 4rem 0 5rem;
+    background: var(--light-bg, #f7faff);
+    border-top: 1px solid rgba(21, 25, 87, 0.07);
+  }
+
+  .faq-section h2 {
+    text-align: center;
+    font-size: clamp(1.75rem, 3vw, 2.4rem);
+    color: var(--dark-navy);
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+  }
+
+  .faq-intro {
+    text-align: center;
+    color: var(--text-muted, #555e80);
+    font-size: 1.05rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    background: white;
+    border: 1px solid rgba(21, 25, 87, 0.10);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+
+  .faq-item:hover {
+    box-shadow: 0 4px 18px rgba(21, 25, 87, 0.07);
+  }
+
+  .faq-item[open] {
+    box-shadow: 0 6px 24px rgba(21, 25, 87, 0.10);
+    border-color: rgba(21, 115, 194, 0.28);
+  }
+
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.4rem;
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--dark-navy);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: background 0.15s;
+  }
+
+  .faq-question::-webkit-details-marker { display: none; }
+
+  .faq-question::after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-right: 2.5px solid var(--primary-blue);
+    border-bottom: 2.5px solid var(--primary-blue);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    transition: transform 0.22s ease;
+    margin-top: -3px;
+  }
+
+  .faq-item[open] .faq-question {
+    background: rgba(21, 115, 194, 0.05);
+    border-bottom: 1px solid rgba(21, 25, 87, 0.08);
+  }
+
+  .faq-item[open] .faq-question::after {
+    transform: rotate(-135deg);
+    margin-top: 3px;
+  }
+
+  .faq-question:hover {
+    background: #f4f7ff;
+  }
+
+  .faq-answer {
+    padding: 1.1rem 1.4rem 1.3rem;
+    animation: faq-open 0.18s ease;
+  }
+
+  @keyframes faq-open {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .faq-answer p {
+    color: var(--color-black);
+    font-size: 0.95rem;
+    line-height: 1.68;
+    margin-bottom: 0.65rem;
+  }
+
+  .faq-answer p:last-child { margin-bottom: 0; }
+
+  .faq-answer ul {
+    padding-left: 1.25rem;
+    margin: 0.4rem 0 0.65rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .faq-answer li {
+    color: var(--color-black);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .faq-answer a {
+    color: var(--primary-blue);
+    font-weight: 600;
+    text-underline-offset: 3px;
+  }
+
+  .faq-answer a:hover { text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .notify-strip {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+
+    .notify-strip__btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .faq-question {
+      font-size: 0.93rem;
+      padding: 1rem 1.1rem;
+    }
+
+    .faq-answer {
+      padding: 0.9rem 1.1rem 1.1rem;
+    }
+
+    .cta-section__btns {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-section__btns .btn {
+      width: 100%;
+      max-width: 300px;
+      text-align: center;
+    }
+  }
+
+  @media print {
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    header,
+    footer,
+    .hero-section,
+    .holidays-intro,
+    .programs-grid,
+    .notify-strip,
+    .cta-section,
+    .faq-section,
+    #holiday-full-view-container,
+    .floating-whatsapp,
+    .holiday-calendar__print {
+      display: none !important;
+    }
+
+    html,
+    body {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: white !important;
+      color: #111827 !important;
+      width: 100% !important;
+      min-height: 0 !important;
+    }
+
+    .content {
+      padding: 0 !important;
+    }
+
+    .container {
+      max-width: none !important;
+      width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .holiday-calendar {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: white !important;
+      box-shadow: none !important;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+
+    .holiday-calendar__header,
+    .holiday-calendar__legend {
+      margin-bottom: 0.45rem !important;
+    }
+
+    .holiday-calendar h2 {
+      color: #151957 !important;
+      font-size: 1.25rem !important;
+      margin-bottom: 0.15rem !important;
+    }
+
+    .holiday-calendar__eyebrow {
+      font-size: 0.62rem !important;
+      margin-bottom: 0.12rem !important;
+    }
+
+    .holiday-calendar__header p:last-child {
+      font-size: 0.78rem !important;
+      line-height: 1.25 !important;
+    }
+
+    .holiday-calendar__legend {
+      gap: 0.35rem !important;
+    }
+
+    .holiday-calendar__legend-item {
+      min-height: 22px !important;
+      padding: 0.22rem 0.42rem !important;
+      font-size: 0.62rem !important;
+    }
+
+    .holiday-calendar__weeks {
+      gap: 0.55rem !important;
+    }
+
+    .holiday-calendar__week {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .holiday-calendar__week h3 {
+      margin-bottom: 0.28rem !important;
+      font-size: 0.86rem !important;
+    }
+
+    .holiday-calendar__grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      gap: 0.35rem !important;
+    }
+
+    .holiday-calendar__day {
+      box-shadow: none !important;
+      border: 1px solid #cbd5e1 !important;
+      border-radius: 6px !important;
+      padding: 0.38rem !important;
+    }
+
+    .holiday-calendar__day-heading {
+      gap: 0.25rem !important;
+      padding-bottom: 0.28rem !important;
+      margin-bottom: 0.3rem !important;
+    }
+
+    .holiday-calendar__day-name {
+      font-size: 0.72rem !important;
+    }
+
+    .holiday-calendar__day-date {
+      font-size: 0.62rem !important;
+    }
+
+    .holiday-calendar__sessions {
+      gap: 0.28rem !important;
+    }
+
+    .calendar-session {
+      box-shadow: none !important;
+      border: 1px solid #cbd5e1 !important;
+      border-radius: 6px !important;
+      padding: 0.32rem !important;
+      color: #111827 !important;
+      background: white !important;
+      gap: 0.05rem !important;
+    }
+
+    .calendar-session__time {
+      font-size: 0.58rem !important;
+      line-height: 1.15 !important;
+    }
+
+    .calendar-session__name {
+      font-size: 0.68rem !important;
+      line-height: 1.15 !important;
+    }
+
+  }
+</style>
+
+<script is:inline>
+  const printButton = document.querySelector('[data-print-calendar]');
+
+  printButton?.addEventListener('click', () => {
+    const clearPrintMode = () => {
+      document.body.classList.remove('print-calendar-only');
+    };
+
+    document.body.classList.add('print-calendar-only');
+    window.addEventListener('afterprint', clearPrintMode, { once: true });
+    window.print();
+  });
+</script>
+
+<style is:global>
+  @media print {
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    html,
+    body.print-calendar-only {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: white !important;
+      width: 100% !important;
+      min-height: 0 !important;
+    }
+
+    body.print-calendar-only,
+    body.print-calendar-only main,
+    body.print-calendar-only .container {
+      min-height: 0 !important;
+      max-width: none !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    body.print-calendar-only header,
+    body.print-calendar-only footer,
+    body.print-calendar-only .hero-section,
+    body.print-calendar-only .holidays-intro,
+    body.print-calendar-only .programs-grid,
+    body.print-calendar-only .notify-strip,
+    body.print-calendar-only .cta-section,
+    body.print-calendar-only .faq-section,
+    body.print-calendar-only #holiday-full-view-container,
+    body.print-calendar-only .floating-whatsapp,
+    body.print-calendar-only .class-selector,
+    body.print-calendar-only .holiday-calendar__print {
+      display: none !important;
+    }
+
+    body.print-calendar-only .content {
+      padding: 0 !important;
+    }
+
+    body.print-calendar-only .content > .container {
+      max-width: none !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    body.print-calendar-only .holiday-calendar {
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: white !important;
+      box-shadow: none !important;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+  }
+</style>
+

@@ -1,0 +1,140 @@
+---
+import { siteConfig } from '../config/site';
+
+const providerAddress = {
+  '@type': 'PostalAddress',
+  streetAddress: siteConfig.streetAddress,
+  addressLocality: siteConfig.addressLocality,
+  addressRegion: siteConfig.addressRegion,
+  postalCode: siteConfig.postalCode,
+  addressCountry: siteConfig.addressCountry
+};
+
+const provider = {
+  '@type': 'SportsActivityLocation',
+  name: siteConfig.siteName,
+  url: siteConfig.siteUrl,
+  address: providerAddress
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.siteUrl },
+        { '@type': 'ListItem', position: 2, name: 'School Holiday Programs', item: `${siteConfig.siteUrl}/school-holidays` }
+      ]
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'What school holiday programs does Trident Gymnastics offer?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Trident Gymnastics in Ringwood offers three school holiday gymnastics programs: PlayGym for children aged 0–6 years (drop-in, no booking required), OpenGym for ages 5–12 years (booking ahead preferred, supervised equipment access), and Skill Workshops for ages 5–18 years (advance booking required, coaching-focused sessions on handstands, flips, cartwheels, Parkour and UrbanGym skills).'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'Where are the school holiday programs held?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: `All holiday programs are held at ${siteConfig.siteName}, ${siteConfig.address}. We're easily accessible from Ringwood, Croydon, Heathmont, Mitcham, Nunawading, Bayswater and the surrounding eastern suburbs of Melbourne.`
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'Do I need to book in advance for school holiday programs?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'PlayGym is drop-in - no booking required, just arrive during session times and pay at the door. OpenGym bookings are preferred ahead of time, but families can attend and book in person if spaces are available. Skill Workshops require advance booking as spaces are limited.'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'How much do the school holiday programs cost?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'PlayGym costs $15 per child for a casual drop-in session, with multi-visit passes available. OpenGym sessions are $20 per session. Skill Workshops are $35 per session. Contact us for full current pricing and package options.'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'What ages are the holiday programs suitable for?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'PlayGym is designed for children aged 0–6 years including babies and toddlers (parent supervision required at all times). OpenGym is open to children aged 5–12 years. Skill Workshops cater to ages 5–18, with coaching tailored to each participant\'s level.'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'What should my child wear to a school holiday program?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Children should wear comfortable, close-fitting active wear — shorts, leggings or bike shorts. Bare feet are required for all sessions (no socks or shoes on the gym floor). Long hair should be tied back. Bring a water bottle. Avoid skirts, dresses or loose baggy clothing.'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'When are the Spring 2026 school holiday program dates?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Spring 2026 holiday sessions run from Monday 21 September to Friday 2 October 2026, with the gym closed on Friday 25 September for the public holiday. PlayGym runs every program day from 11:00 am - 12:30 pm. Skill Workshops start at 1:00 pm on selected days. OpenGym starts at 2:30 pm from Monday 21 to Thursday 24 September, and at 1:00 pm on Tuesday 29 September and Friday 2 October.'
+          }
+        }
+      ]
+    },
+    {
+      '@type': 'ItemList',
+      name: 'School Holiday Programs at Trident Gymnastics Ringwood',
+      description: 'Gymnastics-based school holiday programs for children aged 0–18 in Ringwood, Victoria',
+      url: `${siteConfig.siteUrl}/school-holidays`,
+      numberOfItems: 3,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          item: {
+            '@type': 'Service',
+            name: 'PlayGym Holiday Sessions',
+            description: 'Parent-supervised, non-structured play sessions using gymnastics equipment. Spring 2026 sessions run 11:00 am - 12:30 pm on every program day from 21 September to 2 October, excluding the Friday 25 September public holiday. No booking required. Ages 0–6 years.',
+            url: `${siteConfig.siteUrl}/school-holidays/playgym`,
+            provider,
+            audience: { '@type': 'Audience', audienceType: 'Children aged 0–6 years' }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          item: {
+            '@type': 'Service',
+            name: 'OpenGym Holiday Sessions',
+            description: 'Supervised access to all gymnastics equipment for unstructured play and practice. Spring 2026 sessions start at 2:30 pm from Monday 21 to Thursday 24 September, and at 1:00 pm on Tuesday 29 September and Friday 2 October. Booking ahead preferred; in-person booking available if spaces remain. Ages 5–12 years.',
+            url: `${siteConfig.siteUrl}/school-holidays/opengym`,
+            provider,
+            audience: { '@type': 'Audience', audienceType: 'Children aged 5–12 years' }
+          }
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          item: {
+            '@type': 'Service',
+            name: 'Gymnastics Skill Workshops',
+            description: 'Coaching-led workshops targeting specific skills: handstands, cartwheels, flips, Parkour and UrbanGym. Spring 2026 sessions run 1:00 pm - 2:30 pm on selected dates from 21 September to 1 October. Advance booking required. Ages 5–18 years.',
+            url: `${siteConfig.siteUrl}/school-holidays/skill-workshops`,
+            provider,
+            audience: { '@type': 'Audience', audienceType: 'Children aged 5–18 years' }
+          }
+        }
+      ]
+    }
+  ]
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

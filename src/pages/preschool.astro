@@ -1,0 +1,217 @@
+---
+import ProgramPage from "../components/ProgramPage.astro";
+import parachutePlay from "../assets/images/programs/preschool/parachute-play.jpg";
+import ropeLadder from "../assets/images/programs/preschool/rope-ladder.jpg";
+
+// The H1 is a brand name, so the subtitle carries the age and year level it leaves
+// out, and metaTitle keeps the search wording. Together they cover what "Little
+// Gymnasts" alone would not tell a parent deciding whether this page is for them.
+const title = "Little Gymnasts";
+const metaTitle = "Preschool & Prep Gymnastics";
+const description = "Preschool and Prep gymnastics classes at Trident Gymnastics Ringwood. EduGym Adventurers and Foundation from 3 years 6 months, plus casual PlayGym.";
+const blurb = "Where our youngest athletes take their first steps: coached classes for kinder and Prep, from 3 years 6 months.";
+const bookingUrl = "https://portal.iclasspro.com/trident";
+const trialUrl = "https://portal.iclasspro.com/trident";
+// Scoped deliberately to Adventurers. The wording this replaced said "any JuniorGym
+// program", which covered only the preschool classes — widening it to all of EduGym
+// would extend free PlayGym to every school-age gymnast through Level 5+.
+const heroNote = "Already enrolled in EduGym Adventurers? PlayGym sessions are free. Just let our staff know when you arrive.";
+// Two distinct programs, not two rungs of one ladder — hence the custom heading.
+// Adventurers currently caps at 5 years 6 months in iClassPro, which is why the
+// copy says "early Prep" rather than Prep: most Prep children age past that cap
+// partway through the school year. If the cap is raised, this can say Prep outright.
+// No age line on the cards: every other program page identifies its levels by year
+// level alone, and spelling out overlapping month ranges here raised more questions
+// than it answered. The year-level tag does the work, in the same blue the EduGym
+// and UrbanGym cards use.
+const gradeTag = { tagBg: "#1573C2", tagColor: "#fff" };
+const levels = [
+  {
+    name: "EduGym Adventurers",
+    description: "An independent class easing children into the gymnastics structure, building confidence, listening skills and movement foundations on their own. Suits kinder and early Prep.",
+    tag: "Kinder",
+    ...gradeTag
+  },
+  {
+    name: "EduGym Foundation",
+    description: "The step up from Adventurers, and where Prep children start the EduGym pathway: core shapes, rolls and safe landings, leading into Level 1 in Grade 1.",
+    tag: "Prep",
+    ...gradeTag
+  }
+];
+
+const media = {
+  heading: "Preschool Gymnastics in Action",
+  subtitle: "A look at what a session with our youngest gymnasts is really like",
+  // Two photos need two columns, or they sit in a 3-wide grid and hug the left.
+  // maxWidth is pulled in to match, so a pair doesn't stretch to half a screen each.
+  columns: 2,
+  maxWidth: "760px",
+  photos: [
+    { src: parachutePlay, alt: "Children and coaches playing together under a rainbow parachute" },
+    { src: ropeLadder, alt: "A coach supporting a young child climbing on a rope ladder" }
+  ]
+};
+---
+
+<ProgramPage
+  {title}
+  {metaTitle}
+  {description}
+  {blurb}
+  {levels}
+  {bookingUrl}
+  {trialUrl}
+  {heroNote}
+  {media}
+  levelsHeading="Our Preschool & Prep Programs"
+  colorScheme="accent"
+  levelsSectionClass="preschool-levels"
+>
+  <Fragment slot="after-levels">
+    <section class="too-young">
+      <div class="container">
+        <aside class="too-young-card card" aria-labelledby="too-young-title">
+          <span class="too-young-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s-7-4.35-7-9.5A4.5 4.5 0 0 1 12 8a4.5 4.5 0 0 1 7 3.5c0 5.15-7 9.5-7 9.5z" />
+            </svg>
+          </span>
+          <div class="too-young-text">
+            <h3 id="too-young-title">Not quite old enough?</h3>
+            <p>
+              Our coached classes start at 3 years 6 months. For younger children, PlayGym is
+              the place to begin: a casual, parent-supervised drop-in session with no booking required.
+            </p>
+          </div>
+          <a class="too-young-link" href="/playgym">
+            <span>Explore PlayGym</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M13 5l7 7-7 7M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </a>
+        </aside>
+      </div>
+    </section>
+  </Fragment>
+</ProgramPage>
+
+<style>
+  /* Under-3½s have no coached class, so this catches those families after they have
+     read the two programs. Built on the same card + right-aligned CTA shape as the
+     "Try a Free Class" nudge at the foot of every program page, so it reads as part
+     of the system rather than a notice bolted on. */
+  .too-young {
+    padding: 0 0 20px;
+  }
+
+  .too-young-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+  }
+
+  .too-young-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    background: rgba(21, 115, 194, 0.1);
+    color: var(--color-primary, #1573c2);
+  }
+
+  .too-young-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .too-young-text h3 {
+    margin: 0 0 4px;
+    color: var(--color-secondary, #151957);
+    font-size: 1.1rem;
+    line-height: 1.25;
+  }
+
+  .too-young-text p {
+    margin: 0;
+    max-width: 60ch;
+    color: var(--text-muted, #6c757d);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .too-young-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    /* 44px min touch target. */
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: var(--color-primary, #1573c2);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .too-young-link svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.18s ease;
+  }
+
+  .too-young-link:hover {
+    background: #115e9e;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(21, 115, 194, 0.32);
+  }
+
+  .too-young-link:hover svg {
+    transform: translateX(2px);
+  }
+
+  .too-young-link:focus-visible {
+    outline: 2px solid var(--color-secondary, #151957);
+    outline-offset: 3px;
+  }
+
+  /* Stack below the level cards' own breakpoint so the two never disagree. */
+  @media (max-width: 768px) {
+    .too-young-card {
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      /* The text becomes several lines tall on a phone; centring would leave the
+         icon floating in the middle with dead space above and below it. */
+      align-items: start;
+    }
+
+    .too-young-link {
+      grid-column: 1 / -1;
+      justify-content: center;
+    }
+
+    .too-young-text p {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .too-young-link,
+    .too-young-link svg {
+      transition: none;
+    }
+
+    .too-young-link:hover {
+      transform: none;
+    }
+
+    .too-young-link:hover svg {
+      transform: none;
+    }
+  }
+</style>

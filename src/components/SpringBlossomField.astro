@@ -1,0 +1,160 @@
+---
+/**
+ * SPRING BLOSSOM FIELD — decorative falling petals/blossoms.
+ *
+ * Seasonal counterpart to WinterSnowField.astro and AutumnLeafField.astro.
+ * Purely decorative: aria-hidden and pointer-events off.
+ *
+ * Used by the /school-holidays hero and SpringHolidayPromo while the Spring
+ * program is live (see docs/HOLIDAY-PROGRAM-PLAYBOOK.md).
+ *
+ * Negative delays pre-roll each petal to a different point in its cycle so they
+ * are already visible and spread across the full height on page load.
+ *
+ * `rest` is where the petal sits when the visitor prefers reduced motion: the
+ * animation stops but the blossoms stay on screen, scattered down the hero.
+ * (Winter/Autumn hide themselves outright — worth matching this later.)
+ */
+const fallingBlossom = [
+  { left: '4%',  start: '-18%', rest: '8%',  size: '46px', rotate: '-8deg',  duration: '29s', delay: '-4s',  drift: '34px', variant: 'blossom', fill: '#fbcfe8' },
+  { left: '16%', start: '-12%', rest: '58%', size: '30px', rotate: '18deg',  duration: '26s', delay: '-11s', drift: '22px', variant: 'petal',   fill: '#f9a8d4' },
+  { left: '29%', start: '-16%', rest: '22%', size: '38px', rotate: '-6deg',  duration: '32s', delay: '-19s', drift: '28px', variant: 'blossom', fill: '#fecdd3' },
+  { left: '42%', start: '-10%', rest: '72%', size: '26px', rotate: '12deg',  duration: '27s', delay: '-6s',  drift: '20px', variant: 'leaf',    fill: '#86efac' },
+  { left: '59%', start: '-14%', rest: '14%', size: '34px', rotate: '-20deg', duration: '31s', delay: '-15s', drift: '26px', variant: 'petal',   fill: '#fce7f3' },
+  { left: '73%', start: '-8%',  rest: '48%', size: '42px', rotate: '16deg',  duration: '28s', delay: '-9s',  drift: '24px', variant: 'blossom', fill: '#f9a8d4' },
+  { left: '85%', start: '-20%', rest: '18%', size: '30px', rotate: '-12deg', duration: '33s', delay: '-21s', drift: '32px', variant: 'leaf',    fill: '#bbf7d0' },
+  { left: '93%', start: '-11%', rest: '66%', size: '28px', rotate: '24deg',  duration: '25s', delay: '-17s', drift: '18px', variant: 'petal',   fill: '#fbcfe8' },
+];
+---
+
+<div class="spring-blossom-field" aria-hidden="true">
+  {fallingBlossom.map((petal) => (
+    <span
+      class={`spring-blossom-field__sprite spring-blossom-field__sprite--${petal.variant}`}
+      style={`--petal-left:${petal.left}; --petal-start:${petal.start}; --petal-rest:${petal.rest}; --petal-size:${petal.size}; --petal-rotate:${petal.rotate}; --petal-duration:${petal.duration}; --petal-delay:${petal.delay}; --petal-drift:${petal.drift}; --petal-fill:${petal.fill};`}
+    >
+      {petal.variant === 'blossom' ? (
+        <svg class="spring-blossom-field__icon" viewBox="0 0 100 100" aria-hidden="true">
+          <g class="spring-blossom-field__fill">
+            <ellipse cx="50" cy="24" rx="15" ry="21"/>
+            <ellipse cx="75" cy="42" rx="15" ry="21" transform="rotate(72 75 42)"/>
+            <ellipse cx="65" cy="72" rx="15" ry="21" transform="rotate(144 65 72)"/>
+            <ellipse cx="35" cy="72" rx="15" ry="21" transform="rotate(216 35 72)"/>
+            <ellipse cx="25" cy="42" rx="15" ry="21" transform="rotate(288 25 42)"/>
+          </g>
+          <circle cx="50" cy="50" r="9" class="spring-blossom-field__centre"/>
+        </svg>
+      ) : petal.variant === 'petal' ? (
+        <svg class="spring-blossom-field__icon" viewBox="0 0 100 100" aria-hidden="true">
+          <path
+            class="spring-blossom-field__fill"
+            d="M50 6C74 24 88 46 76 70C68 87 50 96 50 96C50 96 32 87 24 70C12 46 26 24 50 6Z"
+          />
+        </svg>
+      ) : (
+        <svg class="spring-blossom-field__icon" viewBox="0 0 100 100" aria-hidden="true">
+          <path
+            class="spring-blossom-field__fill"
+            d="M12 88C12 52 36 16 88 12C84 64 52 88 12 88Z"
+          />
+          <path class="spring-blossom-field__vein" d="M14 86C38 62 62 38 86 14"/>
+        </svg>
+      )}
+    </span>
+  ))}
+</div>
+
+<style>
+  .spring-blossom-field {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .spring-blossom-field__sprite {
+    position: absolute;
+    left: var(--petal-left);
+    top: var(--petal-start);
+    width: var(--petal-size);
+    height: var(--petal-size);
+    --petal-floor: calc(100% - var(--petal-size));
+    opacity: 0;
+    filter: drop-shadow(0 4px 12px rgba(244, 114, 182, 0.22));
+    animation: spring-blossom-fall var(--petal-duration) linear infinite var(--petal-delay);
+  }
+
+  .spring-blossom-field__sprite--leaf {
+    filter: drop-shadow(0 4px 12px rgba(74, 222, 128, 0.22));
+  }
+
+  .spring-blossom-field__icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .spring-blossom-field__fill {
+    fill: var(--petal-fill);
+    opacity: 0.78;
+  }
+
+  .spring-blossom-field__centre {
+    fill: rgba(255, 249, 196, 0.85);
+  }
+
+  .spring-blossom-field__vein {
+    stroke: rgba(255, 255, 255, 0.5);
+    stroke-width: 4;
+    stroke-linecap: round;
+    fill: none;
+  }
+
+  @keyframes spring-blossom-fall {
+    0% {
+      top: var(--petal-start);
+      opacity: 0;
+      transform: translate3d(0, 0, 0) rotate(var(--petal-rotate)) scale(0.92);
+    }
+    12% {
+      opacity: 0.9;
+    }
+    32% {
+      transform: translate3d(var(--petal-drift), 0, 0) rotate(calc(var(--petal-rotate) + 26deg)) scale(1.02);
+    }
+    54% {
+      transform: translate3d(calc(var(--petal-drift) * -0.7), 0, 0) rotate(calc(var(--petal-rotate) - 22deg)) scale(0.96);
+    }
+    68% {
+      top: var(--petal-floor);
+      opacity: 0.9;
+      transform: translate3d(calc(var(--petal-drift) * 0.35), 0, 0) rotate(calc(var(--petal-rotate) + 12deg)) scale(1);
+    }
+    82% {
+      transform: translate3d(calc(var(--petal-drift) * 0.35), 0, 0) rotate(calc(var(--petal-rotate) + 12deg)) scale(1);
+    }
+    100% {
+      top: var(--petal-floor);
+      opacity: 0;
+      transform: translate3d(calc(var(--petal-drift) * -0.2), 0, 0) rotate(calc(var(--petal-rotate) - 6deg)) scale(1.04);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .spring-blossom-field__sprite:nth-child(odd) {
+      display: none;
+    }
+  }
+
+  /* Reduced motion: keep the blossoms, drop the falling. They settle at their
+     `rest` position so the hero still reads as Spring without any movement. */
+  @media (prefers-reduced-motion: reduce) {
+    .spring-blossom-field__sprite {
+      top: var(--petal-rest);
+      opacity: 0.72;
+      animation: none;
+      transform: rotate(var(--petal-rotate));
+    }
+  }
+</style>

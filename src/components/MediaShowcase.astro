@@ -1,0 +1,594 @@
+---
+// Separate arrays for videos and photos
+const videos = [
+  {
+    src: '/Images/Homepage/Video/Vert_vid_1_optimised.mp4',
+    poster: '/Images/Homepage/compressed-Hero_1.webp',
+    title: 'Training in Action',
+    description: 'See our athletes developing skills and confidence'
+  },
+  {
+    src: '/Images/Homepage/Video/Vert_vid_2_optimised.mp4',
+    poster: '/Images/Homepage/compressed-Hero_2.webp',
+    title: 'Skills Development',
+    description: 'Progressive training for all levels'
+  },
+  {
+    src: '/Images/Homepage/Video/Vert_vid_3_optimised.mp4',
+    poster: '/Images/Homepage/compressed-Hero_1.webp',
+    title: 'Fun & Growth',
+    description: 'Building strength, coordination, and joy'
+  }
+];
+
+const photos = [
+  {
+    src: '/Images/Homepage/general_images/compressed-Kids_playing_1.webp',
+    title: 'Kids in Action',
+    description: 'Young gymnasts having fun during training'
+  },
+  {
+    src: '/Images/Homepage/general_images/compressed-Kids_playing_2.webp',
+    title: 'Learning Through Play',
+    description: 'Children playing and learning at Trident'
+  },
+  {
+    src: '/Images/Homepage/general_images/compressed-Kids_playing_3.webp',
+    title: 'Active & Engaged',
+    description: 'Kids enjoying gymnastics activities'
+  },
+  {
+    src: '/Images/Homepage/general_images/compressed-Kids_playing_4.webp',
+    title: 'Building Confidence',
+    description: 'Active kids developing skills through play'
+  }
+];
+---
+
+<section class="media-showcase section section-band" id="experience" aria-labelledby="experience-heading">
+  <div class="container">
+    <h2 id="experience-heading">Experience Trident in Action</h2>
+    <p class="section-subtitle">See our gymnasts in training and at play</p>
+
+    <div class="showcase-layout">
+      <!-- Video Carousel (Left Side) -->
+      <div class="carousel-section video-section">
+        <h3 class="carousel-heading">Training Videos</h3>
+        <div class="video-carousel-container">
+          {videos.map((video, index) => (
+            <div
+              class={`video-slide ${index === 0 ? 'active' : ''}`}
+              data-video-index={index}
+            >
+              <div class="video-wrapper">
+                <video
+                  class="carousel-video"
+                  poster={video.poster}
+                  preload="metadata"
+                  playsinline
+                  muted
+                  data-autoplay="true"
+                  aria-label={video.title}
+                >
+                  <source src={video.src} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                <button
+                  class="play-overlay"
+                  aria-label={`Play ${video.title} video`}
+                  data-play-video={index}
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="media-info">
+                <h4>{video.title}</h4>
+                <p>{video.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Photo Carousel (Right Side) -->
+      <div class="carousel-section photo-section">
+        <h3 class="carousel-heading">Kids in Action</h3>
+        <div class="photo-carousel-container">
+          {photos.map((photo, index) => (
+            <div
+              class={`photo-slide ${index === 0 ? 'active' : ''}`}
+              data-photo-index={index}
+            >
+              <img
+                src={photo.src}
+                alt={photo.description}
+                class="carousel-photo ken-burns-photo"
+                loading="lazy"
+              />
+              <div class="media-info">
+                <h4>{photo.title}</h4>
+                <p>{photo.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .media-showcase {
+    background: var(--light-bg);
+    padding: 4rem 0;
+  }
+
+  .media-showcase h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--dark-navy);
+  }
+
+  .section-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+
+  .showcase-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* Carousel Sections */
+  .carousel-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .carousel-heading {
+    font-size: 1.5rem;
+    color: var(--dark-navy);
+    margin: 0;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  /* Video Carousel Container - Vertical aspect ratio for vertical videos */
+  .video-carousel-container {
+    position: relative;
+    background: #000;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-2);
+    aspect-ratio: 9 / 16;
+    max-height: 700px;
+  }
+
+  /* Photo Carousel Container - Horizontal aspect ratio for photos */
+  .photo-carousel-container {
+    position: relative;
+    background: #000;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-2);
+    aspect-ratio: 4 / 3;
+    min-height: 400px;
+  }
+
+  /* Video Slides */
+  .video-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(1.0);
+    transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .video-slide.active {
+    opacity: 1;
+    transform: scale(1.0);
+    position: relative;
+  }
+
+  .video-slide.transitioning-out {
+    opacity: 0;
+    transform: scale(1.13);
+  }
+
+  /* Photo Slides */
+  .photo-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(1.0);
+    transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .photo-slide.active {
+    opacity: 1;
+    transform: scale(1.0);
+    position: relative;
+  }
+
+  .photo-slide.transitioning-out {
+    opacity: 0;
+    transform: scale(1.13);
+  }
+
+  /* Video Wrapper */
+  .video-wrapper {
+    position: relative;
+    flex: 1;
+    background: #000;
+  }
+
+  .carousel-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .carousel-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex: 1;
+  }
+
+  /* Play Overlay */
+  .play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 211, 56, 0.95);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+  }
+
+  .play-overlay svg {
+    width: 36px;
+    height: 36px;
+    color: var(--dark-navy);
+    margin-left: 4px;
+  }
+
+  .play-overlay:hover {
+    background: var(--accent-yellow);
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 8px 25px rgba(255, 211, 56, 0.6);
+  }
+
+  .video-wrapper:has(.carousel-video[data-playing="true"]) .play-overlay {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Ken Burns effect for photos */
+  @keyframes kenBurnsPhoto {
+    0% {
+      transform: scale(1.0) translateX(0);
+    }
+    100% {
+      transform: scale(1.12) translateX(2%);
+    }
+  }
+
+  .photo-slide.active .ken-burns-photo {
+    animation: kenBurnsPhoto 6s ease-out forwards;
+  }
+
+  /* Media Info */
+  .media-info {
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7));
+    color: white;
+    text-align: center;
+  }
+
+  .media-info h4 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: white;
+  }
+
+  .media-info p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .showcase-layout {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .video-carousel-container {
+      max-height: 600px;
+    }
+
+    .photo-carousel-container {
+      min-height: 350px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .media-showcase {
+      padding: 3rem 0;
+    }
+
+    .media-showcase h2 {
+      font-size: 2rem;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
+    .carousel-heading {
+      font-size: 1.3rem;
+    }
+
+    .video-carousel-container {
+      max-height: 500px;
+    }
+
+    .photo-carousel-container {
+      min-height: 300px;
+      aspect-ratio: 3 / 2;
+    }
+
+    .play-overlay {
+      width: 60px;
+      height: 60px;
+    }
+
+    .play-overlay svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .media-info {
+      padding: 1rem;
+    }
+
+    .media-info h4 {
+      font-size: 1.1rem;
+    }
+
+    .media-info p {
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .video-slide,
+    .photo-slide {
+      transition: none;
+    }
+
+    .ken-burns-photo {
+      animation: none !important;
+    }
+  }
+</style>
+
+<script>
+  // Initialize separate video and photo carousels
+  function initMediaShowcase() {
+    initVideoCarousel();
+    initPhotoCarousel();
+  }
+
+  // Video Carousel - cycles through 3 vertical videos
+  function initVideoCarousel() {
+    const videoSlides = document.querySelectorAll('.video-slide');
+    if (videoSlides.length === 0) return;
+
+    let currentVideoIndex = 0;
+    let isVideoTransitioning = false;
+    let videoTimeout: number;
+
+    const VIDEO_DURATION = 12000; // 12 seconds
+
+    function goToVideo(index: number) {
+      if (isVideoTransitioning) return;
+      isVideoTransitioning = true;
+
+      // Clear any existing timeout
+      if (videoTimeout) clearTimeout(videoTimeout);
+
+      // Stop current video if playing
+      const currentSlide = videoSlides[currentVideoIndex];
+      const currentVideo = currentSlide?.querySelector('.carousel-video') as HTMLVideoElement | null;
+      if (currentVideo) {
+        currentVideo.pause();
+        currentVideo.currentTime = 0;
+        currentVideo.removeAttribute('data-playing');
+      }
+
+      // Transition out current
+      currentSlide?.classList.add('transitioning-out');
+      setTimeout(() => {
+        currentSlide?.classList.remove('active', 'transitioning-out');
+      }, 100);
+
+      // Update index
+      currentVideoIndex = index;
+
+      // Transition in new
+      const newSlide = videoSlides[currentVideoIndex];
+      setTimeout(() => {
+        newSlide?.classList.add('active');
+      }, 100);
+
+      // Play video
+      const video = newSlide?.querySelector('.carousel-video') as HTMLVideoElement | null;
+      if (video) {
+        video.play().catch(err => console.log('Video autoplay prevented:', err));
+        video.setAttribute('data-playing', 'true');
+
+        const handleVideoEnd = () => {
+          video.removeEventListener('ended', handleVideoEnd);
+          isVideoTransitioning = false;
+          nextVideo();
+        };
+
+        video.addEventListener('ended', handleVideoEnd);
+
+        // Fallback timeout in case ended doesn't fire
+        videoTimeout = window.setTimeout(() => {
+          video.removeEventListener('ended', handleVideoEnd);
+          isVideoTransitioning = false;
+          nextVideo();
+        }, VIDEO_DURATION);
+      }
+    }
+
+    function nextVideo() {
+      const nextIndex = (currentVideoIndex + 1) % videoSlides.length;
+      goToVideo(nextIndex);
+    }
+
+    // Play button handlers
+    const playButtons = document.querySelectorAll('[data-play-video]');
+    playButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const videoSlide = this.closest('.video-slide');
+        const video = videoSlide?.querySelector('.carousel-video') as HTMLVideoElement | null;
+
+        if (video) {
+          if (video.paused) {
+            video.play();
+            video.setAttribute('data-playing', 'true');
+          } else {
+            video.pause();
+            video.removeAttribute('data-playing');
+          }
+        }
+      });
+    });
+
+    // Intersection Observer for scroll-triggered autoplay
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          goToVideo(0);
+        } else {
+          if (videoTimeout) clearTimeout(videoTimeout);
+          const currentVideo = videoSlides[currentVideoIndex]?.querySelector('.carousel-video') as HTMLVideoElement | null;
+          if (currentVideo) {
+            currentVideo.pause();
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const videoSection = document.querySelector('.video-section');
+    if (videoSection) {
+      observer.observe(videoSection);
+    }
+  }
+
+  // Photo Carousel - cycles through 4 photos
+  function initPhotoCarousel() {
+    const photoSlides = document.querySelectorAll('.photo-slide');
+    if (photoSlides.length === 0) return;
+
+    let currentPhotoIndex = 0;
+    let isPhotoTransitioning = false;
+    let photoTimeout: number;
+
+    const PHOTO_DURATION = 6000; // 6 seconds
+
+    function goToPhoto(index: number) {
+      if (isPhotoTransitioning) return;
+      isPhotoTransitioning = true;
+
+      // Clear any existing timeout
+      if (photoTimeout) clearTimeout(photoTimeout);
+
+      // Transition out current
+      const currentSlide = photoSlides[currentPhotoIndex];
+      currentSlide?.classList.add('transitioning-out');
+      setTimeout(() => {
+        currentSlide?.classList.remove('active', 'transitioning-out');
+      }, 100);
+
+      // Update index
+      currentPhotoIndex = index;
+
+      // Transition in new
+      const newSlide = photoSlides[currentPhotoIndex];
+      setTimeout(() => {
+        newSlide?.classList.add('active');
+      }, 100);
+
+      // Set timeout for next photo
+      photoTimeout = window.setTimeout(() => {
+        isPhotoTransitioning = false;
+        nextPhoto();
+      }, PHOTO_DURATION);
+    }
+
+    function nextPhoto() {
+      const nextIndex = (currentPhotoIndex + 1) % photoSlides.length;
+      goToPhoto(nextIndex);
+    }
+
+    // Intersection Observer for scroll-triggered autoplay
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          goToPhoto(0);
+        } else {
+          if (photoTimeout) clearTimeout(photoTimeout);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const photoSection = document.querySelector('.photo-section');
+    if (photoSection) {
+      observer.observe(photoSection);
+    }
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMediaShowcase);
+  } else {
+    initMediaShowcase();
+  }
+
+  document.addEventListener('astro:page-load', initMediaShowcase);
+</script>

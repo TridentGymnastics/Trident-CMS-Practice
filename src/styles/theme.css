@@ -1,0 +1,966 @@
+/* Self-Hosted Fonts - Montserrat */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/montserrat/montserrat-v31-latin-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/montserrat/montserrat-v31-latin-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/montserrat/montserrat-v31-latin-700.woff2') format('woff2');
+}
+
+/* Brand Color Variables - Trident Gymnastics Style Guide */
+:root {
+  /* Primary Brand Colors */
+  --primary-blue: #1573C2;     /* Buttons, links, key headings */
+  --dark-navy: #151957;        /* Hero gradients, main headings */
+  --accent-yellow: #FFD338;    /* Logo accents, highlights, CTAs */
+  --white: #FFFFFF;            /* Backgrounds, cards */
+  --text-muted: #6C757D;       /* Subtext, descriptions */
+  --light-bg: #f8fbff;         /* Section backgrounds */
+  
+  /* Legacy compatibility (mapping to new colors) */
+  --color-primary: var(--primary-blue);
+  --color-secondary: var(--dark-navy);
+  --color-accent: var(--accent-yellow);
+  --color-black: #333333;      /* Improved readability */
+  --color-white: var(--white);
+
+  /* Enhanced Design System */
+  --bg-page: var(--white);
+  --text-body: var(--color-black);
+  --border-subtle: rgba(21, 25, 87, 0.1);
+
+  /* Enhanced spacing and effects */
+  --radius: 20px;              /* More modern rounded corners */
+  --radius-small: 15px;
+  --radius-large: 25px;
+  --shadow-1: 0 10px 30px rgba(21, 25, 87, 0.1);
+  --shadow-2: 0 20px 40px rgba(21, 115, 194, 0.15);
+  --shadow-button: 0 4px 15px rgba(21, 115, 194, 0.4);
+  --shadow-button-hover: 0 6px 20px rgba(21, 25, 87, 0.6);
+
+  --font-sans: 'Montserrat', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --maxw: 1200px;
+  --space: 20px;
+  
+  /* Section spacing */
+  --section-padding: 80px;
+  --section-padding-mobile: 60px;
+
+  /* Header height — desktop max (132px logo + brand-row padding + nav row).
+     JS overrides this with the exact measured value after load; the CSS
+     value just needs to be >= the real height to prevent the notice bar
+     from hiding behind the fixed header before JS runs. */
+  --site-header-height: 250px;
+}
+
+/* Tablet/mobile header is much shorter — nav is position:absolute and
+   collapses to zero height; only the brand-row + header-inner top padding counts. */
+@media (max-width: 991px) {
+  :root { --site-header-height: 112px; } /* 8 + 8 + 76 + 10 ≈ 102px, +10 buffer */
+}
+
+@media (max-width: 768px) {
+  :root { --site-header-height: 100px; } /* 8 + 8 + 68 + 10 = 94px, +6 buffer */
+}
+
+@media (max-width: 480px) {
+  :root { --site-header-height: 92px; }  /* 8 + 7 + 60 + 9  = 84px, +8 buffer */
+}
+
+/* CSS reset / base */
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0;overflow-x:hidden}
+body{
+  background: var(--bg-page);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  line-height:1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  padding-top: var(--site-header-height);
+}
+
+html {
+  scroll-padding-top: var(--site-header-height);
+  scrollbar-gutter: stable;
+}
+
+a{ color: var(--color-secondary); text-decoration: none; }
+a:hover{ color: var(--color-primary); }
+img{ max-width:100%; height:auto; display:block; }
+
+/* Skip link: the first thing in the tab order, off-screen until focused.
+   Without it a keyboard or screen-reader user tabs the whole header and nav
+   again on every page before reaching the content. */
+.skip-link {
+  /* fixed, not absolute: the link is pinned to the viewport, so it still
+     appears in the right place if focus lands on it after a scroll. */
+  position: fixed;
+  left: 8px;
+  top: -100px;
+  z-index: 2000;
+  padding: 10px 16px;
+  border-radius: 0 0 8px 8px;
+  background: var(--dark-navy);
+  color: var(--white);
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+  color: var(--white);
+  outline: 3px solid var(--accent-yellow);
+  outline-offset: 2px;
+}
+
+/* Moving focus to <main> must not draw a focus ring around the whole page. */
+#main-content:focus {
+  outline: none;
+}
+
+/* Utility classes */
+.container{ max-width: var(--maxw); margin: 0 auto; padding-inline: var(--space); }
+.muted{ color: var(--text-muted); }
+/* Enhanced Card System */
+.card{ 
+  background: var(--white); 
+  padding: 2rem; 
+  border-radius: var(--radius); 
+  box-shadow: var(--shadow-1); 
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+}
+
+.card:hover{ 
+  transform: translateY(-10px); 
+  box-shadow: var(--shadow-2);
+  border-color: var(--primary-blue);
+}
+
+/* Card with top accent */
+.card-accent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--accent-yellow));
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+/* Feature cards with enhanced styling */
+.feature-card {
+  text-align: center;
+  padding: 2.5rem 2rem;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-2);
+}
+
+.feature-card h3 {
+  color: var(--dark-navy);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.feature-card p {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+/* Enhanced Button System */
+.btn{
+  display:inline-block; 
+  padding: 15px 30px; 
+  border-radius: 50px; 
+  font-weight: bold;
+  background: var(--primary-blue); 
+  color: var(--white);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-button);
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.btn:hover{ 
+  background: var(--dark-navy); 
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-button-hover);
+}
+
+.btn-accent{ 
+  background: var(--accent-yellow); 
+  color: var(--dark-navy);
+  box-shadow: 0 4px 15px rgba(255, 211, 56, 0.4);
+}
+
+.btn-accent:hover{ 
+  background: #e8bd00;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(232, 189, 0, 0.6);
+}
+
+/* Button variants */
+.btn-secondary {
+  background: transparent;
+  color: var(--primary-blue);
+  border: 2px solid var(--primary-blue);
+  box-shadow: none;
+}
+
+.btn-secondary:hover {
+  background: var(--primary-blue);
+  color: var(--white);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-button);
+}
+
+/* Enhanced Typography Hierarchy */
+h1{ 
+  font-size: clamp(2.5rem, 5vw, 4rem); 
+  color: var(--dark-navy); 
+  margin: 0 0 1rem; 
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+h2{ 
+  font-size: 2.5rem; 
+  color: var(--dark-navy); 
+  margin: 0 0 1.5rem; 
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+h3{ 
+  font-size: 1.5rem; 
+  color: var(--dark-navy); 
+  margin: 0 0 1rem; 
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+p{ 
+  color: #333; 
+  line-height: 1.6; 
+  margin: 0 0 1rem;
+}
+
+.muted{ 
+  color: var(--text-muted); 
+}
+
+/* Section Background Alternation */
+.section {
+  padding: var(--section-padding) 0;
+}
+
+.section-band {
+  background: var(--light-bg);
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--section-padding-mobile) 0;
+  }
+}
+
+/* Forms */
+input,select,textarea{
+  border:1px solid var(--border-subtle); border-radius:10px; padding:.65rem .8rem;
+  font: inherit; color: var(--text-body); background: var(--color-white);
+}
+input:focus,select:focus,textarea:focus{ outline:2px solid var(--color-primary); }
+
+/* Header / nav colors (Header.astro should use these) */
+.site-header{ background: var(--color-white); border-bottom: 0; }
+.main-nav a{ color: var(--color-secondary); }
+.main-nav a:hover{ color: var(--color-primary); }
+.nav-active{ border-bottom:2px solid var(--color-accent); font-weight:700; }
+.submenu{ background: var(--color-white); border:1px solid var(--border-subtle); box-shadow: var(--shadow-2); }
+.submenu a:hover{ background: rgba(103,160,215,.12); }
+
+/* Unified Navigation Styling */
+.main-nav a, .main-nav button.nav-btn {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.main-nav a:hover, .main-nav button.nav-btn:hover {
+  color: var(--color-primary);
+}
+
+.main-nav a.active, .main-nav button.nav-btn.active {
+  border-bottom: 2px solid var(--color-accent);
+  font-weight: 600;
+}
+
+/* Enhanced Hero Sections */
+.hero {
+  background: linear-gradient(135deg, var(--dark-navy) 0%, var(--primary-blue) 100%);
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  /* Optional floating star/particle effect */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(255, 211, 56, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 211, 56, 0.1) 0%, transparent 50%);
+  animation: float 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+.hero h1 {
+  color: var(--white);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero p {
+  color: var(--white);
+  font-size: 1.2rem;
+  opacity: 0.95;
+  margin-bottom: 2rem;
+}
+
+/* Footer */
+.site-footer{ 
+  background: var(--light-bg); 
+  color: var(--dark-navy); 
+  border-top:1px solid var(--border-subtle); 
+}
+.site-footer a{ color: var(--dark-navy); }
+.site-footer a:hover{ color: var(--primary-blue); }
+
+/* Accent bands / callouts */
+.band-accent{
+  background: var(--accent-yellow);
+  color: var(--dark-navy);
+}
+
+/* ===== Unified Free Trial CTA ===== */
+:root {
+  --tg-navy: #0b1150;
+  --tg-yellow: #ffd33b;
+  --tg-yellow-2: #ffe16e;
+  --tg-shadow: 0 6px 16px rgba(11, 17, 80, 0.18);
+  --tg-shadow-strong: 0 10px 24px rgba(11, 17, 80, 0.22);
+}
+
+/* Base CTA Trial Button */
+.cta-trial {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.2px;
+  color: var(--tg-navy);
+  text-decoration: none;
+  background: linear-gradient(180deg, var(--tg-yellow-2), var(--tg-yellow));
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: var(--tg-shadow);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  will-change: transform;
+  cursor: pointer;
+}
+
+/* Large hero variant */
+.cta-trial--lg {
+  padding: 14px 22px;
+  font-size: 1.05rem;
+}
+
+/* Hover & active states */
+.cta-trial:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--tg-shadow-strong);
+  filter: saturate(1.03);
+}
+
+.cta-trial:active {
+  transform: translateY(0);
+  box-shadow: var(--tg-shadow);
+}
+
+/* CTA icon (arrow) */
+.cta-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+/* Keyboard focus ring */
+.cta-trial:focus {
+  outline: none;
+}
+
+.cta-trial:focus-visible {
+  box-shadow: var(--tg-shadow-strong), 0 0 0 4px rgba(255, 211, 59, 0.45);
+}
+
+/* Subtle attention pulse (applied via data attribute, not always-on) */
+@keyframes cta-soft-pulse {
+  0% {
+    box-shadow: 0 6px 16px rgba(11, 17, 80, 0.18), 0 0 0 0 rgba(255, 211, 59, 0);
+  }
+  40% {
+    box-shadow: 0 10px 24px rgba(11, 17, 80, 0.28), 0 0 0 8px rgba(255, 211, 59, 0.22);
+  }
+  100% {
+    box-shadow: 0 6px 16px rgba(11, 17, 80, 0.18), 0 0 0 0 rgba(255, 211, 59, 0);
+  }
+}
+
+.cta-trial[data-attn="true"] {
+  animation: cta-soft-pulse 1.2s ease-out 1;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cta-trial {
+    transition: none;
+  }
+  .cta-trial[data-attn="true"] {
+    animation: none;
+  }
+  .site-header,
+  .nav-shell,
+  .nav-inner,
+  .header-inner,
+  .brand-row,
+  .brand img {
+    transition: none !important;
+  }
+}
+
+/* Header Styles - Centered logo + flat nav bar */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-white);
+  border-bottom: 0;
+  z-index: 1500;
+  transform: translate3d(0, 0, 0);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.18s ease;
+  will-change: transform;
+}
+
+.nav-shell {
+  position: static;
+  top: auto;
+  background: var(--color-white);
+  border: 0;
+  box-shadow: none;
+  z-index: auto;
+  transition: box-shadow 0.18s ease;
+}
+
+.nav-shell.has-scrolled {
+  box-shadow: 0 8px 18px rgba(21, 25, 87, 0.08);
+}
+
+.site-header.has-scrolled {
+  box-shadow: 0 8px 18px rgba(21, 25, 87, 0.08);
+}
+
+.site-header.is-hidden {
+  transform: translate3d(0, -100%, 0);
+}
+
+.header-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 8px 24px 0;
+  position: relative;
+}
+
+.nav-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 10px 24px 10px;
+  position: relative;
+}
+
+/* Row 1: Centered brand/logo - statement piece sizing */
+.brand-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  /* More breathing room for the big logo */
+  padding: 14px 0 18px;
+  max-height: 170px;
+  overflow: hidden;
+  transition: opacity 0.2s ease, max-height 0.2s ease, padding 0.2s ease;
+}
+
+.brand {
+  display: inline-block;
+  line-height: 0;
+}
+
+/* Big, responsive logo on desktop; reserve stable space, scale with transform */
+.brand img {
+  display: block;
+  /* Statement size; reserved space prevents layout shift */
+  height: clamp(96px, 10vw, 132px);
+  width: auto;
+  transform-origin: center;
+  transition: transform 0.18s ease;
+}
+
+/* Mobile toggle */
+.mobile-toggle {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  flex-direction: column;
+  justify-content: space-around;
+  width: 44px;
+  height: 44px;
+  background: rgba(21, 25, 87, 0.05);
+  border: 2px solid rgba(21, 25, 87, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 3001;
+  transition: background 0.2s ease;
+  touch-action: manipulation;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 3px;
+  background: var(--color-secondary);
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.mobile-toggle[aria-expanded="true"] .hamburger-line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.mobile-toggle[aria-expanded="true"] .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-toggle[aria-expanded="true"] .hamburger-line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Row 2: Centered navigation - must stay flat */
+.primary-nav {
+  overflow: visible;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(20px, 3vw, 64px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.menu > li {
+  position: relative;
+}
+
+.tab {
+  display: inline-block;
+  padding: 10px 4px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 17px;
+  text-decoration: none;
+  color: var(--dark-navy);
+  border-bottom: 3px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.tab:hover,
+.tab[aria-current="page"],
+.tab.current {
+  border-bottom-color: var(--accent-yellow);
+  color: var(--dark-navy);
+}
+
+/* Customer Portal button styling */
+.customer-portal-btn {
+  display: inline-block;
+  padding: 8px 20px;
+  background: var(--accent-yellow);
+  color: var(--dark-navy);
+  border-radius: 50px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  border: 2px solid var(--accent-yellow);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 211, 56, 0.3);
+  white-space: nowrap;
+}
+
+.customer-portal-btn:hover {
+  background: var(--dark-navy);
+  color: var(--accent-yellow);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(21, 25, 87, 0.4);
+}
+
+/* Center-anchored dropdown directly under its parent tab */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translate(-50%, 6px);
+  min-width: 220px;
+  background: var(--color-white);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(21, 25, 87, 0.08);
+  padding: 6px;
+  z-index: 3000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
+  pointer-events: none;
+}
+
+/* Show on hover/focus-within */
+.has-dropdown:hover .dropdown,
+.has-dropdown:focus-within .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition-delay: 0s;
+  pointer-events: auto;
+}
+
+/* JS-triggered open state */
+.has-dropdown.open .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition-delay: 0s;
+  pointer-events: auto;
+}
+
+/* Hover bridge removes micro-gap between tab and dropdown */
+.dropdown::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: transparent;
+}
+
+/* Dropdown items */
+.dropdown a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--dark-navy);
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.15s ease;
+}
+
+.dropdown a:hover,
+.dropdown a:focus {
+  background: var(--light-bg);
+  outline: 0;
+}
+
+/* Guard rails: avoid clipping */
+.site-header,
+.nav-shell,
+.primary-nav {
+  overflow: visible;
+}
+
+
+/* Responsive breakpoints */
+@media (max-width: 991px) {
+  /* Scale logo down on smaller screens */
+  .brand img {
+    height: 76px;
+  }
+
+  .brand-row {
+    padding: 8px 0 10px;
+    max-height: 110px;
+  }
+
+  .mobile-toggle {
+    display: flex;
+    width: 42px;
+    height: 42px;
+    padding: 9px;
+  }
+
+  .brand-row > .mobile-toggle {
+    display: flex !important;
+    visibility: visible;
+    opacity: 1;
+    right: 0;
+  }
+
+  .nav-inner {
+    min-height: 0;
+    padding: 0 16px;
+  }
+
+  .menu {
+    gap: 18px;
+  }
+
+  .primary-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-white);
+    border-top: 0;
+    box-shadow: 0 14px 24px rgba(21, 25, 87, 0.08);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease, visibility 0s linear 0.3s;
+  }
+
+  /* The menu hangs from the bottom of the header, so the room it has is the
+     viewport minus the header. The old flat 86px was shorter than the real
+     header at every mobile size, which pushed the foot of the menu below the
+     fold — in landscape the last 16px of it could not be scrolled into view at
+     all. --site-header-height is the measured header height. */
+  .primary-nav.show {
+    max-height: calc(100svh - var(--site-header-height));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  /* Set by mobile-nav.ts while the menu is open: the floating contact button
+     is above the header in the stacking order and covered the lower nav items
+     on short phones. */
+  body.mobile-nav-open .fab {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .menu {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.45rem 0.85rem max(0.7rem, env(safe-area-inset-bottom));
+  }
+
+  .menu > li {
+    width: 100%;
+    border-bottom: 0;
+  }
+
+  .menu > li:last-child {
+    border-bottom: none;
+  }
+
+  .tab {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 38px;
+    padding: 0.55rem 0.8rem;
+    font-size: 14px;
+    border-bottom: none;
+    text-align: left;
+  }
+
+  .tab:hover,
+  .tab[aria-current="page"],
+  .tab.current {
+    background: var(--light-bg);
+    border-bottom: none;
+  }
+
+  /* Mobile dropdown adjustments */
+  .has-dropdown .dropdown {
+    position: static;
+    transform: none;
+    box-shadow: none;
+    border: none;
+    border-left: 3px solid var(--primary-blue);
+    background: var(--light-bg);
+    margin: 0.25rem 0 0.35rem 0.75rem;
+    border-radius: 8px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* On touch devices, dropdown visibility must be driven by the JS `.open` state.
+     Relying on `:hover` here causes sticky submenus that won't collapse reliably. */
+  .has-dropdown:hover .dropdown,
+  .has-dropdown:focus-within .dropdown {
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: none;
+    pointer-events: none;
+  }
+
+  .has-dropdown.open .dropdown,
+  .has-dropdown.open:hover .dropdown,
+  .has-dropdown.open:focus-within .dropdown {
+    max-height: 300px;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .dropdown::before {
+    display: none;
+  }
+
+  .dropdown a {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .portal-item {
+    margin-top: 0.25rem;
+  }
+
+  .customer-portal-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    min-height: 40px;
+    padding: 9px 14px;
+    font-size: 14px;
+  }
+}
+
+/* Medium screens: slightly tighter spacing */
+@media (min-width: 992px) and (max-width: 1200px) {
+  .menu {
+    gap: clamp(16px, 2.2vw, 48px);
+  }
+
+  .tab {
+    font-size: 15px;
+    padding: 10px 2px;
+  }
+}
+
+/* Tablet landscape: moderate logo size */
+@media (max-width: 768px) {
+  .brand img {
+    height: 68px;
+  }
+
+  .brand-row {
+    padding: 8px 0 10px;
+    max-height: 96px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand img {
+    height: 60px;
+  }
+
+  .brand-row {
+    padding: 7px 0 9px;
+    max-height: 84px;
+  }
+
+  .nav-inner {
+    min-height: 0;
+  }
+
+  .mobile-toggle {
+    right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header {
+    transition: none;
+  }
+}

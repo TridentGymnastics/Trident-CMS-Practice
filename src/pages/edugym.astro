@@ -1,0 +1,45 @@
+---
+import ProgramPage from "../components/ProgramPage.astro";
+import beamSpotting from "../assets/images/programs/edugym/beam-spotting.jpg";
+import barsPullover from "../assets/images/programs/edugym/bars-pullover.jpg";
+
+const title = "EduGym";
+const blurb = "Curriculum-aligned gymnastic movement designed for school groups and physical literacy.";
+const metaTitle = "EduGym School Gymnastics Ringwood";
+const description = "EduGym at Trident Gymnastics Ringwood — curriculum-aligned gymnastic movement designed for school groups and physical literacy, with coached progressions.";
+const bookingUrl = "https://portal.iclasspro.com/trident";
+const trialUrl = "https://portal.iclasspro.com/trident";
+// Parked — the grade each level maps to now sits on the cards above, so the
+// diagram only repeated them. Add `diagramImage={diagramImage}` back to restore.
+const diagramImage = "/Images/levels/edugym-levels.svg";
+// EduGym Adventurers is part of EduGym but sits on /preschool with the rest of the
+// pre-school offering, so parents who land here looking for it need a signpost.
+const heroNote = "Not at school yet? EduGym Adventurers is our kinder-age class.";
+const heroNoteHref = "/preschool";
+const heroNoteCta = "See preschool programs";
+// The school grade each level maps to. This used to live only in the levels
+// diagram — putting it on the cards is what let the diagram go.
+const gradeTag = { tagBg: "#1573C2", tagColor: "#fff" };
+const levels = [
+  { name: "Foundation", tag: "Prep", ...gradeTag, description: "Core shapes, rolls and landings building safe foundation skills." },
+  { name: "Level 1", tag: "Grade 1", ...gradeTag, description: "Introduction to basic apparatus skills and movement patterns." },
+  { name: "Level 2", tag: "Grade 2", ...gradeTag, description: "Develop strength and technique across apparatus with progressions." },
+  { name: "Level 3", tag: "Grade 3", ...gradeTag, description: "Intermediate skills and combinations on all apparatus." },
+  { name: "Level 4", tag: "Grade 4", ...gradeTag, description: "Advanced skills and complex movement sequences." },
+  { name: "Level 5+", tag: "Grade 5+", ...gradeTag, description: "Refine and master advanced skills, sequences and movement with confidence." }
+];
+
+const media = {
+  heading: "EduGym in Action",
+  subtitle: "Curriculum-aligned gymnastics with school groups on the floor",
+  columns: 2,
+  photos: [
+    // Centred, the square crop takes the student's head off the top. Anchored to
+    // the top it comes off the coach's legs instead.
+    { src: beamSpotting, alt: "A Trident coach spotting a student as they walk along the balance beam", position: "center top" },
+    { src: barsPullover, alt: "A gymnast performing a pullover on the bars" }
+  ]
+};
+---
+
+<ProgramPage {title} {metaTitle} {description} {blurb} {levels} {bookingUrl} {trialUrl} {heroNote} {heroNoteHref} {heroNoteCta} {media} colorScheme="primary" />

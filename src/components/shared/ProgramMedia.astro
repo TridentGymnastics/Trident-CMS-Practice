@@ -1,0 +1,246 @@
+---
+import { Image, getImage } from 'astro:assets';
+
+export interface MediaPhoto {
+  src: ImageMetadata;
+  alt: string;
+  /** object-position for the square crop, e.g. "center top". Set it when centring
+   *  would cut someone's head off — crop legs, never faces. */
+  position?: string;
+}
+
+export interface MediaVideo {
+  src: string;
+  poster: ImageMetadata;
+  title: string;
+  /** Play muted when scrolled into view, pause on leave. Still fetches nothing
+   *  until it's actually in view. Ignored for prefers-reduced-motion. */
+  autoplay?: boolean;
+}
+
+export interface Props {
+  heading?: string;
+  subtitle?: string;
+  video?: MediaVideo;
+  photos?: MediaPhoto[];
+  /** Desktop column count for the photo grid (no-video layouts). Set it so the
+   *  photo count divides evenly — 6/3 and 4/2 both land square. */
+  columns?: number;
+  /** Caps the media block's width. Lower it for small galleries so a couple of
+   *  photos don't blow up to half a screen each. */
+  maxWidth?: string;
+}
+
+const { heading = 'See it in action', subtitle, video, photos = [], columns = 3, maxWidth = '1100px' } = Astro.props;
+const hasMedia = Boolean(video) || photos.length > 0;
+
+// The poster carries the first paint. With preload="none" below, not a single
+// video byte is fetched until the visitor taps play — ~70% of members are on mobile.
+// Cropped to the video's own 9:16 so it fills the frame instead of letterboxing.
+const poster = video
+  ? (await getImage({ src: video.poster, width: 720, height: 1280, fit: 'cover', format: 'webp' })).src
+  : undefined;
+---
+
+{hasMedia && (
+  <section class="program-media">
+    <div class="container">
+      <h2>{heading}</h2>
+      {subtitle && <p class="program-media__subtitle">{subtitle}</p>}
+
+      <div class:list={["media-layout", !video && "media-layout--no-video"]} style={`--maxw:${maxWidth}`}>
+        {video && (
+          <figure class="media-item media-item--video">
+            <!-- controlsList="nodownload" removes the Download button Chrome puts in
+                 its native controls by default — otherwise there's a one-click save
+                 sitting on the page. It's a deterrent only; the mp4 is still a public
+                 URL. `controls` itself stays: WCAG 2.2.2 requires a way to pause
+                 motion that autoplays for more than 5s. -->
+            <video
+              class="media-video"
+              poster={poster}
+              preload="none"
+              playsinline
+              controls
+              controlsList="nodownload noplaybackrate"
+              disablePictureInPicture
+              muted={video.autoplay}
+              loop={video.autoplay}
+              data-autoplay={video.autoplay ? "" : undefined}
+              aria-label={video.title}
+            >
+              <source src={video.src} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </figure>
+        )}
+
+        <div class="media-grid" style={`--cols:${columns}`}>
+          {photos.map((photo) => (
+            <figure class="media-item">
+              <Image
+                class="media-photo"
+                src={photo.src}
+                alt={photo.alt}
+                width={960}
+                widths={[320, 640, 960]}
+                sizes="(max-width: 799px) 50vw, 360px"
+                loading="lazy"
+                decoding="async"
+                style={photo.position ? `object-position:${photo.position}` : undefined}
+              />
+            </figure>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+<script>
+  // Autoplay opted-in clips when they scroll into view, pause when they leave.
+  // preload="none" still holds, so nothing downloads for visitors who never
+  // reach the section.
+  //
+  // These clips deliberately play regardless of prefers-reduced-motion: they are
+  // short, muted, and the point of the section. Native controls stay on, so there
+  // is always a way to pause it (WCAG 2.2.2 needs that for motion over 5s).
+  function initProgramMediaAutoplay() {
+    const videos = document.querySelectorAll<HTMLVideoElement>('.media-video[data-autoplay]');
+    if (!videos.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target as HTMLVideoElement;
+        if (entry.isIntersecting) {
+          video.play().catch(() => {
+            /* Autoplay blocked — poster and controls stay, user can tap play. */
+          });
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.35 });
+
+    videos.forEach((video) => observer.observe(video));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProgramMediaAutoplay);
+  } else {
+    initProgramMediaAutoplay();
+  }
+  document.addEventListener('astro:page-load', initProgramMediaAutoplay);
+</script>
+
+<style>
+  /* Matches the .levels rhythm (36px 0 24px) and carries no background of its own.
+     It was the only banded section on an otherwise white page, which is what made
+     it read as bolted on rather than part of the page. */
+  .program-media {
+    padding: 36px 0 24px;
+  }
+
+  /* No font-size override — inherits the same h2 as "Levels" so the two sections
+     read as peers. */
+  .program-media h2 {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .program-media__subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    max-width: 60ch;
+    margin: 0 auto 18px;
+  }
+
+  /* Two-up on phones: seven full-width tiles is ~6 screens of scrolling,
+     and 50vw tiles also halve the bytes fetched. */
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .media-item {
+    margin: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-2);
+    background: #000;
+  }
+
+  /* Reserving the box up front keeps Lighthouse's CLS at zero. */
+  .media-photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .media-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: var(--maxw, 1100px);
+    margin: 0 auto;
+  }
+
+  .media-item--video {
+    background: #000;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .media-video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    background: #000;
+  }
+
+  .media-grid {
+    width: 100%;
+  }
+
+  @media (min-width: 800px) {
+    /* Video sits beside the photos rather than in its own band. Stacked, the lone
+       portrait clip added ~570px of near-empty page. */
+    .media-layout {
+      flex-direction: row;
+      align-items: stretch;
+      gap: 16px;
+    }
+
+    /* Stretch to the photo grid's height so the bottom edges line up, whatever
+       the photo count. Fixed 9:16 left the clip hanging below the grid. */
+    .media-item--video {
+      flex: 0 0 260px;
+    }
+
+    .media-video {
+      height: 100%;
+      aspect-ratio: auto;
+      min-height: 380px;
+    }
+
+    /* 240px floor yields 3 columns beside the video, so 6 photos fill two even rows
+       (and 3 even rows of 2 on phones). auto-fit collapses unused tracks, so pages
+       with just 2 photos still fill the row with no empty cells. */
+    .media-grid {
+      flex: 1;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    /* Without a video the row is wider and auto-fit would pick its own column
+       count, leaving ragged last rows. Pin it so the count divides evenly. */
+    .media-layout--no-video .media-grid {
+      grid-template-columns: repeat(var(--cols, 3), 1fr);
+    }
+  }
+</style>

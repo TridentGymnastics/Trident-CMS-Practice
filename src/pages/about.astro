@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/about/Hero.astro';
+import Bios from '../components/about/Bios.astro';
+import Affiliations from '../components/about/Affiliations.astro';
+import aboutData from '../content/about.json';
+import { siteConfig } from '../config/site';
+
+// Derived from siteConfig rather than hardcoded — these were the last two places
+// still pinned to the bare domain after the canonical host moved to www.
+const ld = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About Trident Gymnastics Ringwood",
+  "url": `${siteConfig.siteUrl}/about`,
+  "mainEntity": {
+    "@id": `${siteConfig.siteUrl}/#business`
+  }
+};
+---
+
+<Layout title="About Trident Gymnastics Ringwood" description="Meet Tim Lees and Alyona Kvasha OLY, the owners and directors of Trident Gymnastics in Ringwood.">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(ld)}></script>
+  </Fragment>
+
+  <Hero hero={aboutData.hero} />
+  <Bios bios={aboutData.bios} closing={aboutData.closing} />
+  <Affiliations band={aboutData.band} affiliations={aboutData.affiliations} />
+</Layout>

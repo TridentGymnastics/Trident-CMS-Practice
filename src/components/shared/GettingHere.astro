@@ -1,0 +1,166 @@
+---
+import { siteConfig } from '../../config/site';
+
+// Shows how to reach the facility: the three "find us" photos from the contact
+// page plus the live map. Shared so program pages can embed it without
+// duplicating the carpark-entry guidance.
+const {
+  heading = 'Getting Here',
+  address = '4/8-10 Maroondah Highway, Ringwood VIC 3134',
+} = Astro.props;
+---
+
+<section class="getting-here" id="getting-here">
+  <div class="container">
+    <h2>{heading}</h2>
+    <p class="getting-here-intro">Find us at <strong>{address}</strong> — these photos show where to turn in and park.</p>
+
+    <div class="entry-note">
+      <strong>Note:</strong> Entry off Maroondah Highway can be difficult. The carpark for Trident is <strong>ONLY</strong> accessible when travelling in a westerly direction (towards the city, away from Ringwood).
+    </div>
+
+    <div class="access-images">
+      <img
+        src="/Images/Contact/compressed-find-us-0.webp"
+        alt="How to access Trident Gymnastics - Step 1"
+        width="800"
+        height="600"
+        loading="lazy"
+        decoding="async"
+      />
+      <img
+        src="/Images/Contact/compressed-find-us-1.webp"
+        alt="How to access Trident Gymnastics - Step 2"
+        width="800"
+        height="600"
+        loading="lazy"
+        decoding="async"
+      />
+      <img
+        src="/Images/Contact/compressed-find-us-2.webp"
+        alt="How to access Trident Gymnastics - Step 3"
+        width="800"
+        height="600"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+
+    <div class="map">
+      <iframe
+        title="Trident Gymnastics Location"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src={siteConfig.mapsEmbedUrl}>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<style>
+  .getting-here {
+    padding: 4rem 0;
+    background: #f5faff;
+  }
+
+  .getting-here h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-blue);
+  }
+
+  .getting-here-intro {
+    text-align: center;
+    font-size: 1.05rem;
+    color: var(--text-body, #333);
+    max-width: 640px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
+  }
+
+  .entry-note {
+    max-width: 760px;
+    margin: 0 auto 2rem;
+    background: #fff;
+    border: 1px dashed rgba(21, 115, 194, 0.35);
+    border-radius: 0.75rem;
+    padding: 0.9rem 1.1rem;
+    color: var(--dark-navy, #151957);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .access-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    max-width: 1000px;
+    margin: 0 auto 2rem;
+    align-items: start;
+  }
+
+  .access-images img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(21, 115, 194, 0.12);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .map {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid rgba(21, 115, 194, 0.12);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    /* Fixed height on purpose: aspect-ratio + min-height together transfer a
+       minimum width through the ratio and blow out the layout on phones. */
+    height: 400px;
+  }
+
+  .map iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  @media (max-width: 768px) {
+    .getting-here h2 {
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .getting-here {
+      padding: 2.5rem 0;
+    }
+
+    .getting-here h2 {
+      font-size: 1.6rem;
+    }
+
+    .getting-here-intro {
+      font-size: 0.96rem;
+    }
+
+    .entry-note {
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .access-images {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .map {
+      height: 320px;
+    }
+  }
+</style>

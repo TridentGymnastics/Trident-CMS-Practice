@@ -1,0 +1,22 @@
+[
+  {
+    "slug": "preschool",
+    "title": "Preschool",
+    "blurb": "EduGym Adventurers and EduGym Foundation: structured gymnastics for our youngest athletes, building movement, coordination and fun in a safe, supportive environment."
+  },
+  {
+    "slug": "edugym",
+    "title": "EduGym",
+    "blurb": "Curriculum-aligned gymnastic movement designed for school groups and physical literacy."
+  },
+  {
+    "slug": "urbangym",
+    "title": "UrbanGym",
+    "blurb": "Urban-inspired flipping, vaulting and creative movement in a safe environment."
+  },
+  {
+    "slug": "agc",
+    "title": "AGC",
+    "blurb": "Australian Gymnastics Club competitive stream, with structured training and clear progressions."
+  }
+]

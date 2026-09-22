@@ -1,0 +1,198 @@
+---
+import Layout from "../layouts/Layout.astro";
+import UniversalHero from '../components/shared/UniversalHero.astro';
+
+const bookingUrl = "https://portal.iclasspro.com/trident/party-booking-01-date"; // Customer Portal party booking link
+const inviteHref = "/Parties/trident-birthday-invitation.pdf";
+---
+
+<Layout title="Gymnastics Birthday Parties Ringwood" description="Host your child's birthday party at Trident Gymnastics in Ringwood. Choose from OpenGym, Gymnastics, or UrbanGym themes. 2-hour parties from $450.">
+
+  <UniversalHero
+    title="Gymnastics Birthday Parties in Ringwood"
+    subtitle="Party with us! Qualified coaches, movement games, and a safe facility for an unforgettable celebration."
+    primaryCta="Book Now"
+    primaryCtaHref={bookingUrl}
+    colorScheme="primary-secondary"
+  />
+
+  <!-- THEMES: three cards w/ icons -->
+  <section class="party-types section-band" id="themes" aria-labelledby="themes-title">
+    <div class="container">
+      <h2 id="themes-title">Party Themes</h2>
+      <div class="types-grid">
+        <article class="card type-card">
+          <h3>OpenGym Party</h3>
+          <p>Explore the gym at your own pace with coach-led games and supervised free time.</p>
+        </article>
+        <article class="card type-card">
+          <h3>Gymnastics Party</h3>
+          <p>Vault, bars, beam and floor with fun skill circuits, stations and team games.</p>
+        </article>
+        <article class="card type-card">
+          <h3>UrbanGym Party</h3>
+          <p>Obstacle flow, climbs and vaults with a parkour-inspired twist. Safe, coached and epic.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING: package cards -->
+  <section class="party-details" id="details" aria-labelledby="details-title">
+    <div class="container">
+      <h2 id="details-title">Party Packages</h2>
+      <p class="pricing-intro">Pick the package that fits your guest list. Every party runs the same 2-hour format with qualified Trident coaches.</p>
+
+      <div class="pricing-grid">
+        <article class="price-card">
+          <span class="price-tier">Standard</span>
+          <p class="price-capacity">
+            <svg class="price-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Up to 18 children</span>
+          </p>
+          <p class="price-amount">$450</p>
+          <p class="price-note">Just right for a class or a close group of friends.</p>
+        </article>
+
+        <article class="price-card price-card--featured">
+          <span class="price-badge">Most popular</span>
+          <span class="price-tier">Large</span>
+          <p class="price-capacity">
+            <svg class="price-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Up to 25 children</span>
+          </p>
+          <p class="price-amount">$550</p>
+          <p class="price-note">Great for bigger classes or combined friendship groups.</p>
+        </article>
+
+        <article class="price-card">
+          <span class="price-tier">Extra Large</span>
+          <p class="price-capacity">
+            <svg class="price-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Up to 33 children</span>
+          </p>
+          <p class="price-amount">$650</p>
+          <p class="price-note">Children 5 and under are kindly asked to be supervised by one parent or guardian.</p>
+        </article>
+      </div>
+
+      <ul class="pricing-terms">
+        <li>$50 non-refundable deposit at booking</li>
+        <li>Balance due before your party day, via the customer portal</li>
+      </ul>
+
+      <div class="cta-row">
+        <a class="cta-trial" href={bookingUrl} target="_blank" rel="noopener" aria-label="Book a party now">
+          <span class="cta-label">Book Now</span>
+          <svg class="cta-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M13 5l7 7-7 7M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PARTY DAY: schedule + format -->
+  <section class="party-day section-band" id="party-day" aria-labelledby="party-day-title">
+    <div class="container">
+      <h2 id="party-day-title">Your Party Day</h2>
+
+      <p class="party-day-intro">Unless arranged separately, parties run for 2 hours from 2:00pm to 4:00pm.</p>
+
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Family arrival</th>
+            <th>Party time</th>
+            <th>Family departure</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1:45pm</td>
+            <td>2:00pm – 4:00pm</td>
+            <td>by 4:15pm</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="schedule-note">
+        Families can arrive from 1:45pm to set up. Guests arrive at 2:00pm and are collected at 4:00pm, with a little time afterwards to pack up by 4:15pm.
+      </p>
+
+      <h3 class="format-title">How the 2 hours run</h3>
+      <div class="format-grid">
+        <article class="card format-card">
+          <span class="step-time">First 60 minutes</span>
+          <p>Structured gymnastics games and activities with qualified Trident coaches.</p>
+        </article>
+        <article class="card format-card">
+          <span class="step-time">Next 30 minutes</span>
+          <p>Snacks, food and birthday cake in the party area, the perfect break to refuel and celebrate. All BYO.</p>
+        </article>
+        <article class="card format-card">
+          <span class="step-time">Final 30 minutes</span>
+          <p>Supervised free time and games back in the gym to round off the celebration.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOOD TO KNOW: info cards -->
+  <section class="party-info" id="good-to-know" aria-labelledby="good-to-know-title">
+    <div class="container">
+      <h2 id="good-to-know-title">Good to Know</h2>
+      <div class="info-grid">
+
+        <article class="card info-card">
+          <h3>What We Provide</h3>
+          <ul>
+            <li>Qualified Trident coaches to run the games and activities.</li>
+            <li>Tables and chairs, set up and ready before you arrive.</li>
+            <li>Full use of our gym and equipment for the session.</li>
+          </ul>
+        </article>
+
+        <article class="card info-card">
+          <h3>Food &amp; Decorations</h3>
+          <ul>
+            <li>Food, drinks and decorations are BYO.</li>
+            <li>Please consider guests' allergies and dietary needs when planning your menu.</li>
+            <li>Keep decorations simple and easy to set up and remove.</li>
+          </ul>
+        </article>
+
+        <article class="card info-card">
+          <h3>Safety &amp; Reminders</h3>
+          <ul>
+            <li>All participating children must be included in your booked numbers. Just let reception know of any changes.</li>
+            <li>Everyone washes and sanitises their hands before heading onto the gym floor.</li>
+            <li>An adult joins any child under 5, or not yet in primary school, on the gym floor.</li>
+            <li>Other guests are welcome to relax and watch from the viewing areas.</li>
+          </ul>
+        </article>
+
+      </div>
+
+      <p class="invite-row">
+        <a class="btn" href={inviteHref} download>Download party invitation (PDF)</a>
+      </p>
+    </div>
+  </section>
+
+</Layout>

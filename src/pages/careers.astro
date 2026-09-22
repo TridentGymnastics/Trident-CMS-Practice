@@ -1,0 +1,638 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../config/site';
+---
+
+<Layout
+  title="Work with Trident Gymnastics Ringwood"
+  description="Keen on working with kids in a gymnastics environment? Get in touch with Trident Gymnastics in Ringwood. We'd love to hear from you."
+>
+  <link rel="preload" as="image" href="/Images/Homepage/general_images/compressed-Kids_playing_1.webp" fetchpriority="high" slot="head" />
+
+  <!-- Hero -->
+  <section class="careers-hero">
+    <div class="careers-hero__inner">
+      <p class="careers-hero__kicker">Work with us</p>
+      <h1 class="careers-hero__title">Love sport? Love working with kids?</h1>
+      <p class="careers-hero__sub">
+        We'd love to hear from you. A sporting or gymnastics background helps, but what we really care about is that you genuinely enjoy being around kids and keeping active.
+      </p>
+      <a href="#apply" class="careers-hero__cta">Get in Touch</a>
+    </div>
+  </section>
+
+  <!-- Why coach with us -->
+  <section class="careers-why">
+    <div class="container">
+      <h2 class="careers-why__heading">Skills for life</h2>
+      <div class="careers-why__grid">
+
+        <div class="why-card">
+          <h3>More than just coaching</h3>
+          <p>Coaching kids teaches you things no classroom really can: how to communicate, stay calm, read a room, and actually connect with people. Those skills stick with you no matter where you end up.</p>
+        </div>
+
+        <div class="why-card">
+          <h3>Be part of their moment</h3>
+          <p>When a kid finally nails something they've been working on for weeks, you'll feel it too. Every session is different, and it never gets old.</p>
+        </div>
+
+        <div class="why-card">
+          <h3>Fits around your life</h3>
+          <p>Sessions run mornings, afternoons and Saturdays. Studying, another job, just curious? We're pretty flexible. Reach out and we'll figure out what works.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Application form -->
+  <section class="careers-form-section" id="apply">
+    <div class="container">
+      <div class="form-wrap">
+
+        <!-- Success state — shown after submission -->
+        <div class="form-success" id="form-success" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <h2>Message received!</h2>
+          <p>Thanks for reaching out. We'll read what you've shared and get back to you by email.</p>
+          <a href="/" class="form-success__link">Back to homepage</a>
+        </div>
+
+        <!-- The form -->
+        <div id="form-container">
+          <h2 class="form-wrap__heading">Tell us about yourself</h2>
+          <p class="form-wrap__sub">Tell us a bit about yourself and why this kind of work appeals to you. We read every message.</p>
+
+          <div id="careers-preview-form"><p><strong>Practice preview: applications cannot be sent here.</strong></p><fieldset disabled style="border:0;margin:0;padding:0;min-width:0;">
+            <input type="hidden" name="form-name" value="careers-application" />
+            <input type="hidden" name="subject" value="Expression of Interest — Trident Gymnastics" />
+            <input type="hidden" name="form-loaded-at" id="form-loaded-at" value="0" />
+
+            <!-- Honeypot — invisible to real users, bots fill it in -->
+            <div class="careers-honeypot" aria-hidden="true">
+              <label>Leave blank <input name="website-url" type="text" tabindex="-1" autocomplete="off" /></label>
+            </div>
+
+            <!-- Personal details row -->
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label" for="full-name">Full name <span class="req" aria-hidden="true">*</span></label>
+                <input class="form-input" type="text" id="full-name" name="full-name" required autocomplete="name" />
+                <p class="form-error" id="name-error" hidden>Please enter your name.</p>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="email">Email address <span class="req" aria-hidden="true">*</span></label>
+                <input class="form-input" type="email" id="email" name="email" required autocomplete="email" />
+                <p class="form-error" id="email-error" hidden>Please enter a valid email address.</p>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="phone">Phone number <span class="form-optional">(optional)</span></label>
+                <input class="form-input" type="tel" id="phone" name="phone" autocomplete="tel" />
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="role">Area of interest <span class="form-optional">(if you have one)</span></label>
+                <select class="form-input form-select" id="role" name="role">
+                  <option value="" selected>Not sure yet</option>
+                  <option value="Preschool">Preschool (ages 4–5)</option>
+                  <option value="EduGym">EduGym (school age)</option>
+                  <option value="UrbanGym">UrbanGym</option>
+                  <option value="PlayGym">PlayGym (toddlers &amp; babies)</option>
+                  <option value="Open to anything">Open to anything</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Background -->
+            <div class="form-field form-field--full">
+              <label class="form-label" for="experience">Your background</label>
+              <textarea
+                class="form-input form-textarea"
+                id="experience"
+                name="experience"
+                rows="4"
+                placeholder="Any sport, gymnastics, teaching or childcare experience, even if it's just as a participant growing up. No formal background needed."
+              ></textarea>
+            </div>
+
+            <!-- Motivation — key spam filter via required length -->
+            <div class="form-field form-field--full">
+              <label class="form-label" for="why-trident">
+                Why does working with kids in sport appeal to you? <span class="req" aria-hidden="true">*</span>
+              </label>
+              <textarea
+                class="form-input form-textarea"
+                id="why-trident"
+                name="why-trident"
+                rows="5"
+                required
+                minlength="50"
+                placeholder="Tell us what draws you to this kind of work. There's no right answer, just be genuine."
+              ></textarea>
+              <p class="form-hint" id="why-hint">Take your time with this one — it's the most useful thing you can share.</p>
+              <p class="form-error" id="why-error" hidden>Please share a little more (at least 50 characters).</p>
+            </div>
+
+            <!-- Resume upload -->
+            <div class="form-field form-field--full">
+              <label class="form-label" for="resume">Resume / CV <span class="form-optional">(optional but recommended)</span></label>
+              <input
+                class="form-file"
+                type="file"
+                id="resume"
+                name="resume"
+                accept=".pdf,.doc,.docx"
+              />
+              <p class="form-hint">PDF, DOC or DOCX, max 10 MB.</p>
+            </div>
+
+            <!-- Specific confirmation checkbox — filters generic bots -->
+            <div class="form-field form-field--full">
+              <label class="form-checkbox">
+                <input type="checkbox" name="confirm" value="confirmed" required />
+                <span>I confirm this is a genuine expression of interest in working at Trident Gymnastics, Ringwood, and the details I've provided are accurate.</span>
+              </label>
+              <p class="form-error" id="confirm-error" hidden>Please tick to confirm your expression of interest.</p>
+            </div>
+
+            <!-- Netlify reCAPTCHA 2 — validated on Netlify's servers, so it blocks
+                 bots that POST directly to the form endpoint and skip our JS checks -->
+            <div class="form-field form-field--full">
+              <div></div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="form-submit" id="form-submit">
+                <span class="form-submit__label">Send Expression of Interest</span>
+                <span class="form-submit__spinner" hidden aria-hidden="true"></span>
+              </button>
+              <p class="form-actions__note">We'll get back to you soon.</p>
+            </div>
+
+          </fieldset></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* ── Hero — breaks out of the Layout container to full viewport width ── */
+  .careers-hero {
+    width: 100vw;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    background:
+      linear-gradient(135deg, rgba(7, 24, 77, 0.88) 0%, rgba(13, 39, 100, 0.80) 50%, rgba(8, 24, 68, 0.90) 100%),
+      url('/Images/Homepage/general_images/compressed-Kids_playing_1.webp') center/cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: clamp(3rem, 7vw, 5rem) 1.5rem clamp(3rem, 7vw, 4.5rem);
+  }
+
+  .careers-hero__inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .careers-hero__kicker {
+    display: inline-block;
+    margin: 0 0 1.1rem;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 211, 56, 0.18);
+    border: 1px solid rgba(255, 211, 56, 0.34);
+    color: #ffe891;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .careers-hero__title {
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    font-weight: 800;
+    color: white;
+    margin: 0 0 1rem;
+    line-height: 1.1;
+  }
+
+  .careers-hero__sub {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: rgba(255, 255, 255, 0.88);
+    margin: 0 0 2.25rem;
+    line-height: 1.65;
+  }
+
+  .careers-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.9rem 2.25rem;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #ffe792 0%, #ffd338 52%, #efb90e 100%);
+    color: #0f225c;
+    font-weight: 800;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: 0 12px 28px rgba(255, 174, 17, 0.28);
+    transition: transform 0.18s, box-shadow 0.18s;
+  }
+
+  .careers-hero__cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(255, 174, 17, 0.34);
+  }
+
+  /* ── Why section ────────────────────────────────────────── */
+  .careers-why {
+    padding: 2.75rem 0 2.5rem;
+    background: var(--light-bg, #f7faff);
+  }
+
+  .careers-why__heading {
+    text-align: center;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--dark-navy);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
+
+  .careers-why__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 720px) {
+    .careers-why__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .why-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem 1.4rem;
+    border: 1px solid rgba(21, 25, 87, 0.08);
+    box-shadow: 0 4px 18px rgba(21, 25, 87, 0.06);
+  }
+
+  .why-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: 0.65rem;
+  }
+
+  .why-card p {
+    font-size: 0.94rem;
+    color: var(--color-black, #333);
+    line-height: 1.68;
+    margin: 0;
+  }
+
+  /* ── Form section ───────────────────────────────────────── */
+  .careers-form-section {
+    padding: 2.5rem 0 3.5rem;
+    background: var(--light-bg, #f7faff);
+    border-top: 1px solid rgba(21, 25, 87, 0.07);
+  }
+
+  .form-wrap {
+    background: white;
+    border-radius: 24px;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    max-width: 760px;
+    margin: 0 auto;
+    box-shadow: 0 12px 40px rgba(21, 25, 87, 0.08);
+    border: 1px solid rgba(21, 25, 87, 0.07);
+  }
+
+  .form-wrap__heading {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    color: var(--dark-navy);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+
+  .form-wrap__sub {
+    font-size: 1rem;
+    color: var(--text-muted, #555e80);
+    margin-bottom: 2.25rem;
+  }
+
+  /* Grid — two columns on ≥580px */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.1rem 1.5rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .form-field--full {
+    grid-column: 1 / -1;
+  }
+
+  .form-label {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--dark-navy);
+  }
+
+  .req {
+    color: var(--primary-blue, #1573c2);
+    margin-left: 0.15rem;
+  }
+
+  .form-optional {
+    font-weight: 500;
+    color: var(--text-muted, #666);
+    font-size: 0.82rem;
+  }
+
+  .form-input {
+    padding: 0.72rem 0.95rem;
+    border: 1.5px solid rgba(21, 25, 87, 0.18);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--dark-navy);
+    background: white;
+    transition: border-color 0.18s, box-shadow 0.18s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--primary-blue, #1573c2);
+    box-shadow: 0 0 0 3px rgba(21, 115, 194, 0.14);
+  }
+
+  .form-input:invalid:not(:focus):not(:placeholder-shown) {
+    border-color: #dc2626;
+  }
+
+  .form-select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23151957' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    padding-right: 2.5rem;
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  .form-file {
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--dark-navy);
+    padding: 0.55rem 0;
+    cursor: pointer;
+  }
+
+  .form-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted, #666);
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  .form-error {
+    font-size: 0.8rem;
+    color: #dc2626;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  /* Confirmation checkbox */
+  .form-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--dark-navy);
+    line-height: 1.55;
+  }
+
+  .form-checkbox input[type="checkbox"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    accent-color: var(--primary-blue, #1573c2);
+    cursor: pointer;
+  }
+
+  /* Submit row */
+  .form-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.75rem;
+  }
+
+  .form-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem 2.25rem;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #ffe792 0%, #ffd338 52%, #efb90e 100%);
+    color: #0f225c;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(255, 174, 17, 0.24);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(255, 174, 17, 0.3);
+  }
+
+  .form-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .form-submit__spinner {
+    width: 16px;
+    height: 16px;
+    border: 2.5px solid rgba(15, 34, 92, 0.3);
+    border-top-color: #0f225c;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .form-actions__note {
+    font-size: 0.82rem;
+    color: var(--text-muted, #666);
+    margin: 0;
+  }
+
+  /* Honeypot — never visible to real users */
+  .careers-honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    tab-size: 0;
+  }
+
+  /* Success state */
+  .form-success {
+    text-align: center;
+    padding: 2rem 0 1rem;
+  }
+
+  .form-success svg {
+    width: 3.5rem;
+    height: 3.5rem;
+    stroke: #16a34a;
+    margin-bottom: 1rem;
+  }
+
+  .form-success h2 {
+    font-size: 1.8rem;
+    color: var(--dark-navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .form-success p {
+    color: var(--color-black);
+    font-size: 1rem;
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-success__link {
+    color: var(--primary-blue, #1573c2);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .form-success__link:hover { text-decoration: underline; }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 720px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .form-wrap {
+      border-radius: 18px;
+      padding: 1.5rem 1.25rem;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .form-submit {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  // Stamp the load time — forms submitted in under 5 seconds are almost certainly bots
+  const loadedAtField = document.getElementById('form-loaded-at') as HTMLInputElement | null;
+  if (loadedAtField) loadedAtField.value = Date.now().toString();
+
+  const form = document.getElementById('careers-form') as HTMLFormElement | null;
+  const submitBtn = document.getElementById('form-submit') as HTMLButtonElement | null;
+  const submitLabel = submitBtn?.querySelector('.form-submit__label') as HTMLElement | null;
+  const submitSpinner = submitBtn?.querySelector('.form-submit__spinner') as HTMLElement | null;
+  const whyField = document.getElementById('why-trident') as HTMLTextAreaElement | null;
+  const whyError = document.getElementById('why-error') as HTMLElement | null;
+  const confirmError = document.getElementById('confirm-error') as HTMLElement | null;
+  const nameError = document.getElementById('name-error') as HTMLElement | null;
+  const emailError = document.getElementById('email-error') as HTMLElement | null;
+
+  form?.addEventListener('submit', (e) => {
+    // 1. Time gate — reject if submitted under 5 seconds after load (bots)
+    const loadedAt = parseInt((document.getElementById('form-loaded-at') as HTMLInputElement)?.value ?? '0');
+    if (Date.now() - loadedAt < 5000) {
+      e.preventDefault();
+      return;
+    }
+
+    // Track the first invalid field so we can focus it; toggle each inline error
+    let firstInvalid: HTMLElement | null = null;
+    const check = (field: HTMLElement | null, errorEl: HTMLElement | null, invalid: boolean) => {
+      if (errorEl) errorEl.hidden = !invalid;
+      if (invalid && field && !firstInvalid) firstInvalid = field;
+    };
+
+    // 2. Required contact details (form has novalidate, so we enforce these ourselves).
+    //    Phone is optional, so it isn't checked here.
+    const nameField = document.getElementById('full-name') as HTMLInputElement | null;
+    const emailField = document.getElementById('email') as HTMLInputElement | null;
+
+    check(nameField, nameError, !nameField?.value.trim());
+    check(emailField, emailError, !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField?.value.trim() ?? ''));
+
+    // 3. Motivation field minimum length
+    check(whyField, whyError, !whyField || whyField.value.trim().length < 50);
+
+    // 4. Confirmation checkbox
+    const confirmCheck = form.querySelector('input[name="confirm"]') as HTMLInputElement | null;
+    check(confirmCheck, confirmError, !confirmCheck?.checked);
+
+    if (firstInvalid) {
+      e.preventDefault();
+      (firstInvalid as HTMLElement).focus();
+      return;
+    }
+
+    // All checks passed — show spinner while submitting
+    if (submitBtn && submitLabel && submitSpinner) {
+      submitBtn.disabled = true;
+      submitLabel.textContent = 'Sending…';
+      submitSpinner.hidden = false;
+    }
+  });
+
+  // Show success state if redirected back with ?application=sent
+  if (window.location.search.includes('application=sent')) {
+    const formContainer = document.getElementById('form-container');
+    const successEl = document.getElementById('form-success');
+    if (formContainer) formContainer.hidden = true;
+    if (successEl) successEl.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>

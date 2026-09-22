@@ -1,0 +1,1020 @@
+---
+// Full-screen program detail overlay with deep linking support
+// Receives program data via props
+
+/**
+ * Full-screen program detail overlay
+ *
+ * CONTENT PROVENANCE:
+ * All program content must be source-locked to official pages.
+ * See src/data/holidayPrograms.ts for content manifest.
+ */
+
+export interface ProgramDetail {
+  id: string;
+  title: string;
+  tagline: string;
+  ageRange: string;
+  sessionLength: string;
+  bookingType: string;
+  time?: string;
+  timeNote?: string;
+  about: string[];
+  schedule?: {
+    weeks: Array<{
+      weekNumber: number;
+      weekLabel: string;
+      sessions: Array<{
+        day: string;
+        date: string;
+        title?: string;
+        time?: string;
+        description?: string;
+      }>;
+    }>;
+  };
+  pricing?: {
+    intro?: string;
+    items: Array<{ label: string; price: string }>;
+    note?: string;
+  };
+  requirements?: string[];
+  features?: string[];
+  howToJoin?: {
+    text: string;
+    note?: string;
+  };
+  bookHref?: string | null;
+  sourceUrl: string; // Official program page URL
+}
+
+export interface Props {
+  programs: ProgramDetail[];
+}
+
+const { programs } = Astro.props;
+---
+
+<div id="holiday-full-view-container" data-programs={JSON.stringify(programs.map(p => p.id))}>
+  {programs.map((program) => (
+    <div
+      id={`full-${program.id}`}
+      class="holiday-full-view"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={`full-title-${program.id}`}
+      hidden
+      data-program-id={program.id}
+      data-testid={`full-view-${program.id}`}
+    >
+      <div class="full-view-backdrop" data-close-trigger></div>
+
+      <div class="full-view-panel">
+        <div class="full-view-header">
+          <button
+            class="close-btn"
+            aria-label="Close program details"
+            data-testid={`close-full-${program.id}`}
+            data-close-trigger
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="full-view-content">
+          <div class="program-hero">
+            <h2 id={`full-title-${program.id}`}>{program.title}</h2>
+            <p class="tagline">{program.tagline}</p>
+
+            <div class="quick-meta">
+              <div class="meta-badge meta-badge--age">
+                <span class="meta-badge-label">Ages</span>
+                <span class="meta-badge-value">{program.ageRange}</span>
+              </div>
+              {program.time && (
+                <div class="meta-badge">
+                  <span class="meta-badge-label">Time</span>
+                  <span class="meta-badge-value">{program.time}</span>
+                </div>
+              )}
+              <div class="meta-badge">
+                <span class="meta-badge-label">Session</span>
+                <span class="meta-badge-value">{program.sessionLength}</span>
+              </div>
+              <div class="meta-badge">
+                <span class="meta-badge-label">Booking</span>
+                <span class="meta-badge-value">{program.bookingType}</span>
+              </div>
+            </div>
+            {program.timeNote && (
+              <p class="time-note">{program.timeNote}</p>
+            )}
+          </div>
+
+          <section class="program-section">
+            <h2>About This Program</h2>
+            {program.about.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </section>
+
+          <section class="program-section">
+            <h2>School Holiday Schedule</h2>
+            {program.schedule && program.schedule.weeks && program.schedule.weeks.length > 0 ? (
+              <>
+                {program.schedule.weeks.map((week) => {
+                  const isWorkshopWeek = week.sessions.some((session) => session.title);
+                  const weekHeading = `Week ${week.weekNumber}`;
+
+                  return (
+                    <div class="week-schedule">
+                      <h3 class="week-label">{weekHeading}</h3>
+                      <div class={`schedule-grid ${isWorkshopWeek ? 'schedule-grid--workshops' : 'schedule-grid--simple'}`}>
+                        {week.sessions.map((session) => (
+                          session.title ? (
+                            <div class="workshop-card">
+                              <div class="workshop-meta">
+                                <span>{session.day} {session.date}</span>
+                                {session.time && <span class="time-pill">{session.time}</span>}
+                              </div>
+                              <h4 class="workshop-title">{session.title}</h4>
+                              {session.description && <p class="workshop-desc">{session.description}</p>}
+                            </div>
+                          ) : (
+                            <div class="session-row">
+                              <span class="session-row-label">{session.day}, {session.date}</span>
+                              {session.time && <span class="time-pill">{session.time}</span>}
+                            </div>
+                          )
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+                {(program.id === 'opengym' || program.id === 'skill-workshops') && (
+                  <div class="promo-callout">
+                    <strong>Double the fun!</strong> On selected days, kids can attend a Skill Workshop and OpenGym on the same day — learn new skills, then enjoy unstructured play afterwards.
+                  </div>
+                )}
+              </>
+            ) : (
+              <p class="schedule-coming-soon">Schedule coming soon.</p>
+            )}
+          </section>
+
+          {program.features && program.features.length > 0 && (
+            <section class="program-section">
+              <h2>What to Expect</h2>
+              <ul class="feature-list">
+                {program.features.map((feature) => (
+                  <li>{feature}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {program.requirements && program.requirements.length > 0 && (
+            <section class="program-section">
+              <h2>Requirements</h2>
+              <ul class="requirement-list">
+                {program.requirements.map((req) => (
+                  <li>{req}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {program.pricing && (
+            <section class="program-section">
+              <h2>Pricing</h2>
+              {program.pricing.intro && <p>{program.pricing.intro}</p>}
+              <div class="pricing-grid">
+                {program.pricing.items.map((item) => (
+                  <div class="pricing-item">
+                    <span class="price-label">{item.label}</span>
+                    <span class="price-value">{item.price}</span>
+                  </div>
+                ))}
+              </div>
+              {program.pricing.note && (
+                <p class="notice-text">{program.pricing.note}</p>
+              )}
+            </section>
+          )}
+
+          {program.howToJoin && (
+            <section class="program-section">
+              <h2>How to Join</h2>
+              <p>{program.howToJoin.text}</p>
+              {program.howToJoin.note && <p class="notice-text">{program.howToJoin.note}</p>}
+            </section>
+          )}
+
+          <section class="program-cta-section">
+            <div class="cta-buttons">
+              <a
+                href={program.bookHref || '/contact'}
+                class="btn btn-primary btn-large"
+                target={program.bookHref && program.id !== 'playgym' ? '_blank' : undefined}
+                rel={program.bookHref && program.id !== 'playgym' ? 'noopener noreferrer' : undefined}
+                data-testid={`book-full-${program.id}`}
+              >
+                {program.id === 'playgym' ? 'Get Directions' : (program.bookHref ? 'Book Now' : 'Contact to Book')}
+              </a>
+              <a
+                href="/contact"
+                class="btn btn-secondary btn-large"
+              >
+                Have Questions?
+              </a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .holiday-full-view {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+  }
+
+  .holiday-full-view:not([hidden]) {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .full-view-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(21, 25, 87, 0.85);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  .full-view-panel {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    background: var(--color-white);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.95);
+    transition: transform 0.25s ease;
+    margin: 0 var(--space);
+  }
+
+  .holiday-full-view:not([hidden]) .full-view-panel {
+    transform: scale(1);
+  }
+
+  .full-view-header {
+    position: relative;
+    padding: 1.5rem 2rem 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: var(--light-bg);
+    color: var(--dark-navy);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .close-btn:hover {
+    background: var(--primary-blue);
+    color: white;
+    transform: rotate(90deg);
+  }
+
+  .close-btn:focus {
+    outline: 2px solid var(--accent-yellow);
+    outline-offset: 2px;
+  }
+
+  .full-view-content {
+    overflow-y: auto;
+    padding: 0 2rem 2rem;
+    flex: 1;
+    /* Improved scrolling with better contrast */
+  }
+
+  /* Custom scrollbar for better UX */
+  .full-view-content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .full-view-content::-webkit-scrollbar-track {
+    background: var(--light-bg);
+    border-radius: 4px;
+  }
+
+  .full-view-content::-webkit-scrollbar-thumb {
+    background: var(--primary-blue);
+    border-radius: 4px;
+  }
+
+  .full-view-content::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-navy);
+  }
+
+  .program-hero {
+    text-align: center;
+    padding: 2rem 0 3rem;
+    border-bottom: 2px solid var(--light-bg);
+  }
+
+  .program-hero h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--dark-navy);
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .tagline {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .quick-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .meta-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    min-width: 180px;
+    padding: 0.95rem 1.1rem;
+    background: var(--light-bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    color: var(--dark-navy);
+    text-align: left;
+  }
+
+  .meta-badge--age {
+    background: linear-gradient(180deg, rgba(255, 234, 163, 0.55), rgba(255, 255, 255, 0.95));
+    border-color: rgba(255, 211, 56, 0.55);
+  }
+
+  .meta-badge-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(21, 25, 87, 0.7);
+  }
+
+  .meta-badge-value {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .time-note {
+    text-align: center;
+    color: var(--primary-blue);
+    font-size: 0.95rem;
+    margin-top: 1rem;
+    font-style: italic;
+  }
+
+  .program-section {
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .program-section:last-of-type {
+    border-bottom: none;
+  }
+
+  .program-section h2 {
+    font-size: 1.75rem;
+    color: var(--dark-navy);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  .program-section p {
+    color: var(--color-black);
+    line-height: 1.65;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+  }
+
+  .program-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .feature-list,
+  .requirement-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .feature-list li,
+  .requirement-list li {
+    padding-left: 2rem;
+    position: relative;
+    color: var(--color-black);
+    line-height: 1.65;
+    font-size: 1.05rem;
+  }
+
+  .feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--primary-blue);
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+
+  .requirement-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--dark-navy);
+    font-weight: bold;
+    font-size: 1.5rem;
+    line-height: 1.4;
+  }
+
+  .notice-highlight {
+    background: var(--light-bg);
+    border-left: 4px solid var(--accent-yellow);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--dark-navy);
+    margin-bottom: 1.5rem !important;
+  }
+
+  .notice-text {
+    background: var(--light-bg);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem !important;
+    color: var(--text-muted) !important;
+    font-style: italic;
+  }
+
+  .gift-blurb {
+    background: linear-gradient(135deg, rgba(255, 211, 56, 0.1), rgba(21, 115, 194, 0.1));
+    border: 2px solid var(--accent-yellow);
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+    color: var(--dark-navy) !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .schedule-coming-soon {
+    background: var(--light-bg);
+    border: 2px dashed var(--border-subtle);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-muted) !important;
+    font-weight: 600;
+    font-size: 1.05rem !important;
+  }
+
+  .week-schedule {
+    margin-bottom: 2rem;
+  }
+
+  .week-schedule:last-child {
+    margin-bottom: 0;
+  }
+
+  .week-label {
+    font-size: 1.25rem;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .schedule-grid {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .schedule-grid--simple {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule-grid--workshops {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  /* Simple session rows (PlayGym, OpenGym) */
+  .session-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--light-bg);
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    gap: 1rem;
+    /* The date label plus the nowrap time pill need 298px side by side, more
+       than a 320px screen has once padding is taken off, so the row ran past
+       its container and the pill was clipped at the edge. Let the pill drop to
+       its own line instead. */
+    flex-wrap: wrap;
+  }
+
+  .session-row-label {
+    color: var(--color-black);
+    font-size: 1rem;
+    font-weight: 600;
+    min-width: 0;
+  }
+
+  /* Workshop cards (Skill Workshops) */
+  .workshop-card {
+    background: var(--light-bg);
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    border-top: 3px solid var(--accent-yellow);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: transform 0.2s ease;
+  }
+
+  .workshop-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .workshop-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .workshop-title {
+    color: var(--dark-navy);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0.25rem 0 0;
+    line-height: 1.3;
+  }
+
+  .workshop-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* Shared time pill */
+  .time-pill {
+    display: inline-block;
+    background: var(--accent-yellow);
+    color: var(--dark-navy);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .promo-callout {
+    background: linear-gradient(135deg, rgba(255, 211, 56, 0.15), rgba(21, 115, 194, 0.08));
+    border: 2px solid var(--accent-yellow);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--dark-navy);
+  }
+
+  .promo-callout strong {
+    color: var(--dark-navy);
+    font-size: 1.1rem;
+  }
+
+  .pricing-grid {
+    display: grid;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .pricing-item {
+    background: var(--light-bg);
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .pricing-item:hover {
+    border-color: var(--accent-yellow);
+    transform: translateX(4px);
+  }
+
+  .price-label {
+    color: var(--dark-navy);
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+
+  .price-value {
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+
+  /* Schedule at a Glance box */
+  .schedule-brief {
+    background: linear-gradient(135deg, rgba(21, 115, 194, 0.05), rgba(255, 211, 56, 0.05));
+    border: 2px solid var(--primary-blue);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2.5rem 0;
+  }
+
+  .schedule-brief h3 {
+    font-size: 1.5rem;
+    color: var(--dark-navy); /* AAA contrast */
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .schedule-brief p {
+    color: var(--color-black); /* WCAG AA+ contrast */
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+  }
+
+  .schedule-brief .btn-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .schedule-brief .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.875rem 1.75rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+  }
+
+  .schedule-brief .btn-primary {
+    background: var(--primary-blue);
+    color: white; /* AAA contrast */
+    box-shadow: var(--shadow-button);
+  }
+
+  .schedule-brief .btn-primary:hover {
+    background: var(--dark-navy);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-button-hover);
+  }
+
+  .schedule-brief .btn-primary:focus {
+    outline: 3px solid var(--accent-yellow); /* ≥3:1 contrast */
+    outline-offset: 3px;
+  }
+
+  .program-cta-section {
+    padding: 2.5rem 0 1rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn-large {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    min-width: 200px;
+    text-align: center;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .full-view-panel {
+      max-height: 100vh;
+      height: 100%;
+      border-radius: 0;
+      margin: 0;
+    }
+
+    .full-view-header {
+      padding: 1rem 1rem 0;
+    }
+
+    .full-view-content {
+      padding: 0 1rem 1.5rem;
+    }
+
+    .program-hero {
+      padding: 1.5rem 0 2rem;
+    }
+
+    .program-section {
+      padding: 1.5rem 0;
+    }
+
+    .quick-meta {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .meta-badge {
+      width: 100%;
+      min-width: 0;
+      padding: 0.85rem 1rem;
+    }
+
+    .schedule-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .schedule-brief {
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .schedule-brief h3 {
+      font-size: 1.25rem;
+    }
+
+    .schedule-brief .btn-row {
+      flex-direction: column;
+    }
+
+    .schedule-brief .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+    }
+
+    .btn-large {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  // Full-screen program view with focus trap, deep linking, and analytics
+  function initHolidayFullView() {
+    const container = document.getElementById('holiday-full-view-container');
+    if (!container) return;
+
+    const programIds = JSON.parse(container.dataset.programs || '[]');
+    const views: Map<string, HTMLElement> = new Map();
+    const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+    let lastFocusedElement: HTMLElement | null = null;
+    let currentOpenView: string | null = null;
+
+    // Collect all views
+    programIds.forEach((id: string) => {
+      const view = document.getElementById(`full-${id}`);
+      if (view) views.set(id, view);
+    });
+
+    // Open a specific program view
+    function openView(programId: string, updateUrl = true) {
+      const view = views.get(programId);
+      if (!view) return;
+
+      // Store currently focused element
+      lastFocusedElement = document.activeElement as HTMLElement;
+
+      // Close any open view first
+      if (currentOpenView) closeView(currentOpenView, false);
+
+      // Lock body scroll
+      document.body.style.overflow = 'hidden';
+
+      // Show view
+      view.removeAttribute('hidden');
+      currentOpenView = programId;
+
+      // Focus first focusable element (close button)
+      setTimeout(() => {
+        const firstFocusable = view.querySelector<HTMLElement>(focusableElements);
+        firstFocusable?.focus();
+      }, 50);
+
+      // Setup focus trap
+      setupFocusTrap(view);
+
+      // Update URL if requested
+      if (updateUrl) {
+        const newUrl = `${window.location.pathname}#${programId}`;
+        window.history.pushState({ program: programId }, '', newUrl);
+      }
+
+      // Analytics
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'school_holidays_full_open', {
+          section: programId
+        });
+      }
+    }
+
+    // Close a specific view
+    function closeView(programId: string, updateUrl = true) {
+      const view = views.get(programId);
+      if (!view) return;
+
+      // Hide view
+      view.setAttribute('hidden', '');
+      currentOpenView = null;
+
+      // Unlock body scroll
+      document.body.style.overflow = '';
+
+      // Return focus
+      if (lastFocusedElement) {
+        lastFocusedElement.focus();
+        lastFocusedElement = null;
+      }
+
+      // Update URL if requested
+      if (updateUrl) {
+        const newUrl = window.location.pathname;
+        window.history.pushState({}, '', newUrl);
+      }
+
+      // Analytics
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'school_holidays_full_close', {
+          section: programId
+        });
+      }
+    }
+
+    // Focus trap implementation
+    function setupFocusTrap(view: HTMLElement) {
+      const handleTabKey = (e: KeyboardEvent) => {
+        const focusableContent = Array.from(
+          view.querySelectorAll<HTMLElement>(focusableElements)
+        ).filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
+
+        const firstFocusable = focusableContent[0];
+        const lastFocusable = focusableContent[focusableContent.length - 1];
+
+        if (e.key === 'Tab') {
+          if (e.shiftKey) {
+            if (document.activeElement === firstFocusable) {
+              lastFocusable?.focus();
+              e.preventDefault();
+            }
+          } else {
+            if (document.activeElement === lastFocusable) {
+              firstFocusable?.focus();
+              e.preventDefault();
+            }
+          }
+        }
+      };
+
+      view.addEventListener('keydown', handleTabKey);
+    }
+
+    // Setup open triggers (on card buttons)
+    document.querySelectorAll('[data-open-full]').forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const programId = button.getAttribute('data-open-full');
+        if (programId) openView(programId);
+      });
+    });
+
+    // Setup close triggers
+    views.forEach((view, programId) => {
+      const closeTriggers = view.querySelectorAll('[data-close-trigger]');
+      closeTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => closeView(programId));
+      });
+
+      // ESC key to close
+      view.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Escape') closeView(programId);
+      });
+    });
+
+    // Handle deep linking on page load
+    const checkHash = () => {
+      const hash = window.location.hash.slice(1); // Remove #
+      if (hash && views.has(hash)) {
+        openView(hash, false);
+      }
+    };
+
+    // Check on load
+    checkHash();
+
+    // Handle browser back/forward
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.program) {
+        openView(e.state.program, false);
+      } else if (currentOpenView) {
+        closeView(currentOpenView, false);
+      } else {
+        checkHash();
+      }
+    });
+
+    // Expose for programmatic access
+    (window as any).holidayFullView = { openView, closeView };
+  }
+
+  // Track schedule CTA clicks
+  function initScheduleAnalytics() {
+    const scheduleButtons = document.querySelectorAll('[data-testid^="schedule-cta-"]');
+
+    scheduleButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const testId = (e.currentTarget as HTMLElement).getAttribute('data-testid');
+        const programId = testId?.replace('schedule-cta-', '');
+
+        if (typeof window !== 'undefined' && (window as any).gtag && programId) {
+          (window as any).gtag('event', 'school_holidays_schedule_click', {
+            section: programId
+          });
+        }
+      });
+    });
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initHolidayFullView();
+      initScheduleAnalytics();
+    });
+  } else {
+    initHolidayFullView();
+    initScheduleAnalytics();
+  }
+</script>

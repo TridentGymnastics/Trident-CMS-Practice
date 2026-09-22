@@ -1,0 +1,99 @@
+---
+import { siteConfig } from '../config/site';
+
+const phoneNumber = siteConfig.phone.replace(/\D/g, '');
+const formattedPhone = `+${phoneNumber}`;
+const businessId = `${siteConfig.siteUrl}/#business`;
+
+const weekdayHours = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].flatMap((day) => [
+  {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: day,
+    opens: '09:30',
+    closes: '12:30'
+  },
+  {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: day,
+    opens: '15:30',
+    closes: '19:30'
+  }
+]);
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'SportsActivityLocation',
+  '@id': businessId,
+  name: siteConfig.siteName,
+  url: siteConfig.siteUrl,
+  image: siteConfig.defaultImage,
+  logo: siteConfig.defaultImage,
+  telephone: formattedPhone,
+  email: siteConfig.email,
+  priceRange: '$$',
+  description: siteConfig.siteDescription,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: siteConfig.streetAddress,
+    addressLocality: siteConfig.addressLocality,
+    addressRegion: siteConfig.addressRegion,
+    postalCode: siteConfig.postalCode,
+    addressCountry: siteConfig.addressCountry
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: siteConfig.geo.latitude,
+    longitude: siteConfig.geo.longitude
+  },
+  openingHoursSpecification: [
+    ...weekdayHours,
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Saturday',
+      opens: '07:30',
+      closes: '16:30'
+    }
+  ],
+  sameAs: [
+    siteConfig.facebook,
+    siteConfig.instagram
+  ],
+  areaServed: siteConfig.nearbyAreas.map((area) => ({
+    '@type': 'City',
+    name: area
+  })),
+  knowsAbout: [
+    'Gymnastics classes',
+    'Kids gymnastics',
+    'PlayGym',
+    'UrbanGym',
+    'Birthday parties',
+    'School holiday programs'
+  ],
+  makesOffer: [
+    {
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: 'Gymnastics classes in Ringwood'
+      }
+    },
+    {
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: 'PlayGym for children aged 0-6'
+      }
+    },
+    {
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: 'Gymnastics birthday parties'
+      }
+    }
+  ]
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

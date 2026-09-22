@@ -1,0 +1,162 @@
+---
+import { siteConfig } from '../config/site';
+
+const testimonials = [
+  {
+    name: "Mary-Anne",
+    text: "Tim and Alyona bring an unrivalled wealth of knowledge to their club. Any parent enrolling their child in gymnastics is sure to have a great experience!",
+    rating: 5
+  },
+  {
+    name: "Elisa",
+    text: "We had my daughters 6th bday party at Trident over the weekend. Our 10 little people had an amazing time running around and having the whole gym to themselves. The two staff were there to keep the kids organized were fun and easy to work with. The kids had a blast, and the parents were impressed at the use of the entire gym......",
+    rating: 5
+  },
+  {
+    name: "Chris",
+    text: "We had a trial session and was so impressed by Alyona. Her experience as an athlete but more importantly having a well balanced approach to the person showed me this place is special. My 3 and 6 year old girls loved it and looking forward to coming back",
+    rating: 5
+  }
+];
+---
+
+<section class="testimonials section section-band" id="testimonials" aria-labelledby="testimonials-heading">
+  <div class="container">
+    <h2 id="testimonials-heading">What People Say</h2>
+    <div class="testimonials-grid">
+      {testimonials.map((testimonial) => (
+        <div class="testimonial-card card card-accent">
+          <div class="stars" role="img" aria-label={`${testimonial.rating} out of 5 stars`}>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <svg
+                class={i < testimonial.rating ? 'star-filled' : 'star-empty'}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            ))}
+          </div>
+          <blockquote class="testimonial-text">
+            "{testimonial.text}"
+          </blockquote>
+          <cite class="testimonial-author">&mdash; {testimonial.name}</cite>
+        </div>
+      ))}
+    </div>
+
+    <p class="testimonials-source">
+      <a href={siteConfig.mapsUrl} target="_blank" rel="noopener">Read more reviews on Google</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .testimonials {
+    background: var(--light-bg);
+  }
+
+  .testimonials h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--dark-navy);
+  }
+
+  /* A quoted review on a website proves nothing on its own, so point at the
+     public listing where a visitor can check the reviews for themselves.
+     Deliberately does not claim these three quotes came from Google: their
+     provenance is not recorded anywhere, so the site must not assert it. */
+  .testimonials-source {
+    margin: 2rem 0 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .testimonials-source a {
+    color: var(--primary-blue);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .testimonial-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2.5rem 2rem;
+    background: var(--white);
+    transition: all 0.3s ease;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-2);
+  }
+
+  .stars {
+    display: flex;
+    gap: 0.25rem;
+    justify-content: center;
+  }
+
+  .stars svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .star-filled {
+    fill: var(--accent-yellow);
+    stroke: var(--accent-yellow);
+  }
+
+  .star-empty {
+    fill: none;
+    stroke: var(--text-muted);
+  }
+
+  .testimonial-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    text-align: center;
+    margin: 0;
+    flex: 1;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--primary-blue);
+    font-style: normal;
+  }
+
+  @media (max-width: 768px) {
+    .testimonials h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .testimonial-card {
+      padding: 2rem 1.5rem;
+    }
+
+    .testimonial-text {
+      font-size: 1rem;
+    }
+  }
+</style>

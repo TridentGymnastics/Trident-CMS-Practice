@@ -1,0 +1,110 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Gymnastics Term Dates Ringwood" description="Trident Gymnastics Ringwood class calendar, including term dates, holidays and scheduled events.">
+  <section class="term-dates">
+    <div class="container">
+      <h1 class="term-title">2026 Term Dates</h1>
+      <p class="term-subtitle muted">Our official class calendar, including terms, holidays and scheduled breaks.</p>
+
+      <div class="term-dates-img">
+        <img
+          src="/Images/Dates/term_dates_2026_v2.webp"
+          alt="2026 class calendar with terms, start and end dates, public holidays and scheduled holiday weeks."
+          width="1700"
+          height="859"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+
+      <p class="term-download">
+        <a href="/Images/Dates/term_dates_2026_v2.webp" download>Download calendar (WebP)</a>
+      </p>
+
+      <ul class="term-notes">
+        <li>Classes do not run on public holidays and families are not charged for these dates.</li>
+        <li>The calendar may change without notice based on operational requirements.</li>
+      </ul>
+
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .term-dates {
+    padding: 64px 0;
+  }
+
+  /* Promoted from h2 to h1 so the page has a top-level heading. Size and weight
+     are pinned to the old h2 values so the page looks exactly as it did. */
+  .term-title {
+    text-align: center;
+    margin: 0 0 6px;
+    color: var(--color-secondary);
+    font-size: 2.5rem;
+    font-weight: 600;
+  }
+
+  .term-subtitle {
+    text-align: center;
+    margin: 0 0 24px;
+  }
+
+  .term-dates-img {
+    text-align: center;
+  }
+
+  .term-dates-img img {
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+    display: inline-block;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    box-shadow: var(--shadow-1);
+    max-width: 1100px;
+  }
+
+  .term-download {
+    text-align: center;
+    margin: 10px 0 6px;
+  }
+
+  .term-download a {
+    font-weight: 600;
+    color: var(--color-secondary);
+  }
+
+  .term-download a:hover {
+    color: var(--color-primary);
+  }
+
+  .term-notes {
+    margin: 10px auto 0;
+    max-width: 1100px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .term-notes li {
+    margin: 6px 0;
+  }
+
+  @media (max-width: 768px) {
+    .term-dates {
+      padding: 44px 0;
+    }
+
+    .term-subtitle {
+      margin-bottom: 18px;
+    }
+
+    .term-dates-img img,
+    .term-notes {
+      max-width: 100%;
+    }
+  }
+</style>

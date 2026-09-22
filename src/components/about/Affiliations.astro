@@ -1,0 +1,147 @@
+---
+const { band, affiliations } = Astro.props;
+---
+
+<section class="affiliations-section">
+  <div class="container">
+    <div class="empower-band">
+      <div class="band-text">
+        <div class="band-line">{band.line1}</div>
+        <div class="band-with">{band.with}</div>
+        <div class="band-line">{band.line2}</div>
+      </div>
+    </div>
+
+    <div class="affiliations-content">
+      <h3>{affiliations.title}</h3>
+      <div class="logos-grid">
+        {affiliations.logos.map((logo) => (
+          logo.href ? (
+            <a href={logo.href} target="_blank" rel="noopener noreferrer" class="logo-link">
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                width="180"
+                height="80"
+                loading="lazy"
+                decoding="async"
+                class="affiliation-logo"
+                style="display:block"
+              />
+            </a>
+          ) : (
+            <img
+              src={logo.src}
+              alt={logo.alt}
+              width="180"
+              height="80"
+              loading="lazy"
+              decoding="async"
+              class="affiliation-logo"
+              style="display:block"
+            />
+          )
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .affiliations-section {
+    padding: var(--section-padding-mobile) 0;
+    background: var(--light-bg);
+    text-align: center;
+  }
+
+  .empower-band {
+    margin-bottom: 4rem;
+  }
+
+  .band-text {
+    display: inline-block;
+    position: relative;
+  }
+
+  .band-line {
+    /* MOVEMENT is one unbreakable word; at a flat 3rem with 0.1em tracking it
+       measured 337px and ran off the side of a 320px screen. */
+    font-size: clamp(1.9rem, 10.5vw, 3rem);
+    font-weight: 900;
+    color: var(--dark-navy);
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .band-with {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0.5rem 0;
+    text-transform: lowercase;
+  }
+
+  .affiliations-content h3 {
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+
+  .logos-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .affiliation-logo {
+    height: 60px;
+    object-fit: contain;
+    filter: grayscale(20%) opacity(90%);
+    transition: all 0.3s ease;
+  }
+
+  .logo-link {
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .affiliation-logo:hover {
+    filter: grayscale(0%) opacity(100%);
+    transform: scale(1.05);
+  }
+
+  .logo-link:hover .affiliation-logo {
+    filter: grayscale(0%) opacity(100%);
+    transform: scale(1.05);
+  }
+
+  @media (min-width: 768px) {
+    .affiliations-section {
+      padding: var(--section-padding) 0;
+    }
+
+    .band-line {
+      font-size: 4rem;
+    }
+
+    .band-with {
+      font-size: 1.25rem;
+    }
+
+    .affiliations-content h3 {
+      font-size: 1.75rem;
+    }
+
+    .affiliation-logo {
+      height: 80px;
+    }
+
+    .logos-grid {
+      gap: 3rem;
+    }
+  }
+</style>

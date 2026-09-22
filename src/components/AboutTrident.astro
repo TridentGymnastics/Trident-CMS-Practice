@@ -1,0 +1,596 @@
+---
+/**
+ * AboutTrident Component
+ *
+ * A large, emotionally-driven About section with:
+ * - Left: Headline + mission paragraph + CTA
+ * - Middle: 2 stacked rotating images
+ * - Right: Larger vertical video carousel
+ *
+ * Props:
+ * - eyebrow: Small label above headline
+ * - headline: Large, bold headline
+ * - body: Mission paragraph text
+ * - ctaLabel: Button text
+ * - ctaHref: Button link destination
+ */
+
+interface Props {
+  eyebrow?: string;
+  headline?: string;
+  body?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  eyebrow = 'About Trident',
+  headline = 'Building confidence through strength, balance, and coordination',
+  body = 'At Trident Gymnastics, we help children develop confidence, resilience, and joy through movement. Our programs build strength, balance, and coordination in a safe, inclusive, and supportive environment — from first tumbles to advanced skills. Every class is designed to nurture growth at each child\'s own pace while inspiring a lifelong love of gymnastics.',
+  ctaLabel = 'Learn more',
+  ctaHref = '/about'
+} = Astro.props;
+
+// Images for rotating carousel (4 images total)
+const carouselImages = [
+  { src: '/Images/Homepage/general_images/compressed-Kids_playing_1.webp', alt: 'Young gymnasts practicing skills' },
+  { src: '/Images/Homepage/general_images/compressed-Kids_playing_2.webp', alt: 'Children enjoying gymnastics activities' },
+  { src: '/Images/Homepage/general_images/compressed-Kids_playing_3.webp', alt: 'Kids learning through gymnastics play' },
+  { src: '/Images/Homepage/general_images/compressed-Kids_playing_4.webp', alt: 'Active kids building confidence' }
+];
+
+// Videos for vertical carousel (3 videos total)
+const carouselVideos = [
+  { src: '/Images/Homepage/Video/Vert_vid_1_optimised.mp4', poster: '/Images/Homepage/compressed-Hero_1.webp' },
+  { src: '/Images/Homepage/Video/Vert_vid_2_optimised.mp4', poster: '/Images/Homepage/compressed-Hero_2.webp' },
+  { src: '/Images/Homepage/Video/Vert_vid_3_optimised.mp4', poster: '/Images/Homepage/compressed-Hero_1.webp' }
+];
+---
+
+
+<section class="about-trident-section" id="about" aria-labelledby="about-heading">
+  <div class="container about-container">
+    <div class="about-grid">
+
+      <!-- Left Column: Text Content -->
+      <div class="text-content">
+        <!-- Eyebrow -->
+        <div class="eyebrow-wrapper">
+          <span class="eyebrow-badge">
+            {eyebrow}
+          </span>
+        </div>
+
+        <!-- Headline -->
+        <h2 id="about-heading" class="about-headline">
+          {headline}
+        </h2>
+
+        <!-- Body Paragraph -->
+        <p class="about-body">
+          {body}
+        </p>
+
+        <!-- CTA Button -->
+        <div class="cta-wrapper">
+          <a
+            href={ctaHref}
+            class="cta-button"
+            aria-label={ctaLabel}
+          >
+            {ctaLabel}
+            <svg class="cta-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Middle Column: Rotating Images (2 stacked) -->
+      <div class="image-carousel-column">
+        <div class="image-carousel-container">
+          {carouselImages.map((image, index) => (
+            <div class={`image-slide ${index === 0 ? 'active' : ''}`} data-image-index={index}>
+              <img
+                src={image.src}
+                alt={image.alt}
+                width="720"
+                height="960"
+                class="carousel-image ken-burns-image"
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding={index === 0 ? undefined : "async"}
+                fetchpriority={index === 0 ? "high" : undefined}
+                style="display:block"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right Column: Vertical Video Carousel -->
+      <div class="video-carousel-column">
+        <div class="video-carousel-container">
+          {carouselVideos.map((video, index) => (
+            <div class={`video-slide ${index === 0 ? 'active' : ''}`} data-video-index={index}>
+              <video
+                class="carousel-video"
+                poster={video.poster}
+                preload="none"
+                playsinline
+                muted
+                loop={false}
+                aria-label="Gymnastics training video"
+              >
+                <source src={video.src} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Decorative gradient accent -->
+  <div class="gradient-accent" aria-hidden="true"></div>
+</section>
+
+<style>
+  .about-trident-section {
+    position: relative;
+    overflow: hidden;
+    background: white;
+    padding: 5rem 0;
+  }
+
+  .about-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* 3-Column Grid Layout */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.3fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  /* Text Content Column */
+  .text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .eyebrow-wrapper {
+    display: inline-block;
+  }
+
+  .eyebrow-badge {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--primary-blue);
+    background: var(--light-bg);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+  }
+
+  .about-headline {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--dark-navy);
+    margin: 0;
+  }
+
+  .about-body {
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 600px;
+  }
+
+  .cta-wrapper {
+    margin-top: 1rem;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.75rem;
+    background: var(--dark-navy);
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(11, 17, 80, 0.2);
+  }
+
+  .cta-button:hover {
+    background: var(--primary-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(21, 115, 194, 0.3);
+  }
+
+  .cta-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  /* Image Carousel Column */
+  .image-carousel-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .image-carousel-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    content-visibility: auto;
+    background: linear-gradient(135deg, #e8f4f8 0%, #d0e8f2 100%);
+  }
+
+  .image-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(1.0) translateZ(0);
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+  }
+
+  .image-slide.active {
+    opacity: 1;
+    transform: scale(1.0) translateZ(0);
+    position: relative;
+  }
+
+  .image-slide.transitioning-out {
+    opacity: 0;
+    transform: scale(1.13) translateZ(0);
+  }
+
+  .carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translateZ(0);
+  }
+
+  /* Ken Burns effect for images */
+  @keyframes kenBurnsImage {
+    0% {
+      transform: scale(1.0) translateX(0) translateZ(0);
+    }
+    100% {
+      transform: scale(1.12) translateX(-2%) translateZ(0);
+    }
+  }
+
+  .image-slide.active .ken-burns-image {
+    animation: kenBurnsImage 4s ease-out forwards;
+    will-change: transform;
+  }
+
+  /* Video Carousel Column */
+  .video-carousel-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-carousel-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    max-height: 700px;
+    border-radius: 24px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    content-visibility: auto;
+  }
+
+  .video-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(1.0) translateZ(0);
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+  }
+
+  .video-slide.active {
+    opacity: 1;
+    transform: scale(1.0) translateZ(0);
+    position: relative;
+  }
+
+  .video-slide.transitioning-out {
+    opacity: 0;
+    transform: scale(1.13) translateZ(0);
+  }
+
+  .carousel-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translateZ(0);
+  }
+
+  /* Gradient Accent */
+  .gradient-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, var(--primary-blue), var(--accent-yellow), var(--primary-blue));
+    opacity: 0.5;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .text-content {
+      text-align: center;
+      align-items: center;
+    }
+
+    .about-body {
+      max-width: 100%;
+    }
+
+    .image-carousel-container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .video-carousel-container {
+      max-width: 400px;
+      max-height: 600px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about-trident-section {
+      padding: 3rem 0;
+    }
+
+    .about-container {
+      padding: 0 1.5rem;
+    }
+
+    .about-grid {
+      gap: 2rem;
+    }
+
+    .about-headline {
+      font-size: 2rem;
+    }
+
+    .about-body {
+      font-size: 1rem;
+    }
+
+    .image-carousel-container {
+      max-width: 400px;
+    }
+
+    /* Hide video column on mobile — videos have preload="none" so hiding
+       also prevents the JS carousel from triggering any download */
+    .video-carousel-column {
+      display: none;
+    }
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .image-slide,
+    .video-slide {
+      transition: none;
+    }
+
+    .ken-burns-image {
+      animation: none !important;
+    }
+  }
+</style>
+
+<script>
+  // Initialize both image and video carousels
+  function initAboutCarousels() {
+    initImageCarousel();
+    initVideoCarousel();
+  }
+
+  // Image Carousel - rotates through 4 images
+  function initImageCarousel() {
+    const imageSlides = document.querySelectorAll('.image-slide');
+    if (imageSlides.length === 0) return;
+
+    let currentImageIndex = 0;
+    let isImageTransitioning = false;
+    let imageTimeout: number;
+
+    const IMAGE_DURATION = 4000; // 4 seconds
+
+    function goToImage(index: number) {
+      if (isImageTransitioning) return;
+      isImageTransitioning = true;
+
+      // Clear any existing timeout
+      if (imageTimeout) clearTimeout(imageTimeout);
+
+      // Transition out current
+      const currentSlide = imageSlides[currentImageIndex];
+      currentSlide?.classList.add('transitioning-out');
+      setTimeout(() => {
+        currentSlide?.classList.remove('active', 'transitioning-out');
+      }, 50);
+
+      // Update index
+      currentImageIndex = index;
+
+      // Transition in new
+      const newSlide = imageSlides[currentImageIndex];
+      setTimeout(() => {
+        newSlide?.classList.add('active');
+      }, 50);
+
+      // Set timeout for next image
+      imageTimeout = window.setTimeout(() => {
+        isImageTransitioning = false;
+        nextImage();
+      }, IMAGE_DURATION);
+    }
+
+    function nextImage() {
+      const nextIndex = (currentImageIndex + 1) % imageSlides.length;
+      goToImage(nextIndex);
+    }
+
+    // Intersection Observer for scroll-triggered autoplay (triggers earlier)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          goToImage(0);
+        } else {
+          if (imageTimeout) clearTimeout(imageTimeout);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '100px' });
+
+    const aboutSection = document.querySelector('#about');
+    if (aboutSection) {
+      observer.observe(aboutSection);
+    }
+  }
+
+  // Video Carousel - rotates through 3 vertical videos
+  function initVideoCarousel() {
+    const videoSlides = document.querySelectorAll('.video-slide');
+    if (videoSlides.length === 0) return;
+
+    let currentVideoIndex = 0;
+    let isVideoTransitioning = false;
+    let videoTimeout: number;
+
+    const VIDEO_DURATION = 10000; // 10 seconds max
+
+    function goToVideo(index: number) {
+      if (isVideoTransitioning) return;
+      isVideoTransitioning = true;
+
+      // Clear any existing timeout
+      if (videoTimeout) clearTimeout(videoTimeout);
+
+      // Stop current video
+      const currentSlide = videoSlides[currentVideoIndex];
+      const currentVideo = currentSlide?.querySelector('.carousel-video') as HTMLVideoElement | null;
+      if (currentVideo) {
+        currentVideo.pause();
+        currentVideo.currentTime = 0;
+      }
+
+      // Transition out current
+      currentSlide?.classList.add('transitioning-out');
+      setTimeout(() => {
+        currentSlide?.classList.remove('active', 'transitioning-out');
+      }, 50);
+
+      // Update index
+      currentVideoIndex = index;
+
+      // Transition in new
+      const newSlide = videoSlides[currentVideoIndex];
+      setTimeout(() => {
+        newSlide?.classList.add('active');
+      }, 50);
+
+      // Play video
+      const video = newSlide?.querySelector('.carousel-video') as HTMLVideoElement | null;
+      if (video) {
+        video.play().catch(err => console.log('Video autoplay prevented:', err));
+
+        const handleVideoEnd = () => {
+          video.removeEventListener('ended', handleVideoEnd);
+          isVideoTransitioning = false;
+          nextVideo();
+        };
+
+        video.addEventListener('ended', handleVideoEnd);
+
+        // Fallback timeout
+        videoTimeout = window.setTimeout(() => {
+          video.removeEventListener('ended', handleVideoEnd);
+          isVideoTransitioning = false;
+          nextVideo();
+        }, VIDEO_DURATION);
+      }
+    }
+
+    function nextVideo() {
+      const nextIndex = (currentVideoIndex + 1) % videoSlides.length;
+      goToVideo(nextIndex);
+    }
+
+    // Intersection Observer for scroll-triggered autoplay (triggers earlier)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          goToVideo(0);
+        } else {
+          if (videoTimeout) clearTimeout(videoTimeout);
+          const currentVideo = videoSlides[currentVideoIndex]?.querySelector('.carousel-video') as HTMLVideoElement | null;
+          if (currentVideo) {
+            currentVideo.pause();
+          }
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '100px' });
+
+    const aboutSection = document.querySelector('#about');
+    if (aboutSection) {
+      observer.observe(aboutSection);
+    }
+  }
+
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAboutCarousels);
+  } else {
+    initAboutCarousels();
+  }
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initAboutCarousels);
+</script>

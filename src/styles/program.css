@@ -1,0 +1,166 @@
+
+.levels{ 
+  padding: 36px 0 24px; 
+}
+
+.levels h2{ 
+  text-align: center; 
+  margin-bottom: 18px; 
+}
+
+.level-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.level-card{ 
+  padding: 18px; 
+  text-align: center;
+}
+
+.level-icon{ 
+  width: 80px; 
+  height: auto; 
+  margin: 0 auto 10px; 
+  display: block;
+}
+
+.level-card h3 {
+  margin-bottom: 0.5rem;
+  color: var(--color-secondary);
+}
+
+.level-card .muted {
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 900px){ 
+  .level-grid{ 
+    grid-template-columns: repeat(2, 1fr); 
+  } 
+}
+
+@media (max-width: 600px){
+  .level-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Preschool specific - two program cards, centered */
+.preschool-levels .level-grid {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 720px;
+  gap: 1.5rem;
+}
+
+.preschool-levels .level-card {
+  padding: 1.5rem;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Mobile responsive for preschool */
+@media (max-width: 768px) {
+  .preschool-levels .level-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .preschool-levels .level-card {
+    min-height: auto;
+    padding: 1rem;
+  }
+}
+
+/* UrbanGym specific - display all 3 levels side by side */
+.urbangym-levels .level-grid {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1100px;
+  gap: 1.5rem;
+}
+
+.urbangym-levels .level-card {
+  padding: 1.5rem;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* "UrbanGym Intermediate" wraps to two lines while the other two names don't,
+   which pushed its grade tag out of line with them. 2lh reserves exactly two
+   line-heights, so the tags align across all three cards. (2.5em was 60px
+   against the 62.4px two lines actually need, leaving them 2px out.) */
+.urbangym-levels .level-card h3 {
+  min-height: 2lh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile responsive for UrbanGym */
+@media (max-width: 900px) {
+  .urbangym-levels .level-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .urbangym-levels .level-card {
+    min-height: auto;
+    padding: 1rem;
+  }
+
+  /* Single column here, so the names fit on one line — no reserved space needed. */
+  .urbangym-levels .level-card h3 {
+    min-height: 0;
+    display: block;
+  }
+}
+
+.trial-nudge{ 
+  padding: 20px 0 60px; 
+}
+
+.levels-diagram {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.levels-diagram img {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.nudge{ 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  gap: 18px; 
+  padding: 18px 20px; 
+}
+
+.nudge h3 {
+  margin-bottom: 0.5rem;
+  color: var(--color-secondary);
+}
+
+@media (max-width: 768px) {
+  .nudge {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .cta-row {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,166 @@
+---
+// Header component with centered logo and flat navigation
+import { readFileSync } from 'fs';
+import { parse } from 'yaml';
+import path from 'path';
+
+// Load assets from CMS
+let assets = { primary_logo: null };
+try {
+  const assetsPath = path.join(process.cwd(), 'content', 'assets.yml');
+  const assetsFile = readFileSync(assetsPath, 'utf8');
+  assets = parse(assetsFile);
+} catch (error) {
+  // Assets file doesn't exist or is empty, use defaults
+}
+
+// Determine logo URL
+const primaryLogoUrl = assets.primary_logo ? `/uploads/${assets.primary_logo}` : '/Images/compressed-Logo.webp';
+
+// Get current page path for active link detection
+const currentPath = Astro.url.pathname;
+
+// Helper function to check if a link is active
+function isActiveLink(href: string): boolean {
+  if (href === '/') {
+    return currentPath === '/';
+  }
+  return currentPath.startsWith(href);
+}
+
+// Check if Classes dropdown should be active
+const classesPages = ['/classes', '/preschool', '/edugym', '/urbangym', '/agc'];
+const isClassesActive = classesPages.some(page => currentPath.startsWith(page));
+
+// Check if About dropdown should be active
+const aboutPages = ['/about', '/whats-happening', '/contact', '/policies', '/careers'];
+const isAboutActive = aboutPages.some(page => currentPath.startsWith(page));
+---
+
+<header id="site-header" class="site-header" role="banner">
+  <div class="header-inner">
+    <!-- Row 1: Centered brand/logo -->
+    <div class="brand-row">
+      <a class="brand" href="/" aria-label="Trident Gymnastics">
+        <img
+          src={primaryLogoUrl}
+          alt="Trident Gymnastics"
+          width="480"
+          height="246"
+          loading="eager"
+          fetchpriority="high"
+          style="display:block"
+        />
+      </a>
+
+      <button class="mobile-toggle" data-mobile-toggle aria-label="Toggle menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="site-nav-shell" class="nav-shell">
+  <div class="nav-inner">
+    <!-- Row 2: Centered navigation bar -->
+    <nav class="primary-nav" aria-label="Primary">
+      <ul class="menu">
+        <li class="has-dropdown">
+          <a class={`tab ${isClassesActive ? 'current' : ''}`} href="/classes" aria-haspopup="true" aria-expanded="false" aria-current={isClassesActive ? 'page' : undefined}>
+            Classes ▾
+          </a>
+          <div class="dropdown" role="menu">
+            <a href="/preschool" role="menuitem">Preschool</a>
+            <a href="/edugym" role="menuitem">EduGym</a>
+            <a href="/urbangym" role="menuitem">UrbanGym</a>
+            <a href="/agc" role="menuitem">AGC</a>
+          </div>
+        </li>
+
+        <li><a class="tab" href="/playgym" aria-current={isActiveLink('/playgym') ? 'page' : undefined}>PlayGym</a></li>
+        {/* Holiday Program nav link — live with the Spring program. TODO(summer): re-comment when it finishes. */}
+        <li><a class="tab" href="/school-holidays" aria-current={isActiveLink('/school-holidays') ? 'page' : undefined}>Holiday Program</a></li>
+        <li><a class="tab" href="/parties" aria-current={isActiveLink('/parties') ? 'page' : undefined}>Birthday Parties</a></li>
+        <li><a class="tab" href="/dates" aria-current={isActiveLink('/dates') ? 'page' : undefined}>Dates</a></li>
+
+        <li class="has-dropdown">
+          <a class={`tab ${isAboutActive ? 'current' : ''}`} href="/about" aria-haspopup="true" aria-expanded="false" aria-current={isAboutActive ? 'page' : undefined}>
+            About ▾
+          </a>
+          <div class="dropdown" role="menu">
+            <a href="/about" role="menuitem">About</a>
+            <a href="/whats-happening" role="menuitem">What's Happening</a>
+            <a href="/contact" role="menuitem">Contact</a>
+            <a href="/careers" role="menuitem">Careers</a>
+            <a href="/policies" role="menuitem">Policies & Guides</a>
+          </div>
+        </li>
+
+        <li class="find-class-item">
+          <button type="button" class="find-class-btn" data-open-class-selector aria-label="Find the right class for your child">
+            Find a Class
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M13 5l7 7-7 7M5 12h14"/></svg>
+          </button>
+        </li>
+
+        <li class="portal-item">
+          <a href="https://portal.iclasspro.com/trident" target="_blank" rel="noopener" class="customer-portal-btn">Customer Portal</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  </div>
+</header>
+
+<style>
+  .find-class-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    /* Brand blue, sitting next to the yellow Customer Portal button. This
+       was violet (#8b5cf6), the one colour on the site that appeared in no
+       brand token and the first hex the "AI-generated site" lists call out. */
+    background: var(--primary-blue);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 800;
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    border: 2px solid var(--primary-blue);
+    cursor: pointer;
+    box-shadow:
+      0 4px 14px rgba(21, 115, 194, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    transition: transform 0.15s, box-shadow 0.15s, filter 0.15s, background 0.15s, color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+
+  .find-class-btn:hover {
+    transform: translateY(-1px);
+    /* Stay white on navy: brand blue on navy is far too low-contrast to read. */
+    background: var(--dark-navy, #151957);
+    color: #fff;
+    border-color: var(--dark-navy, #151957);
+    box-shadow: 0 6px 18px rgba(21, 25, 87, 0.22);
+    filter: none;
+  }
+
+  @media (max-width: 768px) {
+    .find-class-item {
+      width: 100%;
+      padding: 0.2rem 0;
+    }
+
+    .find-class-btn {
+      width: 100%;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0.58rem 1rem;
+      font-size: 0.88rem;
+    }
+  }
+</style>
+
+<!-- Mobile navigation logic now handled by src/scripts/mobile-nav.ts (imported in Layout.astro) -->

@@ -1,0 +1,126 @@
+---
+const { bios, closing } = Astro.props;
+---
+
+<section class="bios-section">
+  <div class="container">
+    <div class="bios-grid">
+      {bios.map((bio) => (
+        <article class="bio-card">
+          <img
+            src={bio.image}
+            alt={bio.name}
+            width="640"
+            height="850"
+            loading="lazy"
+            decoding="async"
+            class="bio-image"
+            style="display:block"
+          />
+          <div class="bio-content">
+            <h2>{bio.name}</h2>
+            {bio.body.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    {closing?.length ? (
+      <div class="closing-section">
+        {closing.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    ) : null}
+  </div>
+</section>
+
+<style>
+  .bios-section {
+    padding: var(--section-padding-mobile) 0;
+  }
+
+  .bios-grid {
+    display: grid;
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+
+  .bio-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .bio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-2);
+  }
+
+  .bio-image {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .bio-content {
+    padding: 2rem;
+  }
+
+  .bio-content h2 {
+    color: var(--primary-blue);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .bio-content p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    color: var(--text-body);
+  }
+
+  .bio-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .closing-section {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    background: var(--light-bg);
+    padding: 3rem;
+    border-radius: var(--radius);
+  }
+
+  .closing-section p {
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    font-size: 1.125rem;
+    color: var(--text-body);
+  }
+
+  .closing-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 768px) {
+    .bios-section {
+      padding: var(--section-padding) 0;
+    }
+
+    .bios-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4rem;
+    }
+
+    .bio-image {
+      height: 550px;
+    }
+
+    .bio-content h2 {
+      font-size: 1.75rem;
+    }
+  }
+</style>

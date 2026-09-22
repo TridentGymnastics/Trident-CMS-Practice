@@ -1,0 +1,10 @@
+---
+import UniversalHero from '../shared/UniversalHero.astro';
+const { hero } = Astro.props;
+---
+
+<UniversalHero
+  title={hero.title}
+  subtitle={hero.intro}
+  colorScheme="primary"
+/>

@@ -1,0 +1,138 @@
+---
+const fallingLeaves = [
+  { left: '4%', start: '-18%', size: '56px', rotate: '-24deg', duration: '24s', delay: '0s', drift: '34px', variant: 'maple', fill: '#f59e0b', vein: '#b45309' },
+  { left: '15%', start: '-12%', size: '40px', rotate: '18deg', duration: '22s', delay: '1.8s', drift: '22px', variant: 'oval', fill: '#f97316', vein: '#9a3412' },
+  { left: '25%', start: '-20%', size: '48px', rotate: '-10deg', duration: '25s', delay: '3.6s', drift: '28px', variant: 'maple', fill: '#fb923c', vein: '#c2410c' },
+  { left: '39%', start: '-14%', size: '36px', rotate: '12deg', duration: '23s', delay: '5.1s', drift: '18px', variant: 'oval', fill: '#fbbf24', vein: '#b45309' },
+  { left: '58%', start: '-17%', size: '44px', rotate: '-20deg', duration: '26s', delay: '6.9s', drift: '26px', variant: 'maple', fill: '#ea580c', vein: '#9a3412' },
+  { left: '72%', start: '-11%', size: '46px', rotate: '20deg', duration: '24s', delay: '8.3s', drift: '20px', variant: 'oval', fill: '#fbbf24', vein: '#b45309' },
+  { left: '84%', start: '-16%', size: '62px', rotate: '-16deg', duration: '27s', delay: '10.1s', drift: '32px', variant: 'maple', fill: '#ea580c', vein: '#9a3412' },
+  { left: '92%', start: '-10%', size: '38px', rotate: '24deg', duration: '22s', delay: '11.7s', drift: '18px', variant: 'oval', fill: '#fdba74', vein: '#c2410c' },
+];
+---
+
+<div class="autumn-leaf-field" aria-hidden="true">
+  {fallingLeaves.map((leaf) => (
+    <span
+      class={`autumn-leaf-field__sprite autumn-leaf-field__sprite--${leaf.variant}`}
+      style={`--leaf-left:${leaf.left}; --leaf-start:${leaf.start}; --leaf-size:${leaf.size}; --leaf-rotate:${leaf.rotate}; --leaf-duration:${leaf.duration}; --leaf-delay:${leaf.delay}; --leaf-drift:${leaf.drift}; --leaf-fill:${leaf.fill}; --leaf-vein:${leaf.vein};`}
+    >
+      {leaf.variant === 'maple' ? (
+        <svg class="autumn-leaf-field__icon" viewBox="0 0 100 100" aria-hidden="true">
+          <path
+            class="autumn-leaf-field__fill"
+            d="M50 3L43 18L37 12L34 28L20 21L23 36L9 41L20 50L11 66L28 61L35 79L46 70L50 63L54 70L65 79L72 61L89 66L80 50L91 41L77 36L80 21L66 28L63 12L57 18Z"
+          ></path>
+          <path class="autumn-leaf-field__vein" d="M50 8L50 68"></path>
+          <path class="autumn-leaf-field__vein" d="M50 22L36 30"></path>
+          <path class="autumn-leaf-field__vein" d="M50 24L64 31"></path>
+          <path class="autumn-leaf-field__vein" d="M50 39L27 50"></path>
+          <path class="autumn-leaf-field__vein" d="M50 41L73 51"></path>
+          <path class="autumn-leaf-field__stem" d="M50 69V97"></path>
+        </svg>
+      ) : (
+        <svg class="autumn-leaf-field__icon" viewBox="0 0 100 100" aria-hidden="true">
+          <path
+            class="autumn-leaf-field__fill"
+            d="M49 7C67 8 82 22 86 40C90 57 82 77 64 88C57 92 52 95 49 98C46 95 41 92 34 88C16 77 8 57 12 40C16 22 31 8 49 7Z"
+          ></path>
+          <path class="autumn-leaf-field__vein" d="M49 14V76"></path>
+          <path class="autumn-leaf-field__vein" d="M49 35L29 45"></path>
+          <path class="autumn-leaf-field__vein" d="M49 42L69 52"></path>
+          <path class="autumn-leaf-field__stem" d="M49 88V98"></path>
+        </svg>
+      )}
+    </span>
+  ))}
+</div>
+
+<style>
+  .autumn-leaf-field {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .autumn-leaf-field__sprite {
+    position: absolute;
+    left: var(--leaf-left);
+    top: var(--leaf-start);
+    width: var(--leaf-size);
+    height: var(--leaf-size);
+    --leaf-floor: calc(100% - var(--leaf-size));
+    opacity: 0;
+    filter: drop-shadow(0 10px 20px rgba(15, 24, 62, 0.22));
+    animation: autumn-leaf-fall var(--leaf-duration) linear infinite var(--leaf-delay);
+  }
+
+  .autumn-leaf-field__icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .autumn-leaf-field__fill {
+    fill: var(--leaf-fill);
+  }
+
+  .autumn-leaf-field__vein,
+  .autumn-leaf-field__stem {
+    fill: none;
+    stroke: var(--leaf-vein);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .autumn-leaf-field__vein {
+    stroke-width: 3.2;
+    opacity: 0.68;
+  }
+
+  .autumn-leaf-field__stem {
+    stroke-width: 6;
+  }
+
+  @keyframes autumn-leaf-fall {
+    0% {
+      top: var(--leaf-start);
+      opacity: 0;
+      transform: translate3d(0, 0, 0) rotate(var(--leaf-rotate)) scale(0.94);
+    }
+    10% {
+      opacity: 0.95;
+    }
+    26% {
+      transform: translate3d(var(--leaf-drift), 0, 0) rotate(calc(var(--leaf-rotate) + 10deg)) scale(1.02);
+    }
+    48% {
+      transform: translate3d(calc(var(--leaf-drift) * -0.8), 0, 0) rotate(calc(var(--leaf-rotate) - 12deg)) scale(0.98);
+    }
+    60% {
+      top: var(--leaf-floor);
+      opacity: 0.95;
+      transform: translate3d(calc(var(--leaf-drift) * 0.4), 0, 0) rotate(calc(var(--leaf-rotate) + 6deg)) scale(1.01);
+    }
+    74% {
+      transform: translate3d(calc(var(--leaf-drift) * 0.4), 0, 0) rotate(calc(var(--leaf-rotate) + 6deg)) scale(1.01);
+    }
+    100% {
+      top: var(--leaf-floor);
+      opacity: 0;
+      transform: translate3d(calc(var(--leaf-drift) * -0.2), 0, 0) rotate(calc(var(--leaf-rotate) - 4deg)) scale(1.04);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .autumn-leaf-field__sprite:nth-child(odd) {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .autumn-leaf-field {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,339 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../config/site';
+
+const ld = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact Trident Gymnastics",
+  "url": `${siteConfig.siteUrl}/contact`,
+  "mainEntity": {
+    "@id": `${siteConfig.siteUrl}/#business`
+  }
+};
+---
+
+<Layout title="Contact Trident Gymnastics Ringwood" description="Contact Trident Gymnastics in Ringwood for class enquiries, PlayGym, birthday parties and free trial bookings.">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(ld)}></script>
+  </Fragment>
+
+  <section class="contact-hero">
+    <h1>Contact Trident Gymnastics Ringwood</h1>
+    <p class="sub">Get in touch about classes, PlayGym, parties or free trial bookings.</p>
+  </section>
+
+  <section class="contact-grid">
+    <div class="left">
+      <article class="card">
+        <h2 class="label">Phone</h2>
+        <a class="value link" href="tel:+61435060352" aria-label="Call Trident Gymnastics">0435 060 352</a>
+      </article>
+
+      <article class="card">
+        <h2 class="label">Mail</h2>
+        <a class="value link" href={`mailto:${siteConfig.email}`} aria-label="Email Trident Gymnastics">{siteConfig.email}</a>
+      </article>
+
+      <article class="card">
+        <h2 class="label">Location</h2>
+        <address class="value">{siteConfig.address}</address>
+        <div class="note">
+          <strong>Note:</strong> Entry off Maroondah Highway can be difficult. The carpark for Trident is <strong>ONLY</strong> accessible when travelling in a westerly direction (towards the city, away from Ringwood).
+        </div>
+      </article>
+    </div>
+
+    <div class="right">
+      <div class="map">
+        <iframe
+          title="Trident Gymnastics Location"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src={siteConfig.mapsEmbedUrl}>
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="access-images">
+    <div class="image-row">
+      <img
+        src="/Images/Contact/compressed-find-us-0.webp"
+        alt="How to access Trident Gymnastics - Step 1"
+        width="800"
+        height="600"
+        loading="lazy"
+        class="contact-image"
+      />
+      <img
+        src="/Images/Contact/compressed-find-us-1.webp"
+        alt="How to access Trident Gymnastics - Step 2"
+        width="800"
+        height="600"
+        loading="lazy"
+        class="contact-image"
+      />
+      <img
+        src="/Images/Contact/compressed-find-us-2.webp"
+        alt="How to access Trident Gymnastics - Step 3"
+        width="800"
+        height="600"
+        loading="lazy"
+        class="contact-image"
+      />
+    </div>
+  </section>
+
+  <section class="social">
+    <h2>Follow us on social media</h2>
+    <div class="icons">
+      <a class="btn-icon" href={siteConfig.facebook} target="_blank" rel="noopener" aria-label="Trident Gymnastics on Facebook">Facebook</a>
+      <a class="btn-icon" href={siteConfig.instagram} target="_blank" rel="noopener" aria-label="Trident Gymnastics on Instagram">Instagram</a>
+    </div>
+  </section>
+
+  <section class="affiliations">
+    <h2>Trident Gymnastics is affiliated with:</h2>
+    <div class="logos">
+      <img src="/Images/About/compressed-ga-logo.webp" alt="Gymnastics Australia" width="1280" height="431" loading="lazy" decoding="async" />
+      <img src="/Images/About/compressed-gv_Logo.webp" alt="Gymnastics Victoria" width="650" height="221" loading="lazy" decoding="async" />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  :root {
+    --navy: #0b1150;
+    --yellow: #ffd33b;
+    --muted: #eef1f6;
+  }
+
+  .contact-hero {
+    text-align: center;
+    padding: 40px 16px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .contact-hero h1 {
+    margin: 0 0 12px;
+    color: var(--navy);
+    letter-spacing: 0.02em;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 800;
+  }
+
+  .contact-hero .sub {
+    color: #333;
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  .contact-grid {
+    display: grid;
+    gap: 24px;
+    padding: 20px 16px 8px;
+    grid-template-columns: 1fr;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 992px) {
+    .contact-grid {
+      grid-template-columns: 1fr 1.2fr;
+      align-items: start;
+    }
+  }
+
+  /* Grid and flex children default to min-width: auto, which is their
+     min-content width. The email address is one unbreakable token, so it set a
+     303px floor on the single 1fr column and pushed both cards past the right
+     edge of a 320px screen, where overflow-x: hidden cut them off. */
+  .left,
+  .right,
+  .card {
+    min-width: 0;
+  }
+
+  .left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--muted);
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  .label {
+    margin: 0 0 6px;
+    color: #3a426b;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    font-size: 1.1rem;
+  }
+
+  .value {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+    color: #0b1150;
+    font-style: normal;
+    /* 'anywhere' rather than 'break-word': only 'anywhere' lowers the
+       min-content width, which is what the column is sized from. */
+    overflow-wrap: anywhere;
+  }
+
+  .link {
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+
+  .link:hover {
+    border-bottom-color: var(--yellow);
+  }
+
+  .note {
+    background: #f7f9ff;
+    border: 1px dashed #dfe6fb;
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: #1b2559;
+    font-size: 0.95rem;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .map {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--muted);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+    /* Fixed height on mobile: aspect-ratio + min-height together transfer a
+       ~533px minimum width through the ratio, which blows out the 1fr grid
+       column and pushes the whole page past the viewport edge on phones. */
+    height: 400px;
+  }
+
+  @media (min-width: 992px) {
+    .map {
+      height: auto;
+      aspect-ratio: 16 / 12;
+      min-height: 400px;
+    }
+  }
+
+  .map iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .access-images {
+    padding: 32px 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .image-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    align-items: start;
+  }
+
+  @media (min-width: 768px) {
+    .image-row {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .image-row img,
+  .contact-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--muted);
+  }
+
+  .contact-image :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .social {
+    padding: 16px;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .social h2 {
+    margin: 0 0 8px;
+    color: #3a426b;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .icons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--muted);
+    color: #0b1150;
+    text-decoration: none;
+    font-weight: 600;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .btn-icon:hover {
+    box-shadow: 0 6px 16px rgba(11, 17, 80, 0.15);
+  }
+
+  .affiliations {
+    padding: 8px 16px 28px;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .affiliations h2 {
+    margin: 0 0 12px;
+    color: #3a426b;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .affiliations .logos {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .affiliations .logos img {
+    height: clamp(40px, 4vw, 56px);
+    object-fit: contain;
+    filter: saturate(0.96);
+  }
+</style>

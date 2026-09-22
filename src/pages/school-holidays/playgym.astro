@@ -1,0 +1,444 @@
+---
+// Fallback route for /school-holidays/playgym (SEO + no-JS support)
+import Layout from '../../layouts/Layout.astro';
+import playgymData from '../../content/playgym.json';
+import { holidayProgramStatus } from '../../data/holidayPrograms';
+
+// Off-season (live: false) hides the ended schedule + booking link. See
+// holidayPrograms.ts / docs/HOLIDAY-PROGRAM-PLAYBOOK.md.
+const { live: programLive } = holidayProgramStatus;
+
+const program = {
+  id: 'playgym',
+  title: 'PlayGym',
+  tagline: playgymData.tagline,
+  ageRange: playgymData.age_range,
+  sessionLength: '1.5 hours',
+  bookingType: 'No booking required',
+  about: playgymData.about,
+  features: [
+    'Use our gymnastics facility at your own pace',
+    'Swing on bars, jump into foam pits, build cubby houses',
+    'Vital for child development and school readiness',
+    'Develops both fine and gross motor skills',
+    'Facilitates cognitive thinking through play',
+    'Stay for as long or as little as you like'
+  ],
+  schedule: {
+    stay_notice: playgymData.schedule.stay_notice,
+    days: [
+      { day: 'Week 1: Monday 21 September 2026', time: '11:00 am - 12:30 pm' },
+      { day: 'Week 1: Tuesday 22 September 2026', time: '11:00 am - 12:30 pm' },
+      { day: 'Week 1: Wednesday 23 September 2026', time: '11:00 am - 12:30 pm' },
+      { day: 'Week 1: Thursday 24 September 2026', time: '11:00 am - 12:30 pm' },
+      { day: 'Week 2: Monday 28 September 2026', time: '11:00 am - 12:30 pm' },
+      { day: 'Week 2: Tuesday 29 September 2026', time: '11:00 am - 12:30 pm' },
+      { day: 'Week 2: Wednesday 30 September 2026', time: '11:00 am - 12:30 pm' },
+      { day: 'Week 2: Thursday 1 October 2026', time: '11:00 am - 12:30 pm' },
+      { day: 'Week 2: Friday 2 October 2026', time: '11:00 am - 12:30 pm' }
+    ],
+    holiday_notice: 'Spring Holiday Program — No booking required, just drop in! The gym is closed on Friday 25 September for the public holiday.'
+  },
+  pricing: playgymData.prices,
+  howToJoin: playgymData.how_to_join
+};
+---
+
+<Layout
+  title={programLive ? `${program.title} - Spring School Holidays` : `${program.title} - School Holidays`}
+  description={programLive
+    ? `Drop-in PlayGym for ages ${program.ageRange} these Spring school holidays at Trident Gymnastics Ringwood. 11:00 am - 12:30 pm, 21 September to 2 October 2026.`
+    : `${program.tagline} Drop-in, parent-supervised PlayGym for ages ${program.ageRange} runs each Victorian school holiday break at Trident Gymnastics Ringwood. Dates for the next program announced soon.`}
+>
+  <main>
+    <section class="program-hero">
+      <div class="container">
+        <nav class="breadcrumb">
+          <a href="/school-holidays">School Holidays</a>
+          <span>/</span>
+          <span>{program.title}</span>
+        </nav>
+
+        <h1>{program.title}</h1>
+        <p class="tagline">{program.tagline}</p>
+
+        <div class="quick-meta">
+          <div class="meta-badge meta-badge--age">
+            <span class="meta-badge-label">Ages</span>
+            <span class="meta-badge-value">{program.ageRange}</span>
+          </div>
+          <div class="meta-badge">
+            <span class="meta-badge-label">Session</span>
+            <span class="meta-badge-value">{program.sessionLength}</span>
+          </div>
+          <div class="meta-badge">
+            <span class="meta-badge-label">Booking</span>
+            <span class="meta-badge-value">{program.bookingType}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="program-content">
+      <div class="container">
+        <article class="program-details">
+          <section class="content-section">
+            <h2>About This Program</h2>
+            {program.about.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </section>
+
+          {program.features && (
+            <section class="content-section">
+              <h2>What to Expect</h2>
+              <ul class="feature-list">
+                {program.features.map((feature) => (
+                  <li>{feature}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {program.schedule && (
+            <section class="content-section">
+              <h2>Schedule</h2>
+              {program.schedule.stay_notice && (
+                <p class="notice-highlight">{program.schedule.stay_notice}</p>
+              )}
+              {programLive ? (
+                <Fragment>
+                  {program.schedule.days && (
+                    <div class="schedule-rows">
+                      {program.schedule.days.map((slot) => (
+                        <div class="session-row">
+                          <span class="session-row-label">{slot.day}</span>
+                          <span class="time-pill">{slot.time}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {program.schedule.holiday_notice && (
+                    <p class="notice-text">{program.schedule.holiday_notice}</p>
+                  )}
+                </Fragment>
+              ) : (
+                <p class="notice-text">Holiday PlayGym runs each Victorian school holiday period, 11:00 am - 12:30 pm. Dates for the next program will be listed on our <a href="/school-holidays">School Holidays page</a> as soon as they're confirmed.</p>
+              )}
+            </section>
+          )}
+
+          {program.pricing && (
+            <section class="content-section">
+              <h2>Pricing</h2>
+              {program.pricing.intro && <p>{program.pricing.intro}</p>}
+              <div class="pricing-grid">
+                {program.pricing.items.map((item) => (
+                  <div class="pricing-item">
+                    <span class="price-label">{item.label}</span>
+                    <span class="price-value">{item.price}</span>
+                  </div>
+                ))}
+              </div>
+              {program.pricing.multi_visit_note && (
+                <p class="notice-text">{program.pricing.multi_visit_note}</p>
+              )}
+              {program.pricing.gift_blurb && (
+                <p class="gift-blurb">{program.pricing.gift_blurb}</p>
+              )}
+            </section>
+          )}
+
+          {program.howToJoin && (
+            <section class="content-section">
+              <h2>How to Join</h2>
+              <p>{program.howToJoin.text}</p>
+              {program.howToJoin.note && <p class="notice-text">{program.howToJoin.note}</p>}
+            </section>
+          )}
+
+          <section class="cta-section">
+            <div class="cta-buttons">
+              {programLive ? (
+                <a href="https://portal.iclasspro.com/trident/camps/9?typeId=9&next=camps&nextTitle=Holiday%20Program&pluralTitle=Holiday%20Programs&sortBy=name" class="btn btn-primary btn-large" target="_blank" rel="noopener noreferrer">View All Sessions</a>
+              ) : (
+                <a href="/school-holidays" class="btn btn-primary btn-large">See Upcoming Programs</a>
+              )}
+              <a href="/school-holidays" class="btn btn-secondary btn-large">All Programs</a>
+            </div>
+          </section>
+        </article>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .program-hero {
+    background: linear-gradient(135deg, var(--dark-navy) 0%, var(--primary-blue) 100%);
+    color: white;
+    padding: 3rem 0 4rem;
+    text-align: center;
+  }
+
+  .breadcrumb {
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    opacity: 0.9;
+  }
+
+  .breadcrumb a {
+    color: white;
+    text-decoration: underline;
+  }
+
+  .breadcrumb a:hover {
+    opacity: 0.8;
+  }
+
+  .breadcrumb span {
+    margin: 0 0.5rem;
+  }
+
+  .program-hero h1 {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .tagline {
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+  }
+
+  .quick-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .meta-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    min-width: 180px;
+    padding: 0.95rem 1.1rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    text-align: left;
+  }
+
+  .meta-badge--age {
+    background: rgba(255, 224, 55, 0.18);
+    border-color: rgba(255, 224, 55, 0.4);
+  }
+
+  .meta-badge-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.76);
+  }
+
+  .meta-badge-value {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .program-content {
+    padding: 4rem 0;
+  }
+
+  .program-details {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .content-section {
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .content-section:last-of-type {
+    border-bottom: none;
+  }
+
+  .content-section h2 {
+    font-size: 2rem;
+    color: var(--dark-navy);
+    margin-bottom: 1.5rem;
+  }
+
+  .content-section p {
+    color: var(--color-black);
+    line-height: 1.65;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+  }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .feature-list li {
+    padding-left: 2rem;
+    position: relative;
+    line-height: 1.65;
+  }
+
+  .feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--primary-blue);
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+
+  .notice-highlight {
+    background: var(--light-bg);
+    border-left: 4px solid var(--accent-yellow);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--dark-navy);
+    margin-bottom: 1.5rem !important;
+  }
+
+  .notice-text {
+    background: var(--light-bg);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem !important;
+    color: var(--text-muted) !important;
+    font-style: italic;
+  }
+
+  .gift-blurb {
+    background: linear-gradient(135deg, rgba(255, 211, 56, 0.1), rgba(21, 115, 194, 0.1));
+    border: 2px solid var(--accent-yellow);
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+    color: var(--dark-navy) !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .schedule-rows {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .session-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--light-bg);
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    gap: 1rem;
+    /* The date label plus the nowrap time pill need 303px side by side, more
+       than a 320px screen has once padding is taken off. Let the pill drop to
+       its own line rather than run off the edge. */
+    flex-wrap: wrap;
+  }
+
+  .session-row-label {
+    color: var(--color-black);
+    font-size: 1rem;
+    font-weight: 600;
+    min-width: 0;
+  }
+
+  .time-pill {
+    display: inline-block;
+    background: var(--accent-yellow);
+    color: var(--dark-navy);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .pricing-grid {
+    display: grid;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .pricing-item {
+    background: var(--light-bg);
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .price-label {
+    color: var(--dark-navy);
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+
+  .price-value {
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+
+  .cta-section {
+    padding: 2.5rem 0 1rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn-large {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    min-width: 200px;
+  }
+
+  @media (max-width: 768px) {
+    .quick-meta {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .meta-badge {
+      width: 100%;
+      min-width: 0;
+      padding: 0.85rem 1rem;
+    }
+
+    .schedule-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+    }
+
+    .btn-large {
+      width: 100%;
+    }
+  }
+</style>

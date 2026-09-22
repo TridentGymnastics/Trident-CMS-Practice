@@ -1,41 +1,42 @@
-# Trident Pages CMS practice
+﻿# Trident CMS practice website
 
-This is a content-editing exercise, not a deployable website. It contains a copy of the existing PlayGym content and an editor configuration. There is no application, deployment workflow, hosting configuration, repository remote or production credential in this pack.
+This is the separate test website for TridentGymnastics/Trident-CMS-Practice. It contains an Astro website copied from live-source commit 24e7ee7eb7af0ec6a64cacecbf0e65a2c0486104, with practice safeguards. The existing .pages.yml and src/content/playgym.json are preserved from this repository.
 
-## 1. Create a separate repository
+Nothing has been connected to a hosting account yet. A push to this repository by itself does not establish automatic preview hosting.
 
-At https://github.com/new create a PRIVATE repository named Trident-CMS-Practice. Prefer a club-controlled account. Do not use the existing Trident-Gymnastics repository. An empty repository is enough; no template, import, fork or deployment is needed.
+## Current editor exercise
 
-## 2. Upload the practice files
+In Pages CMS, select Trident-CMS-Practice / main and open PRACTICE - PlayGym description. Saving edits src/content/playgym.json. The website reads that exact file. settings.content.merge remains true so the prices, timetable, policies and other fields are preserved.
 
-Unzip this pack locally. Upload the CONTENTS of its folder, not the ZIP and not a containing folder, using GitHub's upload-existing-files option. The repository root must contain .pages.yml and README.md, with src/content/playgym.json underneath it. GitHub may call the initial branch main; that main belongs to this separate practice repository.
+The root-level pages.yml and playgym.json are earlier uploaded copies. They are retained, but the app uses only .pages.yml and src/content/playgym.json.
 
-## 3. Connect Pages CMS
+## Local preview
 
-Open https://app.pagescms.org and sign in with GitHub. Install its GitHub App using Only select repositories and select ONLY Trident-CMS-Practice. Do not select All repositories or Trident-Gymnastics. If the app is already installed, review its existing access first; do not assume selecting this repository removes other permissions. Organization approval may be required.
+Use Node 24. In a normal standalone clone, run npm ci, npm run build, then npm run preview. Open http://127.0.0.1:4323/playgym. For development, npm run dev reads local content changes directly.
 
-Open Trident-CMS-Practice in Pages CMS. If it asks you to create a configuration, verify that .pages.yml was uploaded at the repository root and the correct branch is selected.
+The prepared local clone uses a junction to the original checkout's installed packages for testing. Do not run npm install, npm ci, npm update, or dependency cleanup in that prepared clone while the junction is present. Build output and caches are isolated. A fresh clone has no junction and can use npm ci normally.
 
-## 4. Make and reverse one edit
+## Connect a separate test website
 
-Open PRACTICE - PlayGym description. Copy the original Short description somewhere safe. Append TEST ONLY, save, and reopen the entry. Check src/content/playgym.json and its commit history in the PRACTICE GitHub repository: the tagline should change, and schedule, prices, policies, contact and all other keys should remain. Restore the exact original description, save again, and verify it. No website preview is expected at this stage.
+1. First push this prepared practice repository using a GitHub account with write access.
+2. Create a NEW preview hosting project connected only to TridentGymnastics/Trident-CMS-Practice, branch main. Keep its default netlify.app or pages.dev address. Do not change the live project's repository connection, domains, DNS, environment variables, or credentials.
+3. Build command: npm run build. Output directory: dist. Node: 24. Set PUPPETEER_SKIP_DOWNLOAD=true and ASTRO_TELEMETRY_DISABLED=1 in the preview build environment. Netlify reads these settings from this repository's preview-only netlify.toml.
+4. Host usage must also be isolated from the live site. In a Netlify team using credit-based billing, exhausting the shared allowance can pause all projects. Use separate preview billing/quota, or a separate hosting service, after confirming the setup.
+5. Verify the deployed /playgym page has the CMS PRACTICE banner, noindex headers and the saved description. This check must happen on the actual host; a successful local build does not prove the online connection.
+6. Change one description in Pages CMS, save, wait for the practice deployment to succeed, and check the preview. Restore the text and verify a second deployment. Only then is the automatic editing flow proven.
 
-The configuration sets settings.content.merge to true to preserve fields outside the editor schema. Verify the hosted app honours this before adapting the configuration for the real site. File create, rename and delete controls are disabled for this entry. These settings are editor controls, not a GitHub security boundary.
+## Safeguards and limits
 
-## 5. Build a separate website preview later
+- No original .github workflows, live Netlify configuration, production site IDs, environment files or credentials are included.
+- Every generated page has noindex metadata. robots.txt disallows crawling, and public/_headers adds noindex and blocks form submissions on supported hosts. Noindex is not password protection.
+- The careers form is replaced by disabled controls. Booking, phone, email, map and social links are still real links; this is a content and appearance exercise.
+- Canonical URLs use the practice host. practice-origin.mjs rejects custom domains and, when provided by Netlify, a repository URL other than Trident-CMS-Practice.
+- These build safeguards do not control hosting-account permissions. Do not import into or relink the existing live hosting project.
+- The CMS currently exposes only the PlayGym description and paragraphs. Program-wide renaming, page visibility and layout controls need further implementation and testing.
 
-After the editor exercise succeeds, prepare a separate copy of the website for staging. Audit copied deployment workflows, redirects, forms, analytics and credentials before hosting it. Use a distinct preview host with indexing blocked and form submissions disabled. Production domain/DNS, hosting project and production repository stay separate. Do not connect the existing production hosting project to this practice repository.
+## References
 
-## 6. Expand and verify before production
-
-Add frequent updates gradually: announcements, closures, holiday seasons, program descriptions, policies and theme choices. Centralise duplicated content before exposing program-wide renaming or visibility. Use scheduled publishing only after it works end to end. Compare pages, mobile navigation, booking links, PDFs, forms and search metadata against the current site. Rehearse publishing failure and recovery with the future editor.
-
-A production release is a separate deliberate step after the staging version passes review. Agree how staff will preview, publish and recover without asking them to manage Git. A separate practice repository alone is not the final production publishing workflow.
-
-## Reference
-
-Source snapshot: local commit 24e7ee7eb7af0ec6a64cacecbf0e65a2c0486104, inspected 22 September 2026. No production files were changed in preparing this pack.
-
-- https://pagescms.org/docs/quick-start/
-- https://pagescms.org/docs/configuration/settings/
-- https://pagescms.org/docs/configuration/content/operations/
+- Pages CMS editing: https://pagescms.org/docs/
+- Netlify repository connection: https://docs.netlify.com/start/quickstarts/deploy-from-repository/
+- Netlify shared usage: https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/billing-faq-for-credit-based-plans/
+- Cloudflare Pages build configuration: https://developers.cloudflare.com/pages/configuration/build-configuration/

@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import UniversalHero from '../components/shared/UniversalHero.astro';
+import PoliciesSection from '../components/about/PoliciesSection.astro';
+import aboutData from '../content/about.json';
+
+const ld = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Policies & Parent Guides",
+  "description": "Parent guides and policy documents for Trident Gymnastics",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Trident Gymnastics"
+  }
+};
+---
+
+<Layout title="Policies & Parent Guides" description="Helpful parent guides for the IClassPro app, plus current policies and terms for Trident Gymnastics members.">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(ld)}></script>
+  </Fragment>
+
+  <main>
+    <UniversalHero
+      title={aboutData.policies.title}
+      subtitle={aboutData.policies.intro}
+      colorScheme="primary-secondary"
+    />
+    <PoliciesSection policies={aboutData.policies} />
+  </main>
+</Layout>
+

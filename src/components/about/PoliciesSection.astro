@@ -1,0 +1,369 @@
+---
+const { policies } = Astro.props;
+---
+
+<section class="policies-section">
+  <div class="container">
+    {policies.guides && policies.guides.documents.length > 0 && (
+      <div id="iclasspro-guides" class="resource-group guide-group">
+        <div class="section-heading">
+          <p class="section-kicker">Parent Guides</p>
+          <h2>{policies.guides.title}</h2>
+          <p>{policies.guides.intro}</p>
+        </div>
+
+        <div class="policies-grid guides-grid">
+          {policies.guides.documents.map((guide) => (
+            <article class="policy-card guide-card">
+              <div class="policy-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <div class="policy-content">
+                <h3>{guide.title}</h3>
+                <p class="policy-description">{guide.description}</p>
+              </div>
+              <div class="policy-actions">
+                <a href={guide.href} target="_blank" rel="noopener" class="btn btn-primary">
+                  View PDF
+                </a>
+                <a href={guide.href} download class="btn btn-secondary">
+                  Download
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <div class="resource-group">
+      <div class="section-heading">
+        <p class="section-kicker">Policies</p>
+        <h2>Policies, Terms & Conditions</h2>
+        <p>Current documents for tuition, member protection, media, privacy, and previous years.</p>
+      </div>
+
+      <div class="policies-grid">
+        {policies.documents.map((policy) => (
+          <article class="policy-card">
+            <div class="policy-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            <div class="policy-content">
+              <h3>{policy.title}</h3>
+              <p class="policy-description">{policy.description}</p>
+            </div>
+            <div class="policy-actions">
+              <a href={policy.href} target="_blank" rel="noopener" class="btn btn-primary">
+                View PDF
+              </a>
+              <a href={policy.href} download class="btn btn-secondary">
+                Download
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    {policies.legacy && policies.legacy.length > 0 && (
+      <details class="legacy-section">
+        <summary>Previous Years</summary>
+        <div class="legacy-grid">
+          {policies.legacy.map((policy) => (
+            <div class="policy-card">
+              <div class="policy-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <div class="policy-content">
+                <h3>{policy.title}</h3>
+              </div>
+              <div class="policy-actions">
+                <a href={policy.href} target="_blank" rel="noopener" class="btn btn-primary">
+                  View PDF
+                </a>
+                <a href={policy.href} download class="btn btn-secondary">
+                  Download
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </details>
+    )}
+  </div>
+</section>
+
+<style>
+  .policies-section {
+    padding: var(--section-padding-mobile) 0;
+    background: var(--light-bg);
+  }
+
+  .resource-group + .resource-group {
+    margin-top: 4rem;
+  }
+
+  .section-heading {
+    max-width: 720px;
+    margin: 0 auto 1.75rem;
+    text-align: center;
+  }
+
+  .section-kicker {
+    color: var(--primary-blue);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.55rem;
+    text-transform: uppercase;
+  }
+
+  .section-heading h2 {
+    color: var(--dark-navy);
+    font-size: clamp(1.85rem, 4vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0 0 0.65rem;
+  }
+
+  .section-heading p:last-child {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .policies-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .guides-grid {
+    max-width: 900px;
+  }
+
+  .policy-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-1);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .guide-card {
+    border-top: 5px solid var(--primary-blue);
+  }
+
+  .policy-card:hover {
+    box-shadow: var(--shadow-2);
+    transform: translateY(-3px);
+  }
+
+  .policy-icon {
+    width: 56px;
+    height: 56px;
+    color: var(--primary-blue);
+  }
+
+  .policy-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .policy-content {
+    flex: 1;
+  }
+
+  .policy-content h3 {
+    color: var(--dark-navy);
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .policy-description {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .policy-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: auto;
+    padding-top: 0.75rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius-small);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background: var(--primary-blue);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--dark-navy);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+  }
+
+  .btn-secondary:hover {
+    background: var(--primary-blue);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  @media (min-width: 768px) {
+    .policies-section {
+      padding: var(--section-padding) 0;
+    }
+  }
+
+  @media (max-width: 980px) {
+    .guides-grid {
+      grid-template-columns: 1fr;
+      max-width: 620px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .resource-group + .resource-group {
+      margin-top: 3rem;
+    }
+
+    .section-heading {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .section-heading h2 {
+      font-size: 1.65rem;
+    }
+
+    .policies-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .policy-card {
+      padding: 1.5rem;
+    }
+
+    .policy-content h3 {
+      font-size: 1.2rem;
+    }
+
+    .policy-actions {
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  /* Legacy/Previous Years Section */
+  .legacy-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-subtle);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .legacy-section summary {
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .legacy-section summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .legacy-section summary::before {
+    content: '+';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    font-size: 1rem;
+    line-height: 1;
+    transition: all 0.2s ease;
+  }
+
+  .legacy-section[open] summary::before {
+    content: '-';
+  }
+
+  .legacy-section summary:hover {
+    color: var(--primary-blue);
+  }
+
+  .legacy-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding-top: 1.5rem;
+  }
+
+  @media (max-width: 700px) {
+    .legacy-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>

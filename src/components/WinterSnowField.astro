@@ -1,0 +1,142 @@
+---
+// Negative delays pre-roll each snowflake to a different point in its cycle so
+// they are already visible and spread across the full height on page load.
+const fallingSnow = [
+  { left: '4%',  start: '-18%', size: '52px', rotate: '-8deg',  duration: '28s', delay: '-4s',   drift: '28px', variant: 'flake',   fill: '#ffffff' },
+  { left: '16%', start: '-12%', size: '36px', rotate: '14deg',  duration: '25s', delay: '-10s',  drift: '18px', variant: 'crystal', fill: '#e0f2fe' },
+  { left: '28%', start: '-16%', size: '44px', rotate: '-6deg',  duration: '30s', delay: '-18s',  drift: '24px', variant: 'flake',   fill: '#bae6fd' },
+  { left: '41%', start: '-10%', size: '32px', rotate: '10deg',  duration: '26s', delay: '-6s',   drift: '16px', variant: 'crystal', fill: '#f0f9ff' },
+  { left: '60%', start: '-14%', size: '40px', rotate: '-18deg', duration: '31s', delay: '-14s',  drift: '22px', variant: 'flake',   fill: '#dbeafe' },
+  { left: '74%', start: '-8%',  size: '46px', rotate: '16deg',  duration: '27s', delay: '-8s',   drift: '20px', variant: 'crystal', fill: '#93c5fd' },
+  { left: '85%', start: '-20%', size: '58px', rotate: '-12deg', duration: '32s', delay: '-20s',  drift: '28px', variant: 'flake',   fill: '#e0f2fe' },
+  { left: '93%', start: '-11%', size: '34px', rotate: '22deg',  duration: '24s', delay: '-16s',  drift: '16px', variant: 'crystal', fill: '#ffffff' },
+];
+---
+
+<div class="winter-snow-field" aria-hidden="true">
+  {fallingSnow.map((flake) => (
+    <span
+      class={`winter-snow-field__sprite winter-snow-field__sprite--${flake.variant}`}
+      style={`--snow-left:${flake.left}; --snow-start:${flake.start}; --snow-size:${flake.size}; --snow-rotate:${flake.rotate}; --snow-duration:${flake.duration}; --snow-delay:${flake.delay}; --snow-drift:${flake.drift}; --snow-fill:${flake.fill};`}
+    >
+      {flake.variant === 'flake' ? (
+        <svg class="winter-snow-field__icon" viewBox="0 0 100 100" aria-hidden="true">
+          <line x1="50" y1="5"  x2="50" y2="95" class="winter-snow-field__arm"/>
+          <line x1="6"  y1="27" x2="94" y2="73" class="winter-snow-field__arm"/>
+          <line x1="6"  y1="73" x2="94" y2="27" class="winter-snow-field__arm"/>
+          <line x1="50" y1="32" x2="39" y2="25" class="winter-snow-field__branch"/>
+          <line x1="50" y1="32" x2="61" y2="25" class="winter-snow-field__branch"/>
+          <line x1="50" y1="68" x2="39" y2="75" class="winter-snow-field__branch"/>
+          <line x1="50" y1="68" x2="61" y2="75" class="winter-snow-field__branch"/>
+          <circle cx="50" cy="50" r="5" class="winter-snow-field__center"/>
+        </svg>
+      ) : (
+        <svg class="winter-snow-field__icon" viewBox="0 0 100 100" aria-hidden="true">
+          <path
+            class="winter-snow-field__fill"
+            d="M50 6L63 28L88 28L76 50L88 72L63 72L50 94L37 72L12 72L24 50L12 28L37 28Z"
+          />
+          <circle cx="50" cy="50" r="8" class="winter-snow-field__center-crystal"/>
+        </svg>
+      )}
+    </span>
+  ))}
+</div>
+
+<style>
+  .winter-snow-field {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .winter-snow-field__sprite {
+    position: absolute;
+    left: var(--snow-left);
+    top: var(--snow-start);
+    width: var(--snow-size);
+    height: var(--snow-size);
+    --snow-floor: calc(100% - var(--snow-size));
+    opacity: 0;
+    filter: drop-shadow(0 4px 12px rgba(80, 160, 255, 0.26));
+    animation: winter-snow-fall var(--snow-duration) linear infinite var(--snow-delay);
+  }
+
+  .winter-snow-field__icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .winter-snow-field__arm {
+    stroke: var(--snow-fill);
+    stroke-width: 6;
+    stroke-linecap: round;
+    fill: none;
+  }
+
+  .winter-snow-field__branch {
+    stroke: var(--snow-fill);
+    stroke-width: 4;
+    stroke-linecap: round;
+    fill: none;
+    opacity: 0.82;
+  }
+
+  .winter-snow-field__center {
+    fill: var(--snow-fill);
+  }
+
+  .winter-snow-field__fill {
+    fill: var(--snow-fill);
+    opacity: 0.72;
+  }
+
+  .winter-snow-field__center-crystal {
+    fill: rgba(255, 255, 255, 0.55);
+  }
+
+  @keyframes winter-snow-fall {
+    0% {
+      top: var(--snow-start);
+      opacity: 0;
+      transform: translate3d(0, 0, 0) rotate(var(--snow-rotate)) scale(0.92);
+    }
+    12% {
+      opacity: 0.88;
+    }
+    32% {
+      transform: translate3d(var(--snow-drift), 0, 0) rotate(calc(var(--snow-rotate) + 8deg)) scale(1.01);
+    }
+    54% {
+      transform: translate3d(calc(var(--snow-drift) * -0.6), 0, 0) rotate(calc(var(--snow-rotate) - 10deg)) scale(0.97);
+    }
+    68% {
+      top: var(--snow-floor);
+      opacity: 0.88;
+      transform: translate3d(calc(var(--snow-drift) * 0.3), 0, 0) rotate(calc(var(--snow-rotate) + 5deg)) scale(1.0);
+    }
+    82% {
+      transform: translate3d(calc(var(--snow-drift) * 0.3), 0, 0) rotate(calc(var(--snow-rotate) + 5deg)) scale(1.0);
+    }
+    100% {
+      top: var(--snow-floor);
+      opacity: 0;
+      transform: translate3d(calc(var(--snow-drift) * -0.15), 0, 0) rotate(calc(var(--snow-rotate) - 3deg)) scale(1.03);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .winter-snow-field__sprite:nth-child(odd) {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .winter-snow-field {
+      display: none;
+    }
+  }
+</style>

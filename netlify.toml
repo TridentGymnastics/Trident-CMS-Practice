@@ -1,0 +1,10 @@
+# Only import this repository into a NEW practice project.
+# No live domains, redirects, functions, site IDs or deployment credentials.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+  ASTRO_TELEMETRY_DISABLED = "1"
+  PUPPETEER_SKIP_DOWNLOAD = "true"

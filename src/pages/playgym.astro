@@ -1,0 +1,297 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/playgym/Hero.astro';
+import KeyFacts from '../components/playgym/KeyFacts.astro';
+import About from '../components/playgym/About.astro';
+import Schedule from '../components/playgym/Schedule.astro';
+import Prices from '../components/playgym/Prices.astro';
+import HowToJoin from '../components/playgym/HowToJoin.astro';
+import Policies from '../components/playgym/Policies.astro';
+import ContactCTA from '../components/playgym/ContactCTA.astro';
+import ProgramMedia from '../components/shared/ProgramMedia.astro';
+import GettingHere from '../components/shared/GettingHere.astro';
+
+import playgym1 from '../assets/images/programs/playgym/playgym-1.jpg';
+import playgym2 from '../assets/images/programs/playgym/playgym-2.jpg';
+
+// Import JSON data
+import playgymData from '../content/playgym.json';
+
+const media = {
+  heading: "Inside PlayGym",
+  subtitle: "Our gym floor set up for open, supervised play",
+  columns: 2,
+  // Held narrow so the two shots don't dominate and the page reads straight on
+  // into the schedule. Widen this when there are more (and better) photos.
+  maxWidth: "720px",
+  // The two shots with children in them were from another program with older kids —
+  // wrong age group for PlayGym, so they're out until we have real PlayGym action shots.
+  photos: [
+    { src: playgym1, alt: "The PlayGym floor set up with a play parachute, soft rollers and foam blocks" },
+    { src: playgym2, alt: "Low beams, soft blocks and mats laid out ready for PlayGym" }
+  ]
+};
+---
+
+<Layout title="PlayGym Ringwood" description="PlayGym at Trident Gymnastics Ringwood offers safe supervised play for toddlers and young children aged 0-6 years. No booking required.">
+  <!--
+  ==============================================
+  PLAYGYM ANNOUNCEMENT BANNER (HIDDEN — re-enable or repurpose as needed)
+  Teal/cyan gradient with confetti. Announces new Monday session.
+  Note: replace {playgymData.age_range} with the live data expression when re-enabling.
+
+  <div class="announcement-banner announcement-banner--playgym">
+    <div class="confetti-wrapper">
+      <span class="confetti">🎈</span>
+      <span class="confetti">🌟</span>
+      <span class="confetti">🎉</span>
+    </div>
+    <div class="announcement-content">
+      <div class="announcement-badge">
+        <span class="badge-icon">✨</span>
+        <span class="badge-text">New Session</span>
+      </div>
+      <div class="announcement-main">
+        <span class="announcement-title">Monday PlayGym for ages {playgymData.age_range} now open!</span>
+        <span class="announcement-schedule">11:00am – 12:30pm • No booking required</span>
+      </div>
+      <a href="#schedule" class="announcement-cta smooth-scroll">
+        See Schedule
+        <svg class="cta-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+        </svg>
+      </a>
+    </div>
+    <div class="confetti-wrapper">
+      <span class="confetti">🎉</span>
+      <span class="confetti">🌟</span>
+      <span class="confetti">🎈</span>
+    </div>
+  </div>
+  ==============================================
+  -->
+  <Hero data={playgymData} />
+  <KeyFacts data={playgymData} />
+  <About data={playgymData} />
+  <ProgramMedia {...media} />
+  <Schedule data={playgymData} />
+  <Prices data={playgymData} />
+  <HowToJoin data={playgymData} />
+  <GettingHere address={playgymData.contact.address} />
+  <Policies data={playgymData} />
+  <ContactCTA data={playgymData} />
+</Layout>
+
+<style>
+  /* Teal/Cyan Announcement Banner - PlayGym Page */
+  .announcement-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .announcement-banner--playgym {
+    background: linear-gradient(135deg, #0891b2 0%, #06b6d4 30%, #22d3ee 60%, #06b6d4 100%);
+    background-size: 200% 200%;
+    animation: gradient-flow 4s ease infinite;
+    border-bottom: 3px solid #0e7490;
+  }
+
+  @keyframes gradient-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .confetti-wrapper {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .confetti {
+    font-size: 1.2rem;
+    animation: bounce-float 2s ease-in-out infinite;
+  }
+
+  .confetti:nth-child(1) { animation-delay: 0s; }
+  .confetti:nth-child(2) { animation-delay: 0.25s; }
+  .confetti:nth-child(3) { animation-delay: 0.5s; }
+
+  @keyframes bounce-float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-6px) scale(1.1); }
+  }
+
+  .announcement-content {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .announcement-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: #fff;
+    color: #0e7490;
+    padding: 0.35rem 0.8rem;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    animation: pulse-badge 2s ease-in-out infinite;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .badge-icon {
+    font-size: 0.85rem;
+  }
+
+  @keyframes pulse-badge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+  }
+
+  .announcement-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  .announcement-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+  }
+
+  .announcement-schedule {
+    font-size: 0.9rem;
+    opacity: 0.95;
+  }
+
+  .announcement-cta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .announcement-cta:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  .cta-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .announcement-cta:hover .cta-arrow {
+    transform: translateY(3px);
+  }
+
+  @media (max-width: 768px) {
+    .announcement-banner {
+      padding: 0.7rem 1rem;
+      gap: 0.5rem;
+    }
+
+    .confetti-wrapper {
+      display: none;
+    }
+
+    .announcement-content {
+      gap: 0.75rem;
+    }
+
+    .announcement-badge {
+      font-size: 0.65rem;
+      padding: 0.25rem 0.5rem;
+    }
+
+    .announcement-title {
+      font-size: 0.95rem;
+    }
+
+    .announcement-schedule {
+      font-size: 0.8rem;
+    }
+
+    .announcement-cta {
+      font-size: 0.75rem;
+      padding: 0.4rem 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .announcement-banner {
+      padding: 0.6rem 0.75rem;
+    }
+
+    .announcement-content {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .announcement-badge {
+      font-size: 0.6rem;
+      padding: 0.2rem 0.45rem;
+    }
+
+    .announcement-main {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .announcement-title {
+      font-size: 0.8rem;
+    }
+
+    .announcement-schedule {
+      font-size: 0.7rem;
+    }
+
+    .announcement-cta {
+      font-size: 0.7rem;
+      padding: 0.35rem 0.65rem;
+    }
+  }
+</style>
+
+<script>
+  // Smooth scroll for anchor links
+  document.querySelectorAll('.smooth-scroll').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href?.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+</script>
+

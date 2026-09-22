@@ -1,0 +1,288 @@
+---
+/**
+ * Off-season placeholder for /school-holidays.
+ *
+ * Rendered when holidayProgramStatus.live === false — i.e. between holiday
+ * programs. Keeps the page live and inviting (evergreen program info +
+ * "register your interest") without publishing any stale dates or booking
+ * links. When the next season goes live this component is not rendered.
+ */
+import { siteConfig } from '../config/site';
+import { holidayProgramStatus } from '../data/holidayPrograms';
+
+interface Props {
+  status?: typeof holidayProgramStatus;
+}
+
+const { status = holidayProgramStatus } = Astro.props;
+
+const nextLabel = status.datesLabel
+  ? `${status.season} — ${status.datesLabel}`
+  : `${status.season} ${status.termLabel} — dates coming soon`;
+
+const programs = [
+  {
+    title: 'PlayGym',
+    ages: '0–6 years',
+    blurb: 'Drop-in, parent-supervised play on our gymnastics equipment. No booking required.'
+  },
+  {
+    title: 'OpenGym',
+    ages: '5+ years',
+    blurb: 'Supervised access to all equipment for unstructured play and practice — all skill levels.'
+  },
+  {
+    title: 'Skill Workshops',
+    ages: '5–16 years',
+    blurb: 'Coaching-focused sessions on handstands, cartwheels, flips and Parkour.'
+  }
+];
+
+const enquiryUrl = `https://wa.me/${siteConfig.phone}?text=Hi%20Trident!%20Please%20let%20me%20know%20when%20the%20next%20school%20holiday%20program%20dates%20are%20released.`;
+---
+
+<main>
+  <section class="hs-hero">
+    <div class="container">
+      <p class="hs-eyebrow">School Holiday Programs · Ringwood</p>
+      <h1>Holiday gymnastics for every age</h1>
+      <p class="hs-sub">
+        PlayGym, OpenGym and Skill Workshops run every Victorian school holiday
+        break at our Ringwood facility — from drop-in toddler play to coached
+        Skill Workshops for teens.
+      </p>
+      <p class="hs-next" aria-live="polite">
+        <span class="hs-next-label">Next program</span>
+        <span class="hs-next-value">{nextLabel}</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="hs-body">
+    <div class="container">
+      <div class="hs-cards">
+        {programs.map((program) => (
+          <article class="hs-card">
+            <span class="hs-card-ages">{program.ages}</span>
+            <h2>{program.title}</h2>
+            <p>{program.blurb}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="hs-notify">
+        <div class="hs-notify-text">
+          <strong>Want the dates first?</strong>
+          <span>Message us and we'll let you know as soon as the {status.season.toLowerCase()} program is released.</span>
+        </div>
+        <div class="hs-notify-btns">
+          <a class="btn hs-btn-accent" href={enquiryUrl} target="_blank" rel="noopener">Register Interest</a>
+          <a class="btn hs-btn-secondary" href="/contact">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<style>
+  .hs-hero {
+    background:
+      radial-gradient(circle at 50% 10%, rgba(147, 210, 255, 0.14), transparent 26%),
+      radial-gradient(circle at 14% 82%, rgba(96, 165, 250, 0.12), transparent 28%),
+      radial-gradient(circle at 88% 22%, rgba(186, 230, 253, 0.12), transparent 24%),
+      linear-gradient(135deg, #07184d 0%, #0d2764 48%, #081844 100%);
+    color: #fff;
+    text-align: center;
+    padding: 4.5rem 0 4rem;
+  }
+
+  .hs-eyebrow {
+    display: inline-block;
+    background: rgba(147, 210, 255, 0.18);
+    border: 1px solid rgba(147, 210, 255, 0.38);
+    color: #bfe3ff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+  }
+
+  .hs-hero h1 {
+    color: #fff;
+    font-size: clamp(2.25rem, 5vw, 3.4rem);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .hs-sub {
+    max-width: 640px;
+    margin: 0 auto 1.75rem;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    line-height: 1.6;
+    color: #fff;
+    opacity: 0.95;
+  }
+
+  .hs-next {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 auto;
+    padding: 0.7rem 1.15rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .hs-next-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .hs-next-value {
+    color: var(--accent-yellow);
+    font-weight: 800;
+  }
+
+  .hs-body {
+    padding: 4rem 0 5rem;
+  }
+
+  .hs-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    .hs-cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .hs-card {
+    background: #fff;
+    border: 1px solid rgba(155, 184, 230, 0.55);
+    border-radius: 1.5rem;
+    box-shadow: 0 18px 42px rgba(11, 17, 80, 0.08);
+    padding: 1.75rem;
+  }
+
+  .hs-card-ages {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--dark-navy);
+    padding: 0 0.12em 0.04em;
+    background: linear-gradient(180deg, transparent 62%, rgba(255, 224, 55, 0.95) 62%);
+    margin-bottom: 0.85rem;
+  }
+
+  .hs-card h2 {
+    color: var(--dark-navy);
+    font-size: 1.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .hs-card p {
+    color: var(--color-black);
+    line-height: 1.6;
+    font-size: 0.96rem;
+  }
+
+  .hs-notify {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    background: linear-gradient(135deg, rgba(147, 197, 253, 0.14), rgba(186, 230, 253, 0.1));
+    border: 1px solid rgba(147, 210, 255, 0.45);
+    border-radius: 20px;
+    padding: 1.75rem 2rem;
+  }
+
+  .hs-notify-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+  }
+
+  .hs-notify-text strong {
+    color: var(--dark-navy);
+    font-size: 1.2rem;
+    font-weight: 800;
+  }
+
+  .hs-notify-text span {
+    color: var(--color-black);
+    line-height: 1.55;
+  }
+
+  .hs-notify-btns {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1.75rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  }
+
+  .hs-btn-accent {
+    background: linear-gradient(180deg, var(--tg-yellow-2, #ffeaa3), var(--tg-yellow, #ffe037));
+    color: var(--tg-navy, #151957);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  .hs-btn-accent:hover {
+    transform: translateY(-2px);
+    filter: saturate(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .hs-btn-secondary {
+    background: var(--dark-navy);
+    color: #fff;
+  }
+
+  .hs-btn-secondary:hover {
+    transform: translateY(-2px);
+    background: var(--primary-blue);
+  }
+
+  @media (max-width: 640px) {
+    .hs-notify {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1.5rem;
+    }
+
+    .hs-notify-btns {
+      width: 100%;
+    }
+
+    .hs-btn-accent,
+    .hs-btn-secondary {
+      flex: 1;
+    }
+  }
+</style>

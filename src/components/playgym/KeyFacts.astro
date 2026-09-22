@@ -1,0 +1,119 @@
+---
+const { data } = Astro.props;
+---
+
+<section class="key-facts">
+  <div class="container">
+    <div class="facts-grid">
+      <div class="fact-card fact-card--age">
+        <p class="fact-eyebrow">Ages</p>
+        <p class="fact-highlight">{data.age_range}</p>
+      </div>
+
+      <div class="fact-card">
+        <h2>Session Length</h2>
+        <p class="fact-value">{data.session_length}</p>
+      </div>
+
+      <div class="fact-card">
+        <h2>Supervision</h2>
+        <p class="fact-value">{data.adult_helper_required ? 'Adult helper required' : 'Independent play'}</p>
+      </div>
+
+      <div class="fact-card">
+        <h2>Booking</h2>
+        <p class="fact-value">No booking required</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .key-facts {
+    padding: 3rem 0;
+    background: var(--bg-light, #f8f9fa);
+  }
+
+  .facts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .fact-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .fact-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .fact-card--age {
+    background: rgba(21, 115, 194, 0.04);
+    border: 1px solid rgba(21, 115, 194, 0.12);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  }
+
+  .fact-eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--primary-blue);
+    opacity: 0.75;
+  }
+
+  .fact-highlight {
+    margin: 0;
+    color: var(--dark-navy, #151957);
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .fact-card h2 {
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+  }
+
+  .fact-value {
+    margin: 0;
+    color: var(--text-muted, #666);
+    font-weight: 500;
+  }
+
+  @media (max-width: 640px) {
+    .key-facts {
+      padding: 1.75rem 0;
+    }
+
+    .facts-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.65rem;
+    }
+
+    .fact-card {
+      padding: 0.9rem 0.75rem;
+    }
+
+    .fact-card h2 {
+      font-size: 0.78rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .fact-highlight {
+      font-size: 1rem;
+    }
+
+    .fact-value {
+      font-size: 0.88rem;
+    }
+  }
+</style>

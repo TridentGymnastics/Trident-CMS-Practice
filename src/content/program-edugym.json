@@ -1,8 +1,8 @@
 {
-  "title": "EduGym",
+  "title": "EduGym [CMSTEST]",
   "metaTitle": "EduGym School Gymnastics Ringwood",
   "description": "EduGym at Trident Gymnastics Ringwood — curriculum-aligned gymnastic movement designed for school groups and physical literacy, with coached progressions.",
-  "blurb": "Curriculum-aligned gymnastic movement designed for school groups and physical literacy.",
+  "blurb": "Curriculum-aligned gymnastic movement designed for school groups and physical literacy [CMSTEST].",
   "bookingUrl": "https://portal.iclasspro.com/trident",
   "trialUrl": "https://portal.iclasspro.com/trident",
   "heroNote": "Not at school yet? EduGym Adventurers is our kinder-age class.",
@@ -10,52 +10,52 @@
   "heroNoteCta": "See preschool programs",
   "levels": [
     {
+      "id": "edu_found",
       "name": "Foundation",
       "tag": "Prep",
       "tagBg": "#1573C2",
       "tagColor": "#fff",
-      "description": "Core shapes, rolls and landings building safe foundation skills.",
-      "id": "edu_found"
+      "description": "Core shapes, rolls and landings building safe foundation skills."
     },
     {
+      "id": "edu_1",
       "name": "Level 1",
       "tag": "Grade 1",
       "tagBg": "#1573C2",
       "tagColor": "#fff",
-      "description": "Introduction to basic apparatus skills and movement patterns.",
-      "id": "edu_1"
+      "description": "Introduction to basic apparatus skills and movement patterns."
     },
     {
+      "id": "edu_2",
       "name": "Level 2",
       "tag": "Grade 2",
       "tagBg": "#1573C2",
       "tagColor": "#fff",
-      "description": "Develop strength and technique across apparatus with progressions.",
-      "id": "edu_2"
+      "description": "Develop strength and technique across apparatus with progressions."
     },
     {
+      "id": "edu_3",
       "name": "Level 3",
       "tag": "Grade 3",
       "tagBg": "#1573C2",
       "tagColor": "#fff",
-      "description": "Intermediate skills and combinations on all apparatus.",
-      "id": "edu_3"
+      "description": "Intermediate skills and combinations on all apparatus."
     },
     {
+      "id": "edu_4",
       "name": "Level 4",
       "tag": "Grade 4",
       "tagBg": "#1573C2",
       "tagColor": "#fff",
-      "description": "Advanced skills and complex movement sequences.",
-      "id": "edu_4"
+      "description": "Advanced skills and complex movement sequences."
     },
     {
+      "id": "edu_5",
       "name": "Level 5+",
       "tag": "Grade 5+",
       "tagBg": "#1573C2",
       "tagColor": "#fff",
-      "description": "Refine and master advanced skills, sequences and movement with confidence.",
-      "id": "edu_5"
+      "description": "Refine and master advanced skills, sequences and movement with confidence."
     }
   ],
   "media": {
@@ -77,9 +77,6 @@
     "maxWidth": "1100px",
     "video": {
       "enabled": false,
-      "src": "",
-      "poster": "",
-      "title": "",
       "autoplay": false
     }
   },

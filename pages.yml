@@ -1,0 +1,31 @@
+# PRACTICE ONLY: install in a separate private repository.
+# This configuration is not a branch restriction or a deployment safeguard.
+settings:
+  content:
+    merge: true
+
+content:
+  - name: playgym_practice
+    label: "PRACTICE - PlayGym description"
+    type: file
+    path: src/content/playgym.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - name: title
+        label: Program name (read only in this exercise)
+        type: string
+        readonly: true
+      - name: tagline
+        label: Short description
+        type: text
+        required: true
+        description: "Practice copy only. Saving here does not publish to the Trident website."
+      - name: about
+        label: About PlayGym paragraphs
+        type: text
+        list: true
+        description: "One paragraph per item. Other program details must remain intact when saving."

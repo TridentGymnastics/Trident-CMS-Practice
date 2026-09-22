@@ -1,0 +1,53 @@
+{
+  "title": "PlayGym",
+  "age_range": "0–6 years",
+  "session_length": "1.5 hours",
+  "adult_helper_required": true,
+  "tagline": "Casual attendance non-structured play, no booking required!",
+  "about": [
+    "PlayGym allows participants to use our gymnastics facility at their own pace.",
+    "This non-structured and parent-supervised play session allows kids to swing on the bars, jump into the foam pit, build a cubby house or whatever their imagination allows!",
+    "Play is vital to the development of children and has been shown to have a direct correlation with success when commencing school. Learning through play is the primary mode by which children learn about their bodies and its movement capabilities, as well as serving as the facilitator of cognitive thinking and acting to develop both fine and gross motor skills!"
+  ],
+  "schedule": {
+    "stay_notice": "Stay for as long or as little as you'd like!",
+    "days": [
+      { "day": "Monday", "time": "11:00am – 12:30pm", "isNew": true },
+      { "day": "Tuesday", "time": "11:00am – 12:30pm" },
+      { "day": "Wednesday", "time": "11:00am – 12:30pm" },
+      { "day": "Thursday", "time": "11:00am – 12:30pm" },
+      { "day": "Friday", "time": "11:00am – 12:30pm" }
+    ],
+    "holiday_notice": "Session times may vary during Trident scheduled holiday weeks. Please check the Holiday Program section of our website for more information.",
+    "holiday_link_href": "/school-holidays"
+  },
+  "prices": {
+    "intro": "Families can pay at the door by card or cash. No booking required.",
+    "items": [
+      { "label": "1x Visit", "price": "$15/child" },
+      { "label": "5x Pass", "price": "$65", "savings": "$13 per visit", "savings_detail": "with a 5x pass" },
+      { "label": "10x Pass", "price": "$125", "savings": "$12.50 per visit", "savings_detail": "with a 10x pass" }
+    ],
+    "multi_visit_note": "Save with a multi-visit punch pass: a 5x pass brings each visit down to $13 and a 10x pass to $12.50 per child.",
+    "gift_blurb": "PlayGym passes are the perfect gift for families or grandparents, providing a fun and flexible way to spend quality time with little ones in a safe and active setting."
+  },
+  "how_to_join": {
+    "text": "Joining PlayGym is easy: just come along on the day and pay at the door using card or cash. No booking required!",
+    "note": "Physical punch pass cards can also be purchased at the front desk."
+  },
+  "policies": [
+    { "title": "2026 Tuition & Payment Policy (Updated July 2026)", "href": "/policies/trident-tuition-and-payment-policy-2026-updated.pdf" },
+    { "title": "Member Protection Policy", "href": "/policies/member-protection-policy.pdf" },
+    { "title": "Media Policy", "href": "/policies/media-policy.pdf" },
+    { "title": "Privacy Policy", "href": "/policies/privacy-policy-trident.pdf" }
+  ],
+  "contact": {
+    "phone": "0435 060 352",
+    "email": "info@tridentgymnastics.com.au",
+    "address": "4/8-10 Maroondah Highway, Ringwood VIC 3134"
+  },
+  "cta": {
+    "primary": "No booking required, just drop in!",
+    "secondary": "Questions? Contact us"
+  }
+}

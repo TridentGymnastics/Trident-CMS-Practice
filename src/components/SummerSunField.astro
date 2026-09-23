@@ -1,0 +1,19 @@
+---
+const suns = [{left:'3%',top:'12%',size:76,delay:'-8s'}, {left:'82%',top:'45%',size:100,delay:'-18s'}];
+---
+<div class="summer-sun-field" aria-hidden="true">
+  {suns.map(sun => <svg class="summer-sun" viewBox="0 0 100 100" style={`left:${sun.left};top:${sun.top};width:${sun.size}px;animation-delay:${sun.delay}`}>
+    <circle cx="50" cy="50" r="20" fill="#ffe074" />
+    <g stroke="#ffe074" stroke-width="5" stroke-linecap="round">
+      {[0,45,90,135,180,225,270,315].map(angle => <path d="M50 8v12" transform={`rotate(${angle} 50 50)`} />)}
+    </g>
+  </svg>)}
+  <div class="summer-glow"></div>
+</div>
+<style>
+  .summer-sun-field { position:absolute;inset:0;pointer-events:none;overflow:hidden; }
+  .summer-sun { position:absolute; opacity:.7; animation:summer-turn 70s linear infinite; }
+  .summer-glow { position:absolute;inset:0;background:radial-gradient(ellipse at 90% 0%,#ffe07433,transparent 60%); }
+  @keyframes summer-turn { to { transform:rotate(360deg); } }
+  @media(prefers-reduced-motion:reduce) { .summer-sun { animation:none; } }
+</style>

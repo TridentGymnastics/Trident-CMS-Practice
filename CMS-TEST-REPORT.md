@@ -1,6 +1,33 @@
+# Collapsed holiday editor and seasonal themes - 23 September 2026
+
+## Changes
+
+- PlayGym, OpenGym and Skill Workshops are separate collapsed, fixed single-item sections. Both weekly session lists also start collapsed. Date pickers and matching Start time / Finish time dropdowns replace typed time ranges. Dropdowns offer 15-minute steps, 6:00am to 9:00pm. Workshops require Name before Date and times.
+- One Season selector drives winter snow, autumn leaves, spring flowers or new summer sunshine across the four holiday routes, homepage hero decoration, holiday promotion and feature card. Decorative motion is hidden for reduced-motion users and does not intercept clicks. Uploaded PDFs/poster artwork and actual session dates do not change when a season is selected.
+- Existing session dates/times were migrated into the new fields. The policy replacement test at upstream 8cff022 was preserved. Changes remain in the practice clone only.
+
+## Verification
+
+- Build/content validation passed for 13 editors and 19 generated pages. Five schedule unit tests pass.
+- Eight affected/related routes passed at desktop and mobile widths (16 checks), with no page errors, overflow, broken loaded images or missing requested assets. All six week lists match CMS dates. Navigation and practice protections pass.
+- The four seasonal settings passed checks on all holiday pages and the homepage; desktop/mobile screenshots and reduced-motion checks passed. Spring mobile and summer desktop screenshots were visually reviewed.
+- Empty weeks correctly hide booking invitations; Closed and Coming soon hide schedules/effects. Invalid season, blank workshop name and backwards times are rejected. Original content restored and rebuilt. All 21 original sessions retained their dates, times and workshop names.
+- Repository-wide Astro check remains at 33 existing errors; it is not a passing type check.
+- An authenticated Pages CMS save/reopen test is still required after pushing. The prior upstream date-field runtime limitation below remains; these tests validate the generated website and configured data, not a live staff login.
+
+Evidence: Temp/trident-holiday-cms-audit-20260923 contains seasonal screenshots, season-results.json and rendered-site-results.json. Current build/type logs: Temp/trident-season-build.log and trident-season-typecheck.log.
+
+## Next staff test
+
+Push the single prepared practice commit and refresh Pages CMS. Open Essential > Holiday Program, expand OpenGym and one Week 1 row, change its date/start/finish, then change a workshop name and select a season. Save once, reopen and check the practice homepage and holiday pages. Restore the test values afterward. The real Netlify site has not been migrated.
+
+The existing notice TEST link still points to /homepage instead of /. It was preserved as staff test content.
+
+---
+
 # Holiday schedule and Essential editor - 23 September 2026
 
-This section is the current audit. The 22 September results below describe the earlier simplified version.
+This section records the earlier 23 September implementation; the seasonal refinement audit above is current.
 
 ## Changes
 

@@ -11,6 +11,10 @@ import path from 'path';
 import AboutTrident from '../components/AboutTrident.astro';
 import Testimonials from '../components/Testimonials.astro';
 import OperatingHours from '../components/OperatingHours.astro';
+import HolidaySeasonDecor from '../components/HolidaySeasonDecor.astro';
+import holiday from '../content/holidays.json';
+import { holidaySeasonLabel } from '../lib/holiday-season';
+import '../styles/holiday-season.css';
 import SimpleHolidayPromo from '../components/SimpleHolidayPromo.astro';
 
 // Import optimized images
@@ -184,6 +188,7 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
       </div>
       <div class="hero-overlay"></div>
     </div>
+    {holiday.status === 'open' && <HolidaySeasonDecor />}
     <div class="container hero-content">
       <h1 id="hero-title" data-edit-file="src/pages/index.astro" data-edit-field="hero_title">Gymnastics for confident, active kids in Ringwood</h1>
       <div class="hero-tagline-main" id="hero-subtitle" data-edit-file="src/pages/index.astro" data-edit-field="hero_subtitle" aria-label="Empower with movement">
@@ -342,9 +347,9 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
           </div>
         </div>
 
-        <div class="card feature-card card-accent">
+        <div class="card feature-card card-accent" data-holiday-theme={holiday.season} style="background:var(--holiday-soft);border-color:var(--holiday-border)">
           <div class="card-content">
-            <h3 id="holiday-title" data-edit-file="src/pages/index.astro" data-edit-field="holiday_title">Holiday Programs</h3>
+            <h3 id="holiday-title" data-edit-file="src/pages/index.astro" data-edit-field="holiday_title">{holidaySeasonLabel(holiday.season)} Holiday Programs</h3>
             <p id="holiday-description" data-edit-file="src/pages/index.astro" data-edit-field="holiday_description">Active school holiday sessions that help children keep moving, try new skills and enjoy coached gym time during the break.</p>
             <a href="/school-holidays" class="btn">Learn More</a>
           </div>

@@ -3,8 +3,62 @@
   "dates": "21 September – 2 October 2026",
   "notice": "Closed Friday 25 September for the public holiday.",
   "booking_url": "https://portal.iclasspro.com/trident/camps/9?sortBy=name",
-  "playgym_enabled": true,
-  "programs": [
+  "season": "spring",
+  "playgym": [
+    {
+      "enabled": true,
+      "week_1": [
+        {
+          "date": "2026-09-21",
+          "start_time": "11:00",
+          "end_time": "12:30"
+        },
+        {
+          "date": "2026-09-22",
+          "start_time": "11:00",
+          "end_time": "12:30"
+        },
+        {
+          "date": "2026-09-23",
+          "start_time": "11:00",
+          "end_time": "12:30"
+        },
+        {
+          "date": "2026-09-24",
+          "start_time": "11:00",
+          "end_time": "12:30"
+        }
+      ],
+      "week_2": [
+        {
+          "date": "2026-09-28",
+          "start_time": "11:00",
+          "end_time": "12:30"
+        },
+        {
+          "date": "2026-09-29",
+          "start_time": "11:00",
+          "end_time": "12:30"
+        },
+        {
+          "date": "2026-09-30",
+          "start_time": "11:00",
+          "end_time": "12:30"
+        },
+        {
+          "date": "2026-10-01",
+          "start_time": "11:00",
+          "end_time": "12:30"
+        },
+        {
+          "date": "2026-10-02",
+          "start_time": "11:00",
+          "end_time": "12:30"
+        }
+      ]
+    }
+  ],
+  "opengym": [
     {
       "id": "opengym",
       "enabled": true,
@@ -15,32 +69,40 @@
       "week_1": [
         {
           "date": "2026-09-21",
-          "time": "2:30pm - 4:00pm"
+          "start_time": "14:30",
+          "end_time": "16:00"
         },
         {
           "date": "2026-09-22",
-          "time": "2:30pm - 4:00pm"
+          "start_time": "14:30",
+          "end_time": "16:00"
         },
         {
           "date": "2026-09-23",
-          "time": "2:30pm - 4:00pm"
+          "start_time": "14:30",
+          "end_time": "16:00"
         },
         {
           "date": "2026-09-24",
-          "time": "2:30pm - 4:00pm"
+          "start_time": "14:30",
+          "end_time": "16:00"
         }
       ],
       "week_2": [
         {
           "date": "2026-09-29",
-          "time": "1:00pm - 2:30pm"
+          "start_time": "13:00",
+          "end_time": "14:30"
         },
         {
           "date": "2026-10-02",
-          "time": "1:00pm - 2:30pm"
+          "start_time": "13:00",
+          "end_time": "14:30"
         }
       ]
-    },
+    }
+  ],
+  "workshops": [
     {
       "id": "skill-workshops",
       "enabled": true,
@@ -51,79 +113,43 @@
       "week_1": [
         {
           "date": "2026-09-21",
-          "time": "1:00pm - 2:30pm",
-          "activity": "Handstands & Cartwheels"
+          "activity": "Handstands & Cartwheels",
+          "start_time": "13:00",
+          "end_time": "14:30"
         },
         {
           "date": "2026-09-23",
-          "time": "1:00pm - 2:30pm",
-          "activity": "Flips & Tricks"
+          "activity": "Flips & Tricks",
+          "start_time": "13:00",
+          "end_time": "14:30"
         },
         {
           "date": "2026-09-24",
-          "time": "1:00pm - 2:30pm",
-          "activity": "Parkour"
+          "activity": "Parkour",
+          "start_time": "13:00",
+          "end_time": "14:30"
         }
       ],
       "week_2": [
         {
           "date": "2026-09-28",
-          "time": "1:00pm - 2:30pm",
-          "activity": "Handstands & Cartwheels"
+          "activity": "Handstands & Cartwheels",
+          "start_time": "13:00",
+          "end_time": "14:30"
         },
         {
           "date": "2026-09-30",
-          "time": "1:00pm - 2:30pm",
-          "activity": "Flips & Tricks"
+          "activity": "Flips & Tricks",
+          "start_time": "13:00",
+          "end_time": "14:30"
         },
         {
           "date": "2026-10-01",
-          "time": "1:00pm - 2:30pm",
-          "activity": "UrbanGym [TESTCHANGE]"
+          "activity": "UrbanGym [TESTCHANGE]",
+          "start_time": "13:00",
+          "end_time": "14:30"
         }
       ]
     }
-  ],
-  "playgym_schedule": {
-    "week_1": [
-      {
-        "date": "2026-09-21",
-        "time": "11:00am - 12:30pm"
-      },
-      {
-        "date": "2026-09-22",
-        "time": "11:00am - 12:30pm"
-      },
-      {
-        "date": "2026-09-23",
-        "time": "11:00am - 12:30pm"
-      },
-      {
-        "date": "2026-09-24",
-        "time": "11:00am - 12:30pm"
-      }
-    ],
-    "week_2": [
-      {
-        "date": "2026-09-28",
-        "time": "11:00am - 12:30pm"
-      },
-      {
-        "date": "2026-09-29",
-        "time": "11:00am - 12:30pm"
-      },
-      {
-        "date": "2026-09-30",
-        "time": "11:00am - 12:30pm"
-      },
-      {
-        "date": "2026-10-01",
-        "time": "11:00am - 12:30pm"
-      },
-      {
-        "date": "2026-10-02",
-        "time": "11:00am - 12:30pm"
-      }
-    ]
-  }
+  ]
 }

@@ -1,5 +1,5 @@
 ---
-import { holidayWeeks, holidayDateLabel, type HolidaySchedule } from '../lib/holiday-schedule';
+import { holidayWeeks, holidayDateLabel, holidaySessionTime, type HolidaySchedule } from '../lib/holiday-schedule';
 interface Props { schedule?: HolidaySchedule }
 const { schedule } = Astro.props;
 ---
@@ -13,7 +13,7 @@ const { schedule } = Astro.props;
           {week.sessions.map(session => (
             <li>
               <time datetime={session.date}>{holidayDateLabel(session.date)}</time>
-              <span class="session-time">{session.time}</span>
+              <span class="session-time">{holidaySessionTime(session)}</span>
               {session.activity && <span class="session-activity">{session.activity}</span>}
             </li>
           ))}

@@ -1,10 +1,14 @@
 ---
+import HolidaySeasonDecor from './HolidaySeasonDecor.astro';
+import '../styles/holiday-season.css';
+import { holidaySeasonLabel } from '../lib/holiday-season';
 import holiday from '../content/holidays.json';
 ---
-{holiday.status === 'open' && <aside class="holiday-promo" aria-label="School holiday program">
-  <div><h2>School holiday programs</h2><p>{holiday.dates}</p></div>
+{holiday.status === 'open' && <aside class="holiday-promo" aria-label="School holiday program" data-holiday-theme={holiday.season}>
+  <HolidaySeasonDecor />
+  <div class="holiday-promo-copy"><h2>{holidaySeasonLabel(holiday.season)} holiday programs</h2><p>{holiday.dates}</p></div>
   <a href="/school-holidays" class="btn btn-primary">View holiday programs →</a>
 </aside>}
 <style>
-  .holiday-promo{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;padding:1.5rem 2rem;margin:1.5rem 0;background:#eaf4fc;border:1px solid #c7def2;border-radius:1rem}.holiday-promo h2{font-size:1.6rem;margin:0;color:#151957}.holiday-promo p{margin:.5rem 0 0}.holiday-promo a{text-align:center}
+  .holiday-promo{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;padding:1.5rem 2rem;margin:1.5rem 0;background:var(--holiday-soft);border:1px solid var(--holiday-border);border-radius:1rem}.holiday-promo-copy,.holiday-promo > a{position:relative;z-index:2}.holiday-promo h2{font-size:1.6rem;margin:0;color:#151957}.holiday-promo p{margin:.5rem 0 0}.holiday-promo a{text-align:center}
 </style>

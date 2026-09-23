@@ -1,0 +1,17 @@
+---
+import holiday from '../content/holidays.json';
+import WinterSnowField from './WinterSnowField.astro';
+import AutumnLeafField from './AutumnLeafField.astro';
+import SpringBlossomField from './SpringBlossomField.astro';
+import SummerSunField from './SummerSunField.astro';
+---
+<div class="holiday-season-decor" data-holiday-effect={holiday.season} aria-hidden="true">
+  {holiday.season === 'winter' && <WinterSnowField />}
+  {holiday.season === 'autumn' && <AutumnLeafField />}
+  {holiday.season === 'spring' && <SpringBlossomField />}
+  {holiday.season === 'summer' && <SummerSunField />}
+</div>
+<style>
+  .holiday-season-decor { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; opacity:.65; }
+  @media (prefers-reduced-motion: reduce) { .holiday-season-decor { display:none; } }
+</style>

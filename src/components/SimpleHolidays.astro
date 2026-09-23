@@ -1,4 +1,7 @@
 ---
+import HolidaySeasonDecor from './HolidaySeasonDecor.astro';
+import '../styles/holiday-season.css';
+import { holidaySeasonLabel } from '../lib/holiday-season';
 import HolidaySchedule from './HolidaySchedule.astro';
 import { hasHolidaySessions } from '../lib/holiday-schedule';
 import Layout from '../layouts/Layout.astro';
@@ -8,20 +11,23 @@ interface Props { program?: string }
 const { program } = Astro.props;
 const open = holiday.status === 'open';
 const cards = [
-  ...(holiday.playgym_enabled ? [{ id: 'playgym', title: playgym.title, ages: playgym.age_range, description: `${playgym.tagline} ${playgymSupervision}.`, schedule: holiday.playgym_schedule, price: playgym.prices.items[0].price, dropIn: true }] : []),
-  ...holiday.programs.filter(item => item.enabled).map(item => ({ ...item, schedule: item, dropIn: false })),
+  ...(holiday.playgym[0].enabled ? [{ id: 'playgym', title: playgym.title, ages: playgym.age_range, description: `${playgym.tagline} ${playgymSupervision}.`, schedule: holiday.playgym[0], price: playgym.prices.items[0].price, dropIn: true }] : []),
+  ...[{...holiday.opengym[0], id: 'opengym'}, {...holiday.workshops[0], id: 'skill-workshops'}].filter(item => item.enabled).map(item => ({ ...item, schedule: item, dropIn: false })),
 ];
 const shown = program ? cards.filter(item => item.id === program) : cards;
 ---
 <Layout title="School Holiday Programs" description="School holiday gymnastics at Trident Gymnastics in Ringwood. Program information and booking links.">
-  <section class="holiday-heading">
+  <section class="holiday-heading" data-holiday-theme={holiday.season}>
+    {open && <HolidaySeasonDecor />}
+    <div class="holiday-heading-content">
     <p class="eyebrow">Trident Gymnastics · Ringwood</p>
-    <h1>School holiday programs</h1>
+    <h1>{holidaySeasonLabel(holiday.season)} holiday programs</h1>
     {open ? <p class="dates">{holiday.dates}</p> : <p class="dates">{holiday.status === 'coming_soon' ? 'Next program coming soon' : 'Our holiday program has finished'}</p>}
     <p>{open ? 'Choose a program below. Available places and booked session times are shown in our booking portal.' : 'We will share the next holiday program here when it is ready. Contact the team with any questions.'}</p>
     {!open && <a class="btn btn-accent" href="/contact">Contact us</a>}
+    </div>
   </section>
-  {open && <section class="holiday-content">
+  {open && <section class="holiday-content" data-holiday-theme={holiday.season}>
     {holiday.notice && <p class="holiday-notice">{holiday.notice}</p>}
     {program && <p><a href="/school-holidays">← All holiday programs</a></p>}
     {shown.length ? <div class="holiday-cards">{shown.map(item => <article class="holiday-card" id={item.id}>
@@ -34,7 +40,8 @@ const shown = program ? cards.filter(item => item.id === program) : cards;
   </section>}
 </Layout>
 <style>
-  .holiday-heading{padding:3rem 1.5rem;text-align:center;background:linear-gradient(120deg,#1573c2,#151957);color:#fff;border-radius:0 0 1.5rem 1.5rem}
+  .holiday-heading{padding:3rem 1.5rem;text-align:center;position:relative;overflow:hidden;isolation:isolate;background:var(--holiday-hero);color:#fff;border-radius:0 0 1.5rem 1.5rem}
+  .holiday-heading-content{position:relative;z-index:2}
   .holiday-heading h1{color:#fff;font-size:clamp(2rem,5vw,3.5rem);margin:.5rem 0 1rem}.holiday-heading p{color:#fff;max-width:65ch;margin:1rem auto}.eyebrow{font-weight:700}.dates{font-size:1.3rem;font-weight:700}
-  .holiday-content{padding:2rem 1rem 3rem}.holiday-notice{padding:1rem 1.25rem;background:#fff3c6;border-radius:.75rem;white-space:pre-line}.holiday-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1.5rem;margin-top:1.5rem}.holiday-card{padding:1.75rem;border:1px solid #d7e4ef;border-radius:1rem;box-shadow:0 5px 20px #1519570d;display:flex;flex-direction:column;align-items:flex-start}.holiday-card h2{color:#151957;font-size:1.65rem;overflow-wrap:anywhere}.holiday-card p{line-height:1.7}.ages{color:#1573c2;font-weight:700}.sessions{white-space:pre-line}.price{font-size:1.25rem;font-weight:700}.drop-in{font-weight:700}.holiday-card .btn{margin-top:auto;text-align:center}
+  .holiday-content{padding:2rem 1rem 3rem}.holiday-notice{padding:1rem 1.25rem;background:#fff3c6;border-radius:.75rem;white-space:pre-line}.holiday-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1.5rem;margin-top:1.5rem}.holiday-card{padding:1.75rem;border:1px solid var(--holiday-border);border-radius:1rem;box-shadow:0 5px 20px #1519570d;display:flex;flex-direction:column;align-items:flex-start}.holiday-card h2{color:#151957;font-size:1.65rem;overflow-wrap:anywhere}.holiday-card p{line-height:1.7}.ages{color:#1573c2;font-weight:700}.sessions{white-space:pre-line}.price{font-size:1.25rem;font-weight:700}.drop-in{font-weight:700}.holiday-card .btn{margin-top:auto;text-align:center}
 </style>

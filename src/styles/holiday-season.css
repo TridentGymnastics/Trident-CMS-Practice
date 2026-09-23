@@ -1,0 +1,20 @@
+[data-holiday-theme="winter"] {
+  --holiday-hero: linear-gradient(120deg, #195b85, #172957);
+  --holiday-soft: #eaf4fc;
+  --holiday-border: #a9cce8;
+}
+[data-holiday-theme="autumn"] {
+  --holiday-hero: linear-gradient(120deg, #82411f, #4b273f);
+  --holiday-soft: #fff1df;
+  --holiday-border: #ddb382;
+}
+[data-holiday-theme="spring"] {
+  --holiday-hero: linear-gradient(120deg, #425e89, #49345d);
+  --holiday-soft: #fcf0f7;
+  --holiday-border: #e2b4d0;
+}
+[data-holiday-theme="summer"] {
+  --holiday-hero: linear-gradient(120deg, #12697a, #174e75);
+  --holiday-soft: #fff7d6;
+  --holiday-border: #e6c669;
+}

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { holidayDateLabel, holidayWeeks, hasHolidaySessions, isHolidayDate, validateHolidaySchedule } from '../src/lib/holiday-schedule.ts';
+import { holidaySessionTime, holidayDateLabel, holidayWeeks, hasHolidaySessions, isHolidayDate, validateHolidaySchedule } from '../src/lib/holiday-schedule.ts';
 
 test('dates remain calendar dates across daylight-saving boundaries', () => {
   assert.equal(holidayDateLabel('2026-10-04'), 'Sun, 4 Oct 2026');
@@ -10,12 +10,12 @@ test('dates remain calendar dates across daylight-saving boundaries', () => {
 
 test('one program can run on different dates and times each week', () => {
   const schedule = {
-    week_1: [{ date: '2026-09-23', time: '2:30pm - 4:00pm' }],
-    week_2: [{ date: '2026-10-02', time: '1:00 pm - 2:30 pm' }],
+    week_1: [{ date: '2026-09-23', start_time:"14:30",end_time:"16:00" }],
+    week_2: [{ date: '2026-10-02', start_time:"13:00",end_time:"14:30" }],
   };
   assert.deepEqual(validateHolidaySchedule(schedule), []);
   assert.equal(hasHolidaySessions(schedule), true);
-  assert.equal(holidayWeeks(schedule)[1].sessions[0].time, '1:00 pm - 2:30 pm');
+  assert.equal(holidaySessionTime(holidayWeeks(schedule)[1].sessions[0]), '1:00pm - 2:30pm');
 });
 
 test('empty and omitted lists are safe after CMS saves', () => {
@@ -28,19 +28,19 @@ test('empty and omitted lists are safe after CMS saves', () => {
 
 test('invalid dates, reversed times, duplicates and reversed weeks are rejected', () => {
   for (const schedule of [
-    {week_1: [{date:'2026-09-31',time:'1:00pm - 2:30pm'}]},
-    {week_1: [{date:'2026-09-21',time:'4:00pm - 2:30pm'}]},
-    {week_1: [{date:'2026-09-21',time:'13:00pm - 2:30pm'}]},
-    {week_1: [{date:'2026-09-21',time:'2:00pm - 2:00pm'}]},
-    {week_1: [{date:'2026-09-21',time:'1:00pm - 2:30pm'}, {date:'2026-09-21',time:'1:00 pm - 2:30 pm'}]},
-    {week_1: [{date:'2026-09-28',time:'1:00pm - 2:30pm'}],week_2:[{date:'2026-09-21',time:'1:00pm - 2:30pm'}]},
+    {week_1: [{date:'2026-09-31',start_time:"13:00",end_time:"14:30"}]},
+    {week_1: [{date:'2026-09-21',start_time:"16:00",end_time:"14:30"}]},
+    {week_1: [{date:'2026-09-21',start_time:"25:00",end_time:"14:30"}]},
+    {week_1: [{date:'2026-09-21',start_time:"14:00",end_time:"14:00"}]},
+    {week_1: [{date:'2026-09-21',start_time:"13:00",end_time:"14:30"}, {date:'2026-09-21',start_time:"13:00",end_time:"14:30"}]},
+    {week_1: [{date:'2026-09-28',start_time:"13:00",end_time:"14:30"}],week_2:[{date:'2026-09-21',start_time:"13:00",end_time:"14:30"}]},
   ]) assert.ok(validateHolidaySchedule(schedule).length, JSON.stringify(schedule));
 });
 
 test('dates and multiple sessions sort chronologically without changing staff data', () => {
-  const late={date:'2026-09-23',time:'2:30pm - 4:00pm',activity:'Flips'};
-  const early={date:'2026-09-23',time:'9:00am - 10:30am',activity:'Cartwheels'};
-  const first={date:'2026-09-21',time:'1:00pm - 2:30pm'};
+  const late={date:'2026-09-23',start_time:"14:30",end_time:"16:00",activity:'Flips'};
+  const early={date:'2026-09-23',start_time:"09:00",end_time:"10:30",activity:'Cartwheels'};
+  const first={date:'2026-09-21',start_time:"13:00",end_time:"14:30"};
   const saved=[late,early,first];
   assert.deepEqual(holidayWeeks({week_1:saved})[0].sessions,[first,early,late]);
   assert.deepEqual(saved,[late,early,first]);

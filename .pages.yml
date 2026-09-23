@@ -78,6 +78,22 @@ content:
                 - name: closed
                   label: Closed — program has finished
             description: Also controls the homepage promotion. Closed/Coming soon hide old dates and session details.
+          - name: season
+            label: Season
+            type: select
+            required: true
+            options:
+              values:
+                - name: winter
+                  label: Winter - falling snow
+                - name: autumn
+                  label: Autumn - falling leaves
+                - name: spring
+                  label: Spring - flowers
+                - name: summer
+                  label: Summer - sunshine
+            description: Themes holiday pages and homepage holiday sections. Existing uploaded PDFs and images are not
+              recoloured.
           - name: dates
             label: Holiday dates
             type: string
@@ -95,88 +111,1148 @@ content:
             pattern:
               regex: ^https://[^\s]+$
               message: Use a full https:// address.
-          - name: playgym_enabled
-            label: Include PlayGym drop-in sessions
-            type: boolean
-            required: true
-          - name: playgym_schedule
-            label: PlayGym holiday sessions
-            type: object
-            required: false
-            fields:
-              - name: week_1
-                label: Week 1
-                type: object
-                required: false
-                description: Add one item per running date. Remove a session to stop listing that date. Also update iClassPro. Leave the list empty if this
-                  program does not run that week.
-                fields:
-                  - name: date
-                    label: Date
-                    type: date
-                    required: true
-                    default: ""
-                    options:
-                      time: false
-                      format: yyyy-MM-dd
-                  - name: time
-                    label: Session time
-                    type: string
-                    required: true
-                    description: For example 2:30pm - 4:00pm. Each date can have its own time.
-                    pattern:
-                      regex: ^(?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm) [\u2013\u2014-] (?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm)$
-                      message: Use 2:30pm - 4:00pm, with spaces around the dash.
-                list:
-                  min: 0
-                  max: 28
-                  collapsible:
-                    collapsed: true
-                    summary: "{fields.date} | {fields.time}"
-              - name: week_2
-                label: Week 2
-                type: object
-                required: false
-                description: Add one item per running date. Remove a session to stop listing that date. Also update iClassPro. Leave the list empty if this
-                  program does not run that week.
-                fields:
-                  - name: date
-                    label: Date
-                    type: date
-                    required: true
-                    default: ""
-                    options:
-                      time: false
-                      format: yyyy-MM-dd
-                  - name: time
-                    label: Session time
-                    type: string
-                    required: true
-                    description: For example 2:30pm - 4:00pm. Each date can have its own time.
-                    pattern:
-                      regex: ^(?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm) [\u2013\u2014-] (?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm)$
-                      message: Use 2:30pm - 4:00pm, with spaces around the dash.
-                list:
-                  min: 0
-                  max: 28
-                  collapsible:
-                    collapsed: true
-                    summary: "{fields.date} | {fields.time}"
-          - name: programs
-            label: Booked holiday programs
+          - name: playgym
+            label: PlayGym
             type: object
             required: true
+            list:
+              min: 1
+              max: 1
+              collapsible:
+                collapsed: true
+                summary: PlayGym
             fields:
-              - name: id
-                label: Reference
-                type: string
-                required: true
-                hidden: true
-                readonly: true
               - name: enabled
                 label: Show this program
                 type: boolean
                 required: true
+              - name: week_1
+                label: Week 1
+                type: object
+                required: false
+                description: Add or remove running dates here. Also update bookings in iClassPro.
+                fields:
+                  - name: date
+                    label: Date
+                    type: date
+                    required: true
+                    default: ""
+                    options:
+                      time: false
+                      format: yyyy-MM-dd
+                  - name: start_time
+                    label: Start time
+                    type: select
+                    required: true
+                    options:
+                      placeholder: Choose a time
+                      values:
+                        - name: 06:00
+                          label: 6:00am
+                        - name: 06:15
+                          label: 6:15am
+                        - name: 06:30
+                          label: 6:30am
+                        - name: 06:45
+                          label: 6:45am
+                        - name: 07:00
+                          label: 7:00am
+                        - name: 07:15
+                          label: 7:15am
+                        - name: 07:30
+                          label: 7:30am
+                        - name: 07:45
+                          label: 7:45am
+                        - name: 08:00
+                          label: 8:00am
+                        - name: 08:15
+                          label: 8:15am
+                        - name: 08:30
+                          label: 8:30am
+                        - name: 08:45
+                          label: 8:45am
+                        - name: 09:00
+                          label: 9:00am
+                        - name: 09:15
+                          label: 9:15am
+                        - name: 09:30
+                          label: 9:30am
+                        - name: 09:45
+                          label: 9:45am
+                        - name: 10:00
+                          label: 10:00am
+                        - name: 10:15
+                          label: 10:15am
+                        - name: 10:30
+                          label: 10:30am
+                        - name: 10:45
+                          label: 10:45am
+                        - name: 11:00
+                          label: 11:00am
+                        - name: 11:15
+                          label: 11:15am
+                        - name: 11:30
+                          label: 11:30am
+                        - name: 11:45
+                          label: 11:45am
+                        - name: 12:00
+                          label: 12:00pm
+                        - name: 12:15
+                          label: 12:15pm
+                        - name: 12:30
+                          label: 12:30pm
+                        - name: 12:45
+                          label: 12:45pm
+                        - name: 13:00
+                          label: 1:00pm
+                        - name: 13:15
+                          label: 1:15pm
+                        - name: 13:30
+                          label: 1:30pm
+                        - name: 13:45
+                          label: 1:45pm
+                        - name: 14:00
+                          label: 2:00pm
+                        - name: 14:15
+                          label: 2:15pm
+                        - name: 14:30
+                          label: 2:30pm
+                        - name: 14:45
+                          label: 2:45pm
+                        - name: 15:00
+                          label: 3:00pm
+                        - name: 15:15
+                          label: 3:15pm
+                        - name: 15:30
+                          label: 3:30pm
+                        - name: 15:45
+                          label: 3:45pm
+                        - name: 16:00
+                          label: 4:00pm
+                        - name: 16:15
+                          label: 4:15pm
+                        - name: 16:30
+                          label: 4:30pm
+                        - name: 16:45
+                          label: 4:45pm
+                        - name: 17:00
+                          label: 5:00pm
+                        - name: 17:15
+                          label: 5:15pm
+                        - name: 17:30
+                          label: 5:30pm
+                        - name: 17:45
+                          label: 5:45pm
+                        - name: 18:00
+                          label: 6:00pm
+                        - name: 18:15
+                          label: 6:15pm
+                        - name: 18:30
+                          label: 6:30pm
+                        - name: 18:45
+                          label: 6:45pm
+                        - name: 19:00
+                          label: 7:00pm
+                        - name: 19:15
+                          label: 7:15pm
+                        - name: 19:30
+                          label: 7:30pm
+                        - name: 19:45
+                          label: 7:45pm
+                        - name: 20:00
+                          label: 8:00pm
+                        - name: 20:15
+                          label: 8:15pm
+                        - name: 20:30
+                          label: 8:30pm
+                        - name: 20:45
+                          label: 8:45pm
+                        - name: 21:00
+                          label: 9:00pm
+                  - name: end_time
+                    label: Finish time
+                    type: select
+                    required: true
+                    options:
+                      placeholder: Choose a time
+                      values:
+                        - name: 06:00
+                          label: 6:00am
+                        - name: 06:15
+                          label: 6:15am
+                        - name: 06:30
+                          label: 6:30am
+                        - name: 06:45
+                          label: 6:45am
+                        - name: 07:00
+                          label: 7:00am
+                        - name: 07:15
+                          label: 7:15am
+                        - name: 07:30
+                          label: 7:30am
+                        - name: 07:45
+                          label: 7:45am
+                        - name: 08:00
+                          label: 8:00am
+                        - name: 08:15
+                          label: 8:15am
+                        - name: 08:30
+                          label: 8:30am
+                        - name: 08:45
+                          label: 8:45am
+                        - name: 09:00
+                          label: 9:00am
+                        - name: 09:15
+                          label: 9:15am
+                        - name: 09:30
+                          label: 9:30am
+                        - name: 09:45
+                          label: 9:45am
+                        - name: 10:00
+                          label: 10:00am
+                        - name: 10:15
+                          label: 10:15am
+                        - name: 10:30
+                          label: 10:30am
+                        - name: 10:45
+                          label: 10:45am
+                        - name: 11:00
+                          label: 11:00am
+                        - name: 11:15
+                          label: 11:15am
+                        - name: 11:30
+                          label: 11:30am
+                        - name: 11:45
+                          label: 11:45am
+                        - name: 12:00
+                          label: 12:00pm
+                        - name: 12:15
+                          label: 12:15pm
+                        - name: 12:30
+                          label: 12:30pm
+                        - name: 12:45
+                          label: 12:45pm
+                        - name: 13:00
+                          label: 1:00pm
+                        - name: 13:15
+                          label: 1:15pm
+                        - name: 13:30
+                          label: 1:30pm
+                        - name: 13:45
+                          label: 1:45pm
+                        - name: 14:00
+                          label: 2:00pm
+                        - name: 14:15
+                          label: 2:15pm
+                        - name: 14:30
+                          label: 2:30pm
+                        - name: 14:45
+                          label: 2:45pm
+                        - name: 15:00
+                          label: 3:00pm
+                        - name: 15:15
+                          label: 3:15pm
+                        - name: 15:30
+                          label: 3:30pm
+                        - name: 15:45
+                          label: 3:45pm
+                        - name: 16:00
+                          label: 4:00pm
+                        - name: 16:15
+                          label: 4:15pm
+                        - name: 16:30
+                          label: 4:30pm
+                        - name: 16:45
+                          label: 4:45pm
+                        - name: 17:00
+                          label: 5:00pm
+                        - name: 17:15
+                          label: 5:15pm
+                        - name: 17:30
+                          label: 5:30pm
+                        - name: 17:45
+                          label: 5:45pm
+                        - name: 18:00
+                          label: 6:00pm
+                        - name: 18:15
+                          label: 6:15pm
+                        - name: 18:30
+                          label: 6:30pm
+                        - name: 18:45
+                          label: 6:45pm
+                        - name: 19:00
+                          label: 7:00pm
+                        - name: 19:15
+                          label: 7:15pm
+                        - name: 19:30
+                          label: 7:30pm
+                        - name: 19:45
+                          label: 7:45pm
+                        - name: 20:00
+                          label: 8:00pm
+                        - name: 20:15
+                          label: 8:15pm
+                        - name: 20:30
+                          label: 8:30pm
+                        - name: 20:45
+                          label: 8:45pm
+                        - name: 21:00
+                          label: 9:00pm
+                list:
+                  min: 0
+                  max: 28
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.date} | {fields.start_time} - {fields.end_time}"
+              - name: week_2
+                label: Week 2
+                type: object
+                required: false
+                description: Add or remove running dates here. Also update bookings in iClassPro.
+                fields:
+                  - name: date
+                    label: Date
+                    type: date
+                    required: true
+                    default: ""
+                    options:
+                      time: false
+                      format: yyyy-MM-dd
+                  - name: start_time
+                    label: Start time
+                    type: select
+                    required: true
+                    options:
+                      placeholder: Choose a time
+                      values:
+                        - name: 06:00
+                          label: 6:00am
+                        - name: 06:15
+                          label: 6:15am
+                        - name: 06:30
+                          label: 6:30am
+                        - name: 06:45
+                          label: 6:45am
+                        - name: 07:00
+                          label: 7:00am
+                        - name: 07:15
+                          label: 7:15am
+                        - name: 07:30
+                          label: 7:30am
+                        - name: 07:45
+                          label: 7:45am
+                        - name: 08:00
+                          label: 8:00am
+                        - name: 08:15
+                          label: 8:15am
+                        - name: 08:30
+                          label: 8:30am
+                        - name: 08:45
+                          label: 8:45am
+                        - name: 09:00
+                          label: 9:00am
+                        - name: 09:15
+                          label: 9:15am
+                        - name: 09:30
+                          label: 9:30am
+                        - name: 09:45
+                          label: 9:45am
+                        - name: 10:00
+                          label: 10:00am
+                        - name: 10:15
+                          label: 10:15am
+                        - name: 10:30
+                          label: 10:30am
+                        - name: 10:45
+                          label: 10:45am
+                        - name: 11:00
+                          label: 11:00am
+                        - name: 11:15
+                          label: 11:15am
+                        - name: 11:30
+                          label: 11:30am
+                        - name: 11:45
+                          label: 11:45am
+                        - name: 12:00
+                          label: 12:00pm
+                        - name: 12:15
+                          label: 12:15pm
+                        - name: 12:30
+                          label: 12:30pm
+                        - name: 12:45
+                          label: 12:45pm
+                        - name: 13:00
+                          label: 1:00pm
+                        - name: 13:15
+                          label: 1:15pm
+                        - name: 13:30
+                          label: 1:30pm
+                        - name: 13:45
+                          label: 1:45pm
+                        - name: 14:00
+                          label: 2:00pm
+                        - name: 14:15
+                          label: 2:15pm
+                        - name: 14:30
+                          label: 2:30pm
+                        - name: 14:45
+                          label: 2:45pm
+                        - name: 15:00
+                          label: 3:00pm
+                        - name: 15:15
+                          label: 3:15pm
+                        - name: 15:30
+                          label: 3:30pm
+                        - name: 15:45
+                          label: 3:45pm
+                        - name: 16:00
+                          label: 4:00pm
+                        - name: 16:15
+                          label: 4:15pm
+                        - name: 16:30
+                          label: 4:30pm
+                        - name: 16:45
+                          label: 4:45pm
+                        - name: 17:00
+                          label: 5:00pm
+                        - name: 17:15
+                          label: 5:15pm
+                        - name: 17:30
+                          label: 5:30pm
+                        - name: 17:45
+                          label: 5:45pm
+                        - name: 18:00
+                          label: 6:00pm
+                        - name: 18:15
+                          label: 6:15pm
+                        - name: 18:30
+                          label: 6:30pm
+                        - name: 18:45
+                          label: 6:45pm
+                        - name: 19:00
+                          label: 7:00pm
+                        - name: 19:15
+                          label: 7:15pm
+                        - name: 19:30
+                          label: 7:30pm
+                        - name: 19:45
+                          label: 7:45pm
+                        - name: 20:00
+                          label: 8:00pm
+                        - name: 20:15
+                          label: 8:15pm
+                        - name: 20:30
+                          label: 8:30pm
+                        - name: 20:45
+                          label: 8:45pm
+                        - name: 21:00
+                          label: 9:00pm
+                  - name: end_time
+                    label: Finish time
+                    type: select
+                    required: true
+                    options:
+                      placeholder: Choose a time
+                      values:
+                        - name: 06:00
+                          label: 6:00am
+                        - name: 06:15
+                          label: 6:15am
+                        - name: 06:30
+                          label: 6:30am
+                        - name: 06:45
+                          label: 6:45am
+                        - name: 07:00
+                          label: 7:00am
+                        - name: 07:15
+                          label: 7:15am
+                        - name: 07:30
+                          label: 7:30am
+                        - name: 07:45
+                          label: 7:45am
+                        - name: 08:00
+                          label: 8:00am
+                        - name: 08:15
+                          label: 8:15am
+                        - name: 08:30
+                          label: 8:30am
+                        - name: 08:45
+                          label: 8:45am
+                        - name: 09:00
+                          label: 9:00am
+                        - name: 09:15
+                          label: 9:15am
+                        - name: 09:30
+                          label: 9:30am
+                        - name: 09:45
+                          label: 9:45am
+                        - name: 10:00
+                          label: 10:00am
+                        - name: 10:15
+                          label: 10:15am
+                        - name: 10:30
+                          label: 10:30am
+                        - name: 10:45
+                          label: 10:45am
+                        - name: 11:00
+                          label: 11:00am
+                        - name: 11:15
+                          label: 11:15am
+                        - name: 11:30
+                          label: 11:30am
+                        - name: 11:45
+                          label: 11:45am
+                        - name: 12:00
+                          label: 12:00pm
+                        - name: 12:15
+                          label: 12:15pm
+                        - name: 12:30
+                          label: 12:30pm
+                        - name: 12:45
+                          label: 12:45pm
+                        - name: 13:00
+                          label: 1:00pm
+                        - name: 13:15
+                          label: 1:15pm
+                        - name: 13:30
+                          label: 1:30pm
+                        - name: 13:45
+                          label: 1:45pm
+                        - name: 14:00
+                          label: 2:00pm
+                        - name: 14:15
+                          label: 2:15pm
+                        - name: 14:30
+                          label: 2:30pm
+                        - name: 14:45
+                          label: 2:45pm
+                        - name: 15:00
+                          label: 3:00pm
+                        - name: 15:15
+                          label: 3:15pm
+                        - name: 15:30
+                          label: 3:30pm
+                        - name: 15:45
+                          label: 3:45pm
+                        - name: 16:00
+                          label: 4:00pm
+                        - name: 16:15
+                          label: 4:15pm
+                        - name: 16:30
+                          label: 4:30pm
+                        - name: 16:45
+                          label: 4:45pm
+                        - name: 17:00
+                          label: 5:00pm
+                        - name: 17:15
+                          label: 5:15pm
+                        - name: 17:30
+                          label: 5:30pm
+                        - name: 17:45
+                          label: 5:45pm
+                        - name: 18:00
+                          label: 6:00pm
+                        - name: 18:15
+                          label: 6:15pm
+                        - name: 18:30
+                          label: 6:30pm
+                        - name: 18:45
+                          label: 6:45pm
+                        - name: 19:00
+                          label: 7:00pm
+                        - name: 19:15
+                          label: 7:15pm
+                        - name: 19:30
+                          label: 7:30pm
+                        - name: 19:45
+                          label: 7:45pm
+                        - name: 20:00
+                          label: 8:00pm
+                        - name: 20:15
+                          label: 8:15pm
+                        - name: 20:30
+                          label: 8:30pm
+                        - name: 20:45
+                          label: 8:45pm
+                        - name: 21:00
+                          label: 9:00pm
+                list:
+                  min: 0
+                  max: 28
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.date} | {fields.start_time} - {fields.end_time}"
+          - name: opengym
+            label: OpenGym
+            type: object
+            required: true
+            list:
+              min: 1
+              max: 1
+              collapsible:
+                collapsed: true
+                summary: OpenGym
+            fields:
+              - name: enabled
+                label: Show this program
+                type: boolean
+                required: true
+              - name: week_1
+                label: Week 1
+                type: object
+                required: false
+                description: Add or remove running dates here. Also update bookings in iClassPro.
+                fields:
+                  - name: date
+                    label: Date
+                    type: date
+                    required: true
+                    default: ""
+                    options:
+                      time: false
+                      format: yyyy-MM-dd
+                  - name: start_time
+                    label: Start time
+                    type: select
+                    required: true
+                    options:
+                      placeholder: Choose a time
+                      values:
+                        - name: 06:00
+                          label: 6:00am
+                        - name: 06:15
+                          label: 6:15am
+                        - name: 06:30
+                          label: 6:30am
+                        - name: 06:45
+                          label: 6:45am
+                        - name: 07:00
+                          label: 7:00am
+                        - name: 07:15
+                          label: 7:15am
+                        - name: 07:30
+                          label: 7:30am
+                        - name: 07:45
+                          label: 7:45am
+                        - name: 08:00
+                          label: 8:00am
+                        - name: 08:15
+                          label: 8:15am
+                        - name: 08:30
+                          label: 8:30am
+                        - name: 08:45
+                          label: 8:45am
+                        - name: 09:00
+                          label: 9:00am
+                        - name: 09:15
+                          label: 9:15am
+                        - name: 09:30
+                          label: 9:30am
+                        - name: 09:45
+                          label: 9:45am
+                        - name: 10:00
+                          label: 10:00am
+                        - name: 10:15
+                          label: 10:15am
+                        - name: 10:30
+                          label: 10:30am
+                        - name: 10:45
+                          label: 10:45am
+                        - name: 11:00
+                          label: 11:00am
+                        - name: 11:15
+                          label: 11:15am
+                        - name: 11:30
+                          label: 11:30am
+                        - name: 11:45
+                          label: 11:45am
+                        - name: 12:00
+                          label: 12:00pm
+                        - name: 12:15
+                          label: 12:15pm
+                        - name: 12:30
+                          label: 12:30pm
+                        - name: 12:45
+                          label: 12:45pm
+                        - name: 13:00
+                          label: 1:00pm
+                        - name: 13:15
+                          label: 1:15pm
+                        - name: 13:30
+                          label: 1:30pm
+                        - name: 13:45
+                          label: 1:45pm
+                        - name: 14:00
+                          label: 2:00pm
+                        - name: 14:15
+                          label: 2:15pm
+                        - name: 14:30
+                          label: 2:30pm
+                        - name: 14:45
+                          label: 2:45pm
+                        - name: 15:00
+                          label: 3:00pm
+                        - name: 15:15
+                          label: 3:15pm
+                        - name: 15:30
+                          label: 3:30pm
+                        - name: 15:45
+                          label: 3:45pm
+                        - name: 16:00
+                          label: 4:00pm
+                        - name: 16:15
+                          label: 4:15pm
+                        - name: 16:30
+                          label: 4:30pm
+                        - name: 16:45
+                          label: 4:45pm
+                        - name: 17:00
+                          label: 5:00pm
+                        - name: 17:15
+                          label: 5:15pm
+                        - name: 17:30
+                          label: 5:30pm
+                        - name: 17:45
+                          label: 5:45pm
+                        - name: 18:00
+                          label: 6:00pm
+                        - name: 18:15
+                          label: 6:15pm
+                        - name: 18:30
+                          label: 6:30pm
+                        - name: 18:45
+                          label: 6:45pm
+                        - name: 19:00
+                          label: 7:00pm
+                        - name: 19:15
+                          label: 7:15pm
+                        - name: 19:30
+                          label: 7:30pm
+                        - name: 19:45
+                          label: 7:45pm
+                        - name: 20:00
+                          label: 8:00pm
+                        - name: 20:15
+                          label: 8:15pm
+                        - name: 20:30
+                          label: 8:30pm
+                        - name: 20:45
+                          label: 8:45pm
+                        - name: 21:00
+                          label: 9:00pm
+                  - name: end_time
+                    label: Finish time
+                    type: select
+                    required: true
+                    options:
+                      placeholder: Choose a time
+                      values:
+                        - name: 06:00
+                          label: 6:00am
+                        - name: 06:15
+                          label: 6:15am
+                        - name: 06:30
+                          label: 6:30am
+                        - name: 06:45
+                          label: 6:45am
+                        - name: 07:00
+                          label: 7:00am
+                        - name: 07:15
+                          label: 7:15am
+                        - name: 07:30
+                          label: 7:30am
+                        - name: 07:45
+                          label: 7:45am
+                        - name: 08:00
+                          label: 8:00am
+                        - name: 08:15
+                          label: 8:15am
+                        - name: 08:30
+                          label: 8:30am
+                        - name: 08:45
+                          label: 8:45am
+                        - name: 09:00
+                          label: 9:00am
+                        - name: 09:15
+                          label: 9:15am
+                        - name: 09:30
+                          label: 9:30am
+                        - name: 09:45
+                          label: 9:45am
+                        - name: 10:00
+                          label: 10:00am
+                        - name: 10:15
+                          label: 10:15am
+                        - name: 10:30
+                          label: 10:30am
+                        - name: 10:45
+                          label: 10:45am
+                        - name: 11:00
+                          label: 11:00am
+                        - name: 11:15
+                          label: 11:15am
+                        - name: 11:30
+                          label: 11:30am
+                        - name: 11:45
+                          label: 11:45am
+                        - name: 12:00
+                          label: 12:00pm
+                        - name: 12:15
+                          label: 12:15pm
+                        - name: 12:30
+                          label: 12:30pm
+                        - name: 12:45
+                          label: 12:45pm
+                        - name: 13:00
+                          label: 1:00pm
+                        - name: 13:15
+                          label: 1:15pm
+                        - name: 13:30
+                          label: 1:30pm
+                        - name: 13:45
+                          label: 1:45pm
+                        - name: 14:00
+                          label: 2:00pm
+                        - name: 14:15
+                          label: 2:15pm
+                        - name: 14:30
+                          label: 2:30pm
+                        - name: 14:45
+                          label: 2:45pm
+                        - name: 15:00
+                          label: 3:00pm
+                        - name: 15:15
+                          label: 3:15pm
+                        - name: 15:30
+                          label: 3:30pm
+                        - name: 15:45
+                          label: 3:45pm
+                        - name: 16:00
+                          label: 4:00pm
+                        - name: 16:15
+                          label: 4:15pm
+                        - name: 16:30
+                          label: 4:30pm
+                        - name: 16:45
+                          label: 4:45pm
+                        - name: 17:00
+                          label: 5:00pm
+                        - name: 17:15
+                          label: 5:15pm
+                        - name: 17:30
+                          label: 5:30pm
+                        - name: 17:45
+                          label: 5:45pm
+                        - name: 18:00
+                          label: 6:00pm
+                        - name: 18:15
+                          label: 6:15pm
+                        - name: 18:30
+                          label: 6:30pm
+                        - name: 18:45
+                          label: 6:45pm
+                        - name: 19:00
+                          label: 7:00pm
+                        - name: 19:15
+                          label: 7:15pm
+                        - name: 19:30
+                          label: 7:30pm
+                        - name: 19:45
+                          label: 7:45pm
+                        - name: 20:00
+                          label: 8:00pm
+                        - name: 20:15
+                          label: 8:15pm
+                        - name: 20:30
+                          label: 8:30pm
+                        - name: 20:45
+                          label: 8:45pm
+                        - name: 21:00
+                          label: 9:00pm
+                list:
+                  min: 0
+                  max: 28
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.date} | {fields.start_time} - {fields.end_time}"
+              - name: week_2
+                label: Week 2
+                type: object
+                required: false
+                description: Add or remove running dates here. Also update bookings in iClassPro.
+                fields:
+                  - name: date
+                    label: Date
+                    type: date
+                    required: true
+                    default: ""
+                    options:
+                      time: false
+                      format: yyyy-MM-dd
+                  - name: start_time
+                    label: Start time
+                    type: select
+                    required: true
+                    options:
+                      placeholder: Choose a time
+                      values:
+                        - name: 06:00
+                          label: 6:00am
+                        - name: 06:15
+                          label: 6:15am
+                        - name: 06:30
+                          label: 6:30am
+                        - name: 06:45
+                          label: 6:45am
+                        - name: 07:00
+                          label: 7:00am
+                        - name: 07:15
+                          label: 7:15am
+                        - name: 07:30
+                          label: 7:30am
+                        - name: 07:45
+                          label: 7:45am
+                        - name: 08:00
+                          label: 8:00am
+                        - name: 08:15
+                          label: 8:15am
+                        - name: 08:30
+                          label: 8:30am
+                        - name: 08:45
+                          label: 8:45am
+                        - name: 09:00
+                          label: 9:00am
+                        - name: 09:15
+                          label: 9:15am
+                        - name: 09:30
+                          label: 9:30am
+                        - name: 09:45
+                          label: 9:45am
+                        - name: 10:00
+                          label: 10:00am
+                        - name: 10:15
+                          label: 10:15am
+                        - name: 10:30
+                          label: 10:30am
+                        - name: 10:45
+                          label: 10:45am
+                        - name: 11:00
+                          label: 11:00am
+                        - name: 11:15
+                          label: 11:15am
+                        - name: 11:30
+                          label: 11:30am
+                        - name: 11:45
+                          label: 11:45am
+                        - name: 12:00
+                          label: 12:00pm
+                        - name: 12:15
+                          label: 12:15pm
+                        - name: 12:30
+                          label: 12:30pm
+                        - name: 12:45
+                          label: 12:45pm
+                        - name: 13:00
+                          label: 1:00pm
+                        - name: 13:15
+                          label: 1:15pm
+                        - name: 13:30
+                          label: 1:30pm
+                        - name: 13:45
+                          label: 1:45pm
+                        - name: 14:00
+                          label: 2:00pm
+                        - name: 14:15
+                          label: 2:15pm
+                        - name: 14:30
+                          label: 2:30pm
+                        - name: 14:45
+                          label: 2:45pm
+                        - name: 15:00
+                          label: 3:00pm
+                        - name: 15:15
+                          label: 3:15pm
+                        - name: 15:30
+                          label: 3:30pm
+                        - name: 15:45
+                          label: 3:45pm
+                        - name: 16:00
+                          label: 4:00pm
+                        - name: 16:15
+                          label: 4:15pm
+                        - name: 16:30
+                          label: 4:30pm
+                        - name: 16:45
+                          label: 4:45pm
+                        - name: 17:00
+                          label: 5:00pm
+                        - name: 17:15
+                          label: 5:15pm
+                        - name: 17:30
+                          label: 5:30pm
+                        - name: 17:45
+                          label: 5:45pm
+                        - name: 18:00
+                          label: 6:00pm
+                        - name: 18:15
+                          label: 6:15pm
+                        - name: 18:30
+                          label: 6:30pm
+                        - name: 18:45
+                          label: 6:45pm
+                        - name: 19:00
+                          label: 7:00pm
+                        - name: 19:15
+                          label: 7:15pm
+                        - name: 19:30
+                          label: 7:30pm
+                        - name: 19:45
+                          label: 7:45pm
+                        - name: 20:00
+                          label: 8:00pm
+                        - name: 20:15
+                          label: 8:15pm
+                        - name: 20:30
+                          label: 8:30pm
+                        - name: 20:45
+                          label: 8:45pm
+                        - name: 21:00
+                          label: 9:00pm
+                  - name: end_time
+                    label: Finish time
+                    type: select
+                    required: true
+                    options:
+                      placeholder: Choose a time
+                      values:
+                        - name: 06:00
+                          label: 6:00am
+                        - name: 06:15
+                          label: 6:15am
+                        - name: 06:30
+                          label: 6:30am
+                        - name: 06:45
+                          label: 6:45am
+                        - name: 07:00
+                          label: 7:00am
+                        - name: 07:15
+                          label: 7:15am
+                        - name: 07:30
+                          label: 7:30am
+                        - name: 07:45
+                          label: 7:45am
+                        - name: 08:00
+                          label: 8:00am
+                        - name: 08:15
+                          label: 8:15am
+                        - name: 08:30
+                          label: 8:30am
+                        - name: 08:45
+                          label: 8:45am
+                        - name: 09:00
+                          label: 9:00am
+                        - name: 09:15
+                          label: 9:15am
+                        - name: 09:30
+                          label: 9:30am
+                        - name: 09:45
+                          label: 9:45am
+                        - name: 10:00
+                          label: 10:00am
+                        - name: 10:15
+                          label: 10:15am
+                        - name: 10:30
+                          label: 10:30am
+                        - name: 10:45
+                          label: 10:45am
+                        - name: 11:00
+                          label: 11:00am
+                        - name: 11:15
+                          label: 11:15am
+                        - name: 11:30
+                          label: 11:30am
+                        - name: 11:45
+                          label: 11:45am
+                        - name: 12:00
+                          label: 12:00pm
+                        - name: 12:15
+                          label: 12:15pm
+                        - name: 12:30
+                          label: 12:30pm
+                        - name: 12:45
+                          label: 12:45pm
+                        - name: 13:00
+                          label: 1:00pm
+                        - name: 13:15
+                          label: 1:15pm
+                        - name: 13:30
+                          label: 1:30pm
+                        - name: 13:45
+                          label: 1:45pm
+                        - name: 14:00
+                          label: 2:00pm
+                        - name: 14:15
+                          label: 2:15pm
+                        - name: 14:30
+                          label: 2:30pm
+                        - name: 14:45
+                          label: 2:45pm
+                        - name: 15:00
+                          label: 3:00pm
+                        - name: 15:15
+                          label: 3:15pm
+                        - name: 15:30
+                          label: 3:30pm
+                        - name: 15:45
+                          label: 3:45pm
+                        - name: 16:00
+                          label: 4:00pm
+                        - name: 16:15
+                          label: 4:15pm
+                        - name: 16:30
+                          label: 4:30pm
+                        - name: 16:45
+                          label: 4:45pm
+                        - name: 17:00
+                          label: 5:00pm
+                        - name: 17:15
+                          label: 5:15pm
+                        - name: 17:30
+                          label: 5:30pm
+                        - name: 17:45
+                          label: 5:45pm
+                        - name: 18:00
+                          label: 6:00pm
+                        - name: 18:15
+                          label: 6:15pm
+                        - name: 18:30
+                          label: 6:30pm
+                        - name: 18:45
+                          label: 6:45pm
+                        - name: 19:00
+                          label: 7:00pm
+                        - name: 19:15
+                          label: 7:15pm
+                        - name: 19:30
+                          label: 7:30pm
+                        - name: 19:45
+                          label: 7:45pm
+                        - name: 20:00
+                          label: 8:00pm
+                        - name: 20:15
+                          label: 8:15pm
+                        - name: 20:30
+                          label: 8:30pm
+                        - name: 20:45
+                          label: 8:45pm
+                        - name: 21:00
+                          label: 9:00pm
+                list:
+                  min: 0
+                  max: 28
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.date} | {fields.start_time} - {fields.end_time}"
               - name: title
                 label: Program name
                 type: string
@@ -189,84 +1265,605 @@ content:
                 label: Description
                 type: text
                 required: true
-              - name: week_1
-                label: Week 1
-                type: object
-                required: false
-                description: Add one item per running date. Remove a session to stop listing that date. Also update iClassPro. Leave the list empty if this
-                  program does not run that week.
-                fields:
-                  - name: date
-                    label: Date
-                    type: date
-                    required: true
-                    default: ""
-                    options:
-                      time: false
-                      format: yyyy-MM-dd
-                  - name: time
-                    label: Session time
-                    type: string
-                    required: true
-                    description: For example 2:30pm - 4:00pm. Each date can have its own time.
-                    pattern:
-                      regex: ^(?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm) [\u2013\u2014-] (?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm)$
-                      message: Use 2:30pm - 4:00pm, with spaces around the dash.
-                  - name: activity
-                    label: Workshop name (optional)
-                    type: string
-                    description: For example Handstands & Cartwheels. Leave blank for a general session.
-                list:
-                  min: 0
-                  max: 28
-                  collapsible:
-                    collapsed: true
-                    summary: "{fields.date} | {fields.time}"
-              - name: week_2
-                label: Week 2
-                type: object
-                required: false
-                description: Add one item per running date. Remove a session to stop listing that date. Also update iClassPro. Leave the list empty if this
-                  program does not run that week.
-                fields:
-                  - name: date
-                    label: Date
-                    type: date
-                    required: true
-                    default: ""
-                    options:
-                      time: false
-                      format: yyyy-MM-dd
-                  - name: time
-                    label: Session time
-                    type: string
-                    required: true
-                    description: For example 2:30pm - 4:00pm. Each date can have its own time.
-                    pattern:
-                      regex: ^(?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm) [\u2013\u2014-] (?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm)$
-                      message: Use 2:30pm - 4:00pm, with spaces around the dash.
-                  - name: activity
-                    label: Workshop name (optional)
-                    type: string
-                    description: For example Handstands & Cartwheels. Leave blank for a general session.
-                list:
-                  min: 0
-                  max: 28
-                  collapsible:
-                    collapsed: true
-                    summary: "{fields.date} | {fields.time}"
               - name: price
                 label: Price
                 type: string
                 required: true
+          - name: workshops
+            label: Skill Workshops
+            type: object
+            required: true
             list:
-              min: 2
-              max: 2
+              min: 1
+              max: 1
               collapsible:
                 collapsed: true
-                summary: "{fields.title}"
-            description: OpenGym and Skill Workshops each have their own Week 1 and Week 2 dates. The optional workshop
-              name can be left blank for OpenGym.
+                summary: Skill Workshops
+            fields:
+              - name: enabled
+                label: Show this program
+                type: boolean
+                required: true
+              - name: week_1
+                label: Week 1
+                type: object
+                required: false
+                description: Add or remove running dates here. Also update bookings in iClassPro.
+                fields:
+                  - name: activity
+                    label: Name
+                    type: string
+                    required: true
+                  - name: date
+                    label: Date
+                    type: date
+                    required: true
+                    default: ""
+                    options:
+                      time: false
+                      format: yyyy-MM-dd
+                  - name: start_time
+                    label: Start time
+                    type: select
+                    required: true
+                    options:
+                      placeholder: Choose a time
+                      values:
+                        - name: 06:00
+                          label: 6:00am
+                        - name: 06:15
+                          label: 6:15am
+                        - name: 06:30
+                          label: 6:30am
+                        - name: 06:45
+                          label: 6:45am
+                        - name: 07:00
+                          label: 7:00am
+                        - name: 07:15
+                          label: 7:15am
+                        - name: 07:30
+                          label: 7:30am
+                        - name: 07:45
+                          label: 7:45am
+                        - name: 08:00
+                          label: 8:00am
+                        - name: 08:15
+                          label: 8:15am
+                        - name: 08:30
+                          label: 8:30am
+                        - name: 08:45
+                          label: 8:45am
+                        - name: 09:00
+                          label: 9:00am
+                        - name: 09:15
+                          label: 9:15am
+                        - name: 09:30
+                          label: 9:30am
+                        - name: 09:45
+                          label: 9:45am
+                        - name: 10:00
+                          label: 10:00am
+                        - name: 10:15
+                          label: 10:15am
+                        - name: 10:30
+                          label: 10:30am
+                        - name: 10:45
+                          label: 10:45am
+                        - name: 11:00
+                          label: 11:00am
+                        - name: 11:15
+                          label: 11:15am
+                        - name: 11:30
+                          label: 11:30am
+                        - name: 11:45
+                          label: 11:45am
+                        - name: 12:00
+                          label: 12:00pm
+                        - name: 12:15
+                          label: 12:15pm
+                        - name: 12:30
+                          label: 12:30pm
+                        - name: 12:45
+                          label: 12:45pm
+                        - name: 13:00
+                          label: 1:00pm
+                        - name: 13:15
+                          label: 1:15pm
+                        - name: 13:30
+                          label: 1:30pm
+                        - name: 13:45
+                          label: 1:45pm
+                        - name: 14:00
+                          label: 2:00pm
+                        - name: 14:15
+                          label: 2:15pm
+                        - name: 14:30
+                          label: 2:30pm
+                        - name: 14:45
+                          label: 2:45pm
+                        - name: 15:00
+                          label: 3:00pm
+                        - name: 15:15
+                          label: 3:15pm
+                        - name: 15:30
+                          label: 3:30pm
+                        - name: 15:45
+                          label: 3:45pm
+                        - name: 16:00
+                          label: 4:00pm
+                        - name: 16:15
+                          label: 4:15pm
+                        - name: 16:30
+                          label: 4:30pm
+                        - name: 16:45
+                          label: 4:45pm
+                        - name: 17:00
+                          label: 5:00pm
+                        - name: 17:15
+                          label: 5:15pm
+                        - name: 17:30
+                          label: 5:30pm
+                        - name: 17:45
+                          label: 5:45pm
+                        - name: 18:00
+                          label: 6:00pm
+                        - name: 18:15
+                          label: 6:15pm
+                        - name: 18:30
+                          label: 6:30pm
+                        - name: 18:45
+                          label: 6:45pm
+                        - name: 19:00
+                          label: 7:00pm
+                        - name: 19:15
+                          label: 7:15pm
+                        - name: 19:30
+                          label: 7:30pm
+                        - name: 19:45
+                          label: 7:45pm
+                        - name: 20:00
+                          label: 8:00pm
+                        - name: 20:15
+                          label: 8:15pm
+                        - name: 20:30
+                          label: 8:30pm
+                        - name: 20:45
+                          label: 8:45pm
+                        - name: 21:00
+                          label: 9:00pm
+                  - name: end_time
+                    label: Finish time
+                    type: select
+                    required: true
+                    options:
+                      placeholder: Choose a time
+                      values:
+                        - name: 06:00
+                          label: 6:00am
+                        - name: 06:15
+                          label: 6:15am
+                        - name: 06:30
+                          label: 6:30am
+                        - name: 06:45
+                          label: 6:45am
+                        - name: 07:00
+                          label: 7:00am
+                        - name: 07:15
+                          label: 7:15am
+                        - name: 07:30
+                          label: 7:30am
+                        - name: 07:45
+                          label: 7:45am
+                        - name: 08:00
+                          label: 8:00am
+                        - name: 08:15
+                          label: 8:15am
+                        - name: 08:30
+                          label: 8:30am
+                        - name: 08:45
+                          label: 8:45am
+                        - name: 09:00
+                          label: 9:00am
+                        - name: 09:15
+                          label: 9:15am
+                        - name: 09:30
+                          label: 9:30am
+                        - name: 09:45
+                          label: 9:45am
+                        - name: 10:00
+                          label: 10:00am
+                        - name: 10:15
+                          label: 10:15am
+                        - name: 10:30
+                          label: 10:30am
+                        - name: 10:45
+                          label: 10:45am
+                        - name: 11:00
+                          label: 11:00am
+                        - name: 11:15
+                          label: 11:15am
+                        - name: 11:30
+                          label: 11:30am
+                        - name: 11:45
+                          label: 11:45am
+                        - name: 12:00
+                          label: 12:00pm
+                        - name: 12:15
+                          label: 12:15pm
+                        - name: 12:30
+                          label: 12:30pm
+                        - name: 12:45
+                          label: 12:45pm
+                        - name: 13:00
+                          label: 1:00pm
+                        - name: 13:15
+                          label: 1:15pm
+                        - name: 13:30
+                          label: 1:30pm
+                        - name: 13:45
+                          label: 1:45pm
+                        - name: 14:00
+                          label: 2:00pm
+                        - name: 14:15
+                          label: 2:15pm
+                        - name: 14:30
+                          label: 2:30pm
+                        - name: 14:45
+                          label: 2:45pm
+                        - name: 15:00
+                          label: 3:00pm
+                        - name: 15:15
+                          label: 3:15pm
+                        - name: 15:30
+                          label: 3:30pm
+                        - name: 15:45
+                          label: 3:45pm
+                        - name: 16:00
+                          label: 4:00pm
+                        - name: 16:15
+                          label: 4:15pm
+                        - name: 16:30
+                          label: 4:30pm
+                        - name: 16:45
+                          label: 4:45pm
+                        - name: 17:00
+                          label: 5:00pm
+                        - name: 17:15
+                          label: 5:15pm
+                        - name: 17:30
+                          label: 5:30pm
+                        - name: 17:45
+                          label: 5:45pm
+                        - name: 18:00
+                          label: 6:00pm
+                        - name: 18:15
+                          label: 6:15pm
+                        - name: 18:30
+                          label: 6:30pm
+                        - name: 18:45
+                          label: 6:45pm
+                        - name: 19:00
+                          label: 7:00pm
+                        - name: 19:15
+                          label: 7:15pm
+                        - name: 19:30
+                          label: 7:30pm
+                        - name: 19:45
+                          label: 7:45pm
+                        - name: 20:00
+                          label: 8:00pm
+                        - name: 20:15
+                          label: 8:15pm
+                        - name: 20:30
+                          label: 8:30pm
+                        - name: 20:45
+                          label: 8:45pm
+                        - name: 21:00
+                          label: 9:00pm
+                list:
+                  min: 0
+                  max: 28
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.activity} | {fields.date} | {fields.start_time} - {fields.end_time}"
+              - name: week_2
+                label: Week 2
+                type: object
+                required: false
+                description: Add or remove running dates here. Also update bookings in iClassPro.
+                fields:
+                  - name: activity
+                    label: Name
+                    type: string
+                    required: true
+                  - name: date
+                    label: Date
+                    type: date
+                    required: true
+                    default: ""
+                    options:
+                      time: false
+                      format: yyyy-MM-dd
+                  - name: start_time
+                    label: Start time
+                    type: select
+                    required: true
+                    options:
+                      placeholder: Choose a time
+                      values:
+                        - name: 06:00
+                          label: 6:00am
+                        - name: 06:15
+                          label: 6:15am
+                        - name: 06:30
+                          label: 6:30am
+                        - name: 06:45
+                          label: 6:45am
+                        - name: 07:00
+                          label: 7:00am
+                        - name: 07:15
+                          label: 7:15am
+                        - name: 07:30
+                          label: 7:30am
+                        - name: 07:45
+                          label: 7:45am
+                        - name: 08:00
+                          label: 8:00am
+                        - name: 08:15
+                          label: 8:15am
+                        - name: 08:30
+                          label: 8:30am
+                        - name: 08:45
+                          label: 8:45am
+                        - name: 09:00
+                          label: 9:00am
+                        - name: 09:15
+                          label: 9:15am
+                        - name: 09:30
+                          label: 9:30am
+                        - name: 09:45
+                          label: 9:45am
+                        - name: 10:00
+                          label: 10:00am
+                        - name: 10:15
+                          label: 10:15am
+                        - name: 10:30
+                          label: 10:30am
+                        - name: 10:45
+                          label: 10:45am
+                        - name: 11:00
+                          label: 11:00am
+                        - name: 11:15
+                          label: 11:15am
+                        - name: 11:30
+                          label: 11:30am
+                        - name: 11:45
+                          label: 11:45am
+                        - name: 12:00
+                          label: 12:00pm
+                        - name: 12:15
+                          label: 12:15pm
+                        - name: 12:30
+                          label: 12:30pm
+                        - name: 12:45
+                          label: 12:45pm
+                        - name: 13:00
+                          label: 1:00pm
+                        - name: 13:15
+                          label: 1:15pm
+                        - name: 13:30
+                          label: 1:30pm
+                        - name: 13:45
+                          label: 1:45pm
+                        - name: 14:00
+                          label: 2:00pm
+                        - name: 14:15
+                          label: 2:15pm
+                        - name: 14:30
+                          label: 2:30pm
+                        - name: 14:45
+                          label: 2:45pm
+                        - name: 15:00
+                          label: 3:00pm
+                        - name: 15:15
+                          label: 3:15pm
+                        - name: 15:30
+                          label: 3:30pm
+                        - name: 15:45
+                          label: 3:45pm
+                        - name: 16:00
+                          label: 4:00pm
+                        - name: 16:15
+                          label: 4:15pm
+                        - name: 16:30
+                          label: 4:30pm
+                        - name: 16:45
+                          label: 4:45pm
+                        - name: 17:00
+                          label: 5:00pm
+                        - name: 17:15
+                          label: 5:15pm
+                        - name: 17:30
+                          label: 5:30pm
+                        - name: 17:45
+                          label: 5:45pm
+                        - name: 18:00
+                          label: 6:00pm
+                        - name: 18:15
+                          label: 6:15pm
+                        - name: 18:30
+                          label: 6:30pm
+                        - name: 18:45
+                          label: 6:45pm
+                        - name: 19:00
+                          label: 7:00pm
+                        - name: 19:15
+                          label: 7:15pm
+                        - name: 19:30
+                          label: 7:30pm
+                        - name: 19:45
+                          label: 7:45pm
+                        - name: 20:00
+                          label: 8:00pm
+                        - name: 20:15
+                          label: 8:15pm
+                        - name: 20:30
+                          label: 8:30pm
+                        - name: 20:45
+                          label: 8:45pm
+                        - name: 21:00
+                          label: 9:00pm
+                  - name: end_time
+                    label: Finish time
+                    type: select
+                    required: true
+                    options:
+                      placeholder: Choose a time
+                      values:
+                        - name: 06:00
+                          label: 6:00am
+                        - name: 06:15
+                          label: 6:15am
+                        - name: 06:30
+                          label: 6:30am
+                        - name: 06:45
+                          label: 6:45am
+                        - name: 07:00
+                          label: 7:00am
+                        - name: 07:15
+                          label: 7:15am
+                        - name: 07:30
+                          label: 7:30am
+                        - name: 07:45
+                          label: 7:45am
+                        - name: 08:00
+                          label: 8:00am
+                        - name: 08:15
+                          label: 8:15am
+                        - name: 08:30
+                          label: 8:30am
+                        - name: 08:45
+                          label: 8:45am
+                        - name: 09:00
+                          label: 9:00am
+                        - name: 09:15
+                          label: 9:15am
+                        - name: 09:30
+                          label: 9:30am
+                        - name: 09:45
+                          label: 9:45am
+                        - name: 10:00
+                          label: 10:00am
+                        - name: 10:15
+                          label: 10:15am
+                        - name: 10:30
+                          label: 10:30am
+                        - name: 10:45
+                          label: 10:45am
+                        - name: 11:00
+                          label: 11:00am
+                        - name: 11:15
+                          label: 11:15am
+                        - name: 11:30
+                          label: 11:30am
+                        - name: 11:45
+                          label: 11:45am
+                        - name: 12:00
+                          label: 12:00pm
+                        - name: 12:15
+                          label: 12:15pm
+                        - name: 12:30
+                          label: 12:30pm
+                        - name: 12:45
+                          label: 12:45pm
+                        - name: 13:00
+                          label: 1:00pm
+                        - name: 13:15
+                          label: 1:15pm
+                        - name: 13:30
+                          label: 1:30pm
+                        - name: 13:45
+                          label: 1:45pm
+                        - name: 14:00
+                          label: 2:00pm
+                        - name: 14:15
+                          label: 2:15pm
+                        - name: 14:30
+                          label: 2:30pm
+                        - name: 14:45
+                          label: 2:45pm
+                        - name: 15:00
+                          label: 3:00pm
+                        - name: 15:15
+                          label: 3:15pm
+                        - name: 15:30
+                          label: 3:30pm
+                        - name: 15:45
+                          label: 3:45pm
+                        - name: 16:00
+                          label: 4:00pm
+                        - name: 16:15
+                          label: 4:15pm
+                        - name: 16:30
+                          label: 4:30pm
+                        - name: 16:45
+                          label: 4:45pm
+                        - name: 17:00
+                          label: 5:00pm
+                        - name: 17:15
+                          label: 5:15pm
+                        - name: 17:30
+                          label: 5:30pm
+                        - name: 17:45
+                          label: 5:45pm
+                        - name: 18:00
+                          label: 6:00pm
+                        - name: 18:15
+                          label: 6:15pm
+                        - name: 18:30
+                          label: 6:30pm
+                        - name: 18:45
+                          label: 6:45pm
+                        - name: 19:00
+                          label: 7:00pm
+                        - name: 19:15
+                          label: 7:15pm
+                        - name: 19:30
+                          label: 7:30pm
+                        - name: 19:45
+                          label: 7:45pm
+                        - name: 20:00
+                          label: 8:00pm
+                        - name: 20:15
+                          label: 8:15pm
+                        - name: 20:30
+                          label: 8:30pm
+                        - name: 20:45
+                          label: 8:45pm
+                        - name: 21:00
+                          label: 9:00pm
+                list:
+                  min: 0
+                  max: 28
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.activity} | {fields.date} | {fields.start_time} - {fields.end_time}"
+              - name: title
+                label: Program name
+                type: string
+                required: true
+              - name: ages
+                label: Ages
+                type: string
+                required: true
+              - name: description
+                label: Description
+                type: text
+                required: true
+              - name: price
+                label: Price
+                type: string
+                required: true
       - name: policies
         label: Policies
         type: file

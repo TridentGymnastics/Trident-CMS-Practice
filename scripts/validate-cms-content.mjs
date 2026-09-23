@@ -105,8 +105,7 @@ if (!errors.length) {
   const club = readJSON('src/content/club-details.json');
   if (!/^0[23478]\d{8}$/.test(club.phone.replace(/\s/g, ''))) fail('Phone number', 'use a ten-digit Australian phone number');
   const holidays = readJSON('src/content/holidays.json');
-  if (JSON.stringify(holidays.programs.map(item => item.id).sort()) !== JSON.stringify(['opengym', 'skill-workshops'])) fail('School holidays', 'keep the two program references; use their Show switches to hide them');
-  for (const [name, schedule] of [['PlayGym', holidays.playgym_schedule], ...holidays.programs.map(program => [program.title, program])]) {
+  for (const [name, schedule] of [['PlayGym', holidays.playgym[0]], ['OpenGym', holidays.opengym[0]], ['Skill Workshops', holidays.workshops[0]]]) {
     for (const message of validateHolidaySchedule(schedule)) fail('Holiday ' + name, message);
   }
   const ageBounds = playgym.age_range.match(/^(\d+(?:\.\d+)?)[–-](\d+(?:\.\d+)?) years$/);

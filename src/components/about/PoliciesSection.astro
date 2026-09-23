@@ -1,14 +1,15 @@
 ---
-const { policies } = Astro.props;
+const { policies, guidesOnly = false } = Astro.props;
+const GuideHeading = guidesOnly ? 'h1' : 'h2';
 ---
 
 <section class="policies-section">
   <div class="container">
-    {(policies.guides?.documents?.length ?? 0) > 0 && (
+    {guidesOnly && (policies.guides?.documents?.length ?? 0) > 0 && (
       <div id="iclasspro-guides" class="resource-group guide-group">
         <div class="section-heading">
           <p class="section-kicker">Parent Guides</p>
-          <h2>{policies.guides.title}</h2>
+          <GuideHeading>{policies.guides.title}</GuideHeading>
           <p>{policies.guides.intro}</p>
         </div>
 
@@ -42,7 +43,7 @@ const { policies } = Astro.props;
       </div>
     )}
 
-    <div class="resource-group">
+    {!guidesOnly && <div class="resource-group">
       <div class="section-heading">
         <p class="section-kicker">Policies</p>
         <h2>Policies, Terms & Conditions</h2>
@@ -78,7 +79,9 @@ const { policies } = Astro.props;
       </div>
     </div>
 
-    {policies.legacy && policies.legacy.length > 0 && (
+    }
+
+    {!guidesOnly && policies.legacy && policies.legacy.length > 0 && (
       <details class="legacy-section">
         <summary>Previous Years</summary>
         <div class="legacy-grid">
@@ -137,7 +140,7 @@ const { policies } = Astro.props;
     text-transform: uppercase;
   }
 
-  .section-heading h2 {
+  .section-heading :is(h1, h2) {
     color: var(--dark-navy);
     font-size: clamp(1.85rem, 4vw, 2.6rem);
     font-weight: 700;
@@ -279,7 +282,7 @@ const { policies } = Astro.props;
       text-align: left;
     }
 
-    .section-heading h2 {
+    .section-heading :is(h1, h2) {
       font-size: 1.65rem;
     }
 

@@ -18,5 +18,12 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/whats-happening",
+      "destination": "/",
+      "permanent": true
+    }
   ]
 }

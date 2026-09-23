@@ -21,8 +21,38 @@ const ld = {
   </Fragment>
 
   <section class="contact-hero">
-    <h1>Contact Trident Gymnastics Ringwood</h1>
+    <h1>Contact &amp; Find Us</h1>
     <p class="sub">Get in touch about classes, {names.playgym}, parties or free trial bookings.</p>
+    <div class="contact-actions"><a class="btn-icon" href={`tel:+${siteConfig.phone}`}>Call {clubDetails.phone}</a><a class="btn-icon" href={`mailto:${siteConfig.email}`}>Email us</a><a class="btn-icon" href="#getting-here">Entrance &amp; parking photos</a></div>
+  </section>
+
+  <section class="access-images" id="getting-here">
+    <h2>Find the entrance and parking</h2>
+    <p class="note"><strong>Before you arrive:</strong> The carpark is only accessible when travelling west along Maroondah Highway (towards the city, away from Ringwood).</p>
+    <p>Follow these three photos to find us. Select a photo to see it full size.</p>
+    <div class="image-row">
+      <a href="/Images/Contact/compressed-find-us-0.webp" target="_blank" rel="noopener" aria-label="Open arrival photo full size"><img src="/Images/Contact/compressed-find-us-0.webp"
+        alt="How to access Trident Gymnastics - Step 1"
+        width="800"
+        height="600"
+        loading="lazy"
+        class="contact-image"
+      /></a>
+      <a href="/Images/Contact/compressed-find-us-1.webp" target="_blank" rel="noopener" aria-label="Open arrival photo full size"><img src="/Images/Contact/compressed-find-us-1.webp"
+        alt="How to access Trident Gymnastics - Step 2"
+        width="800"
+        height="600"
+        loading="lazy"
+        class="contact-image"
+      /></a>
+      <a href="/Images/Contact/compressed-find-us-2.webp" target="_blank" rel="noopener" aria-label="Open arrival photo full size"><img src="/Images/Contact/compressed-find-us-2.webp"
+        alt="How to access Trident Gymnastics - Step 3"
+        width="800"
+        height="600"
+        loading="lazy"
+        class="contact-image"
+      /></a>
+    </div>
   </section>
 
   <section class="contact-grid">
@@ -40,9 +70,6 @@ const ld = {
       <article class="card">
         <h2 class="label">Location</h2>
         <address class="value">{siteConfig.address}</address>
-        <div class="note">
-          <strong>Note:</strong> Entry off Maroondah Highway can be difficult. The carpark for Trident is <strong>ONLY</strong> accessible when travelling in a westerly direction (towards the city, away from Ringwood).
-        </div>
       </article>
     </div>
 
@@ -55,35 +82,6 @@ const ld = {
           src={siteConfig.mapsEmbedUrl}>
         </iframe>
       </div>
-    </div>
-  </section>
-
-  <section class="access-images">
-    <div class="image-row">
-      <img
-        src="/Images/Contact/compressed-find-us-0.webp"
-        alt="How to access Trident Gymnastics - Step 1"
-        width="800"
-        height="600"
-        loading="lazy"
-        class="contact-image"
-      />
-      <img
-        src="/Images/Contact/compressed-find-us-1.webp"
-        alt="How to access Trident Gymnastics - Step 2"
-        width="800"
-        height="600"
-        loading="lazy"
-        class="contact-image"
-      />
-      <img
-        src="/Images/Contact/compressed-find-us-2.webp"
-        alt="How to access Trident Gymnastics - Step 3"
-        width="800"
-        height="600"
-        loading="lazy"
-        class="contact-image"
-      />
     </div>
   </section>
 
@@ -105,6 +103,10 @@ const ld = {
 </Layout>
 
 <style>
+  .contact-actions { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px; }
+  .access-images { scroll-margin-top: 2rem; }
+  .access-images h2 { color:#0b1150; font-size:clamp(1.5rem,3vw,2rem); }
+  .image-row a:focus-visible { outline:3px solid #1674bc; outline-offset:4px; }
   :root {
     --navy: #0b1150;
     --yellow: #ffd33b;

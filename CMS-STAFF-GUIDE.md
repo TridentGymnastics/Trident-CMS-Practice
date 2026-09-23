@@ -9,7 +9,7 @@ This guide applies to both the live and practice websites. Use **Trident-Gymnast
 3. Wait for the connected deployment to succeed (Netlify for live, Vercel for practice), then refresh that website and check your change on a phone as well as a computer.
 4. To undo a wording mistake, restore the wording in that editor and save again. For a larger mistake, ask the nominated technical contact to revert the specific Git commit.
 
-Each Save makes a Git commit and can trigger a deployment. On the live repository, assume it publishes automatically unless the team has explicitly configured and verified manual publishing. There is no draft branch or separate Publish website button yet. A news item's Publish switch controls visibility; it does not batch deployments. Plan related edits before saving each section.
+Each Save makes a Git commit and can trigger a deployment. On the live repository, assume it publishes automatically unless the team has explicitly configured and verified manual publishing. There is no draft branch or separate Publish website button yet. Plan related edits before saving each section.
 
 ## Where to change things
 
@@ -17,16 +17,16 @@ Each Save makes a Git commit and can trigger a deployment. On the live repositor
 | --- | --- | --- |
 | Essential | Site-wide Notices | On/off, colour, heading, message and optional link |
 | Essential | Holiday Program | Season, open/coming soon/closed, dates, notice, booking link and collapsed program sections with Week 1 / Week 2 session lists |
-| Club information | News updates | Add/hide updates; headline, date, paragraphs and photos |
+| Club information | iClassPro App Guides | App guide PDF titles, descriptions and files |
 | Program information | PlayGym | Name, ages, supervision, description, regular drop-in times, prices and photos |
 | Program information | Little Gymnasts, EduGym, UrbanGym, AGC | Names, descriptions, level information, photos and a preset header colour |
 | Program information | Birthday parties | Introduction, booking link, package prices/guest numbers, times and practical details |
 | Club information | Term dates | Heading, short note and replacement calendar image |
-| Essential | Policies | Current policy PDFs, parent guides and older policies |
+| Essential | Policies | Current policy PDFs and older policies |
 | Club information | About | About text, people and portraits |
 | Club information | Phone, email and opening hours | Shared contact details and opening-hours text |
 
-Editor labels stay familiar even if a program is renamed. Page addresses stay the same, preserving existing links. Names update navigation, program cards, page headings and galleries; separately written paragraphs, news and PDF contents still need a wording review.
+Editor labels stay familiar even if a program is renamed. Page addresses stay the same, preserving existing links. Names update navigation, program cards, page headings and galleries; separately written paragraphs and PDF contents still need a wording review.
 
 ## Holiday Program: separate dates for every program
 
@@ -50,19 +50,20 @@ PlayGym's name, age range, supervision and casual price come from its main edito
 
 ## Policies: one editor for shared documents
 
-Open **Essential > Policies** to replace a current policy PDF, update its title/description, or manage parent guides and older policies. Current policies are shared by the Policies page and the PlayGym page; update them once here. About now contains only the club story and people.
+Open **Essential > Policies** to replace a current policy PDF, update its title/description, or manage older policies. Current policies are shared by the Policies page and the PlayGym page; update them once here. About now contains only the club story and people.
 
 Upload a new PDF filename and select it, then save and check both pages. The editor changes the PDF link, not the text inside the document. Keep older files until existing links have been checked.
+
+App guides have their own page under **More > iClassPro App Guides**. Edit their PDFs in **Club information > iClassPro App Guides**. The retired news page no longer needs maintaining.
 
 ## Class bookings
 
 **View Classes** opens iClassPro directly. Manage actual class times, availability and enrolments there. The website no longer has a separate class-finder timetable to keep in sync. Website program descriptions and age/level text still need updating if those facts change.
 
-## Photos, news and documents
+## Photos and documents
 
 - Choose an existing photo or upload one, describe the activity, and select a crop position if necessary. A program may have no photos. Gallery size and layout are fixed.
 - Only UrbanGym has an **existing video** on/off switch. Replacing videos is outside the staff editor.
-- Use the news date format YYYY-MM-DD. The website formats that date and sorts updates; no second date or technical ID needs entering.
 - Upload the new calendar image in Term dates. Creating the calendar artwork happens outside the website editor.
 - Select/upload a replacement policy PDF in Essential > Policies. The editor changes the file link, not the words inside the PDF.
 - Use images the club has permission to publish. Do not delete or rename existing library files as an exercise; other pages may still link to them.
@@ -71,7 +72,7 @@ For an internal link use /playgym, /school-holidays, /contact or **/** for the h
 
 ## What stays fixed
 
-Branding, layout, navigation structure, street address/maps, homepage hero artwork and general promotional copy stay fixed. Ordinary staff do not need to manage search metadata, CSS, gallery dimensions, booking identifiers or video processing. Adding a new type of page, moving the club or changing enrolment integrations still needs technical help. Holiday programs, notices and news can be hidden; there is no general hide-any-page switch.
+Branding, layout, navigation structure, street address/maps, homepage hero artwork and general promotional copy stay fixed. Ordinary staff do not need to manage search metadata, CSS, gallery dimensions, booking identifiers or video processing. Adding a new type of page, moving the club or changing enrolment integrations still needs technical help. Holiday programs and notices can be hidden; there is no general hide-any-page switch.
 
 For a free-trial policy change, review the fixed trial buttons and copy with that helper. Existing trial/booking destinations for regular program pages are retained.
 

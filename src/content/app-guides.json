@@ -1,0 +1,21 @@
+{
+  "title": "IClassPro App Guides",
+  "intro": "Step-by-step PDF guides for common parent portal tasks.",
+  "documents": [
+    {
+      "title": "Book a Make Up",
+      "href": "/guides/book-a-make-up-in-the-iclasspro-app.pdf",
+      "description": "How to book an available make up class through the IClassPro app."
+    },
+    {
+      "title": "Make a Payment",
+      "href": "/guides/make-a-payment-in-the-iclasspro-app.pdf",
+      "description": "How to review your account and make a payment in the IClassPro app."
+    },
+    {
+      "title": "Mark an Absence",
+      "href": "/guides/mark-an-absence-in-the-iclasspro-app.pdf",
+      "description": "How to let us know when your child will be away from class."
+    }
+  ]
+}

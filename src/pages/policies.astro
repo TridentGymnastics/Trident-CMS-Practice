@@ -7,8 +7,8 @@ import policiesData from '../content/policies.json';
 const ld = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "Policies & Parent Guides",
-  "description": "Parent guides and policy documents for Trident Gymnastics",
+  "name": "Policies",
+  "description": "Important policy documents for Trident Gymnastics families",
   "isPartOf": {
     "@type": "WebSite",
     "name": "Trident Gymnastics"
@@ -16,18 +16,22 @@ const ld = {
 };
 ---
 
-<Layout title="Policies & Parent Guides" description="Helpful parent guides for the IClassPro app, plus current policies and terms for Trident Gymnastics members.">
+<Layout title="Policies" description="Current tuition, payment, member protection, media and privacy policies for Trident Gymnastics families.">
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(ld)}></script>
   </Fragment>
 
-  <main>
+
     <UniversalHero
       title={policiesData.title}
       subtitle={policiesData.intro}
       colorScheme="primary-secondary"
     />
     <PoliciesSection policies={policiesData} />
-  </main>
+    <p id="iclasspro-guides" class="guide-link">Need help with payments, absences or make-up classes in the app? <a href="/app-guides">View iClassPro App Guides</a>.</p>
 </Layout>
 
+
+<style>
+.guide-link { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; text-align: center; }
+</style>

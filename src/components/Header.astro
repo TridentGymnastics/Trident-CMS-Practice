@@ -33,9 +33,9 @@ function isActiveLink(href: string): boolean {
 const classesPages = ['/classes', '/preschool', '/edugym', '/urbangym', '/agc'];
 const isClassesActive = classesPages.some(page => currentPath.startsWith(page));
 
-// Check if About dropdown should be active
-const aboutPages = ['/about', '/whats-happening', '/contact', '/policies', '/careers'];
-const isAboutActive = aboutPages.some(page => currentPath.startsWith(page));
+// Check if More dropdown should be active
+const morePages = ['/about', '/app-guides', '/contact', '/policies', '/careers'];
+const isMoreActive = morePages.some(page => currentPath.startsWith(page));
 ---
 
 <header id="site-header" class="site-header" role="banner">
@@ -86,15 +86,15 @@ const isAboutActive = aboutPages.some(page => currentPath.startsWith(page));
         <li><a class="tab" href="/dates" aria-current={isActiveLink('/dates') ? 'page' : undefined}>Dates</a></li>
 
         <li class="has-dropdown">
-          <a class={`tab ${isAboutActive ? 'current' : ''}`} href="/about" aria-haspopup="true" aria-expanded="false" aria-current={isAboutActive ? 'page' : undefined}>
-            About ▾
+          <a class={`tab ${isMoreActive ? 'current' : ''}`} href="/about" aria-haspopup="true" aria-expanded="false" aria-current={isMoreActive ? 'page' : undefined}>
+            More ▾
           </a>
           <div class="dropdown" role="menu">
             <a href="/about" role="menuitem">About</a>
-            <a href="/whats-happening" role="menuitem">What's Happening</a>
-            <a href="/contact" role="menuitem">Contact</a>
+            <a href="/app-guides" role="menuitem">iClassPro App Guides</a>
+            <a href="/contact" role="menuitem">Contact &amp; Find Us</a>
             <a href="/careers" role="menuitem">Careers</a>
-            <a href="/policies" role="menuitem">Policies & Guides</a>
+            <a href="/policies" role="menuitem" class="important-link">Policies <span>Important</span></a>
           </div>
         </li>
 
@@ -115,6 +115,8 @@ const isAboutActive = aboutPages.some(page => currentPath.startsWith(page));
 </header>
 
 <style>
+  .dropdown .important-link { background: #fff3be; color: #191952; font-weight: 700; }
+  .important-link span { font-size: .7rem; margin-left: .5rem; text-transform: uppercase; }
   .find-class-btn {
     display: inline-flex;
     align-items: center;

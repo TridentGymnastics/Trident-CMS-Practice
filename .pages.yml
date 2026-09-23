@@ -1,10 +1,9 @@
-# Staff essentials first. Check the repository name before saving live changes.
 settings:
   content:
     merge: true
 media:
   - name: program_photos
-    label: Program and news photos
+    label: Program photos
     input: src/assets/images
     output: /src/assets/images
     extensions:
@@ -77,7 +76,8 @@ content:
                   label: Coming soon — dates not announced
                 - name: closed
                   label: Closed — program has finished
-            description: Also controls the homepage promotion. Closed/Coming soon hide old dates and session details.
+            description: Also controls the homepage promotion. Closed/Coming soon hide old
+              dates and session details.
           - name: season
             label: Season
             type: select
@@ -92,14 +92,15 @@ content:
                   label: Spring - flowers
                 - name: summer
                   label: Summer - sunshine
-            description: Themes holiday pages and homepage holiday sections. Existing uploaded PDFs and images are not
-              recoloured.
+            description: Themes holiday pages and homepage holiday sections. Existing
+              uploaded PDFs and images are not recoloured.
           - name: dates
             label: Holiday dates
             type: string
             required: true
-            description: Overall holiday date range shown in the heading and homepage promotion. Enter actual running
-              dates separately under each program.
+            description: Overall holiday date range shown in the heading and homepage
+              promotion. Enter actual running dates separately under each
+              program.
           - name: notice
             label: Optional closure or extra information
             type: text
@@ -130,7 +131,8 @@ content:
                 label: Week 1
                 type: object
                 required: false
-                description: Add or remove running dates here. Also update bookings in iClassPro.
+                description: Add or remove running dates here. Also update bookings in
+                  iClassPro.
                 fields:
                   - name: date
                     label: Date
@@ -408,7 +410,8 @@ content:
                 label: Week 2
                 type: object
                 required: false
-                description: Add or remove running dates here. Also update bookings in iClassPro.
+                description: Add or remove running dates here. Also update bookings in
+                  iClassPro.
                 fields:
                   - name: date
                     label: Date
@@ -701,7 +704,8 @@ content:
                 label: Week 1
                 type: object
                 required: false
-                description: Add or remove running dates here. Also update bookings in iClassPro.
+                description: Add or remove running dates here. Also update bookings in
+                  iClassPro.
                 fields:
                   - name: date
                     label: Date
@@ -979,7 +983,8 @@ content:
                 label: Week 2
                 type: object
                 required: false
-                description: Add or remove running dates here. Also update bookings in iClassPro.
+                description: Add or remove running dates here. Also update bookings in
+                  iClassPro.
                 fields:
                   - name: date
                     label: Date
@@ -1288,7 +1293,8 @@ content:
                 label: Week 1
                 type: object
                 required: false
-                description: Add or remove running dates here. Also update bookings in iClassPro.
+                description: Add or remove running dates here. Also update bookings in
+                  iClassPro.
                 fields:
                   - name: activity
                     label: Name
@@ -1565,12 +1571,14 @@ content:
                   max: 28
                   collapsible:
                     collapsed: true
-                    summary: "{fields.activity} | {fields.date} | {fields.start_time} - {fields.end_time}"
+                    summary: "{fields.activity} | {fields.date} | {fields.start_time} -
+                      {fields.end_time}"
               - name: week_2
                 label: Week 2
                 type: object
                 required: false
-                description: Add or remove running dates here. Also update bookings in iClassPro.
+                description: Add or remove running dates here. Also update bookings in
+                  iClassPro.
                 fields:
                   - name: activity
                     label: Name
@@ -1847,7 +1855,8 @@ content:
                   max: 28
                   collapsible:
                     collapsed: true
-                    summary: "{fields.activity} | {fields.date} | {fields.start_time} - {fields.end_time}"
+                    summary: "{fields.activity} | {fields.date} | {fields.start_time} -
+                      {fields.end_time}"
               - name: title
                 label: Program name
                 type: string
@@ -1900,37 +1909,6 @@ content:
               collapsible:
                 collapsed: true
                 summary: "{fields.title}"
-          - name: guides
-            label: Parent guides
-            type: object
-            required: true
-            fields:
-              - name: documents
-                label: Guides
-                type: object
-                required: false
-                fields:
-                  - name: title
-                    label: Document title
-                    type: string
-                    required: true
-                  - name: href
-                    label: PDF document
-                    type: file
-                    required: true
-                    options:
-                      media: guides
-                      extensions:
-                        - pdf
-                  - name: description
-                    label: Description
-                    type: text
-                list:
-                  min: 0
-                  max: 30
-                  collapsible:
-                    collapsed: true
-                    summary: "{fields.title}"
           - name: legacy
             label: Older policies
             type: object
@@ -1971,7 +1949,8 @@ content:
             label: Show this notice
             type: boolean
             required: true
-            description: Off hides the notice on every page. Saving changes rebuilds the practice site.
+            description: Off hides the notice on every page. Saving changes rebuilds the
+              practice site.
           - name: tone
             label: Notice colour
             type: select
@@ -2035,8 +2014,8 @@ content:
             label: Adult helper required
             type: boolean
             required: true
-            description: Updates supervision labels on the website. Also review your written descriptions and policies
-              when changing how sessions operate.
+            description: Updates supervision labels on the website. Also review your written
+              descriptions and policies when changing how sessions operate.
           - name: tagline
             label: Short description
             type: text
@@ -2076,7 +2055,8 @@ content:
                     type: string
                     required: true
                     pattern:
-                      regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm) [–—-] (?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
+                      regex: ^(?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm) [–—-]
+                        (?:[1-9]|1[0-2]):[0-5][0-9](?:am|pm)$
                       message: Use 11:00am - 12:30pm, with spaces around the dash.
                   - name: isNew
                     label: Show New badge
@@ -2087,9 +2067,10 @@ content:
                   collapsible:
                     collapsed: true
                     summary: "{fields.day}"
-                description: Updates regular drop-in times on the PlayGym page. Holiday times are edited separately in School
-                  holidays.
-            description: Regular drop-in days and times. Holiday opening times are in School holidays.
+                description: Updates regular drop-in times on the PlayGym page. Holiday times
+                  are edited separately in School holidays.
+            description: Regular drop-in days and times. Holiday opening times are in School
+              holidays.
           - name: prices
             label: Prices and passes
             type: object
@@ -2114,7 +2095,8 @@ content:
                   collapsible:
                     collapsed: true
                     summary: "{fields.label}"
-                description: Keep the casual single-visit price first; School holidays uses that price too.
+                description: Keep the casual single-visit price first; School holidays uses that
+                  price too.
           - name: media
             label: Photos
             type: object
@@ -2173,7 +2155,8 @@ content:
             label: Program name
             type: string
             required: true
-            description: Updates the page, menu, program cards and gallery heading. The page address stays the same.
+            description: Updates the page, menu, program cards and gallery heading. The page
+              address stays the same.
             options:
               maxlength: 60
           - name: blurb
@@ -2208,8 +2191,8 @@ content:
                 required: true
                 options:
                   maxlength: 60
-                description: Level name only, without the program prefix. The program name is added automatically where
-                  needed.
+                description: Level name only, without the program prefix. The program name is
+                  added automatically where needed.
               - name: tag
                 label: School year label
                 type: string
@@ -2236,7 +2219,8 @@ content:
             label: Foundation on the preschool page
             type: object
             required: true
-            description: Its name and school-year label come from the Foundation level in the EduGym editor.
+            description: Its name and school-year label come from the Foundation level in
+              the EduGym editor.
             fields:
               - name: description
                 label: Description
@@ -2300,7 +2284,8 @@ content:
             label: Program name
             type: string
             required: true
-            description: Updates the page, menu, program cards and gallery heading. The page address stays the same.
+            description: Updates the page, menu, program cards and gallery heading. The page
+              address stays the same.
             options:
               maxlength: 60
           - name: blurb
@@ -2341,8 +2326,8 @@ content:
                 required: true
                 options:
                   maxlength: 60
-                description: Level name only, without the program prefix. The program name is added automatically where
-                  needed.
+                description: Level name only, without the program prefix. The program name is
+                  added automatically where needed.
               - name: tag
                 label: School year label
                 type: string
@@ -2371,8 +2356,8 @@ content:
               collapsible:
                 collapsed: true
                 summary: "{fields.name}"
-            description: Expand a level to edit its name, school-year label and description. Bookings and class times are
-              managed in iClassPro.
+            description: Expand a level to edit its name, school-year label and description.
+              Bookings and class times are managed in iClassPro.
           - name: media
             label: Photos
             type: object
@@ -2431,7 +2416,8 @@ content:
             label: Program name
             type: string
             required: true
-            description: Updates the page, menu, program cards and gallery heading. The page address stays the same.
+            description: Updates the page, menu, program cards and gallery heading. The page
+              address stays the same.
             options:
               maxlength: 60
           - name: blurb
@@ -2472,8 +2458,8 @@ content:
                 required: true
                 options:
                   maxlength: 60
-                description: Level name only, without the program prefix. The program name is added automatically where
-                  needed.
+                description: Level name only, without the program prefix. The program name is
+                  added automatically where needed.
               - name: tag
                 label: School year label
                 type: string
@@ -2502,8 +2488,8 @@ content:
               collapsible:
                 collapsed: true
                 summary: "{fields.name}"
-            description: Expand a level to edit its name, school-year label and description. Bookings and class times are
-              managed in iClassPro.
+            description: Expand a level to edit its name, school-year label and description.
+              Bookings and class times are managed in iClassPro.
           - name: media
             label: Photos
             type: object
@@ -2552,7 +2538,8 @@ content:
                 label: Existing video
                 type: object
                 required: true
-                description: Show or hide the existing video. Photos are the supported upload option for staff.
+                description: Show or hide the existing video. Photos are the supported upload
+                  option for staff.
                 fields:
                   - name: enabled
                     label: Show video
@@ -2572,7 +2559,8 @@ content:
             label: Program name
             type: string
             required: true
-            description: Updates the page, menu, program cards and gallery heading. The page address stays the same.
+            description: Updates the page, menu, program cards and gallery heading. The page
+              address stays the same.
             options:
               maxlength: 60
           - name: blurb
@@ -2613,8 +2601,8 @@ content:
                 required: true
                 options:
                   maxlength: 60
-                description: Level name only, without the program prefix. The program name is added automatically where
-                  needed.
+                description: Level name only, without the program prefix. The program name is
+                  added automatically where needed.
               - name: description
                 label: Level description
                 type: text
@@ -2625,8 +2613,8 @@ content:
               collapsible:
                 collapsed: true
                 summary: "{fields.name}"
-            description: Expand a level to edit its name, school-year label and description. Bookings and class times are
-              managed in iClassPro.
+            description: Expand a level to edit its name, school-year label and description.
+              Bookings and class times are managed in iClassPro.
           - name: media
             label: Photos
             type: object
@@ -2734,69 +2722,35 @@ content:
     label: Club information
     type: group
     items:
-      - name: announcements
-        label: News updates
+      - name: app_guides
+        label: iClassPro App Guides
         type: file
-        path: src/content/announcements.json
+        path: src/content/app-guides.json
         format: json
-        operations:
-          create: false
-          rename: false
-          delete: false
         fields:
-          - name: items
-            label: Updates
+          - name: documents
+            label: Guides
             type: object
             required: false
             fields:
-              - name: live
-                label: Publish this update
-                type: boolean
-                required: true
-                description: Switch off to hide without deleting. This appears on the What's happening page.
               - name: title
-                label: Headline
+                label: Document title
                 type: string
                 required: true
-              - name: dateISO
-                label: Date
-                type: string
+              - name: href
+                label: PDF document
+                type: file
                 required: true
-                pattern:
-                  regex: ^\d{4}-\d{2}-\d{2}$
-                  message: Use YYYY-MM-DD, for example 2026-09-22.
-                description: Use YYYY-MM-DD. This is displayed and sorts updates newest first.
-              - name: body
-                label: Paragraphs
+                options:
+                  media: guides
+                  extensions:
+                    - pdf
+              - name: description
+                label: Description
                 type: text
-                required: true
-                list:
-                  min: 1
-                  max: 20
-              - name: images
-                label: Photos
-                type: object
-                required: false
-                fields:
-                  - name: src
-                    label: Photo
-                    type: image
-                    required: true
-                    options:
-                      media: program_photos
-                  - name: alt
-                    label: Describe this photo
-                    type: string
-                    required: true
-                list:
-                  min: 0
-                  max: 4
-                  collapsible:
-                    collapsed: true
-                    summary: "{fields.alt}"
             list:
               min: 0
-              max: 100
+              max: 30
               collapsible:
                 collapsed: true
                 summary: "{fields.title}"

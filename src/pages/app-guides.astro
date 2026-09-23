@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PoliciesSection from '../components/about/PoliciesSection.astro';
+import guides from '../content/app-guides.json';
+---
+
+<Layout title="iClassPro App Guides" description="Step-by-step guides for payments, absences and make-up classes in the iClassPro app.">
+  <PoliciesSection policies={{ guides }} guidesOnly />
+  <p class="help">Need a hand? <a href="/contact">Contact our team</a>. For club terms and payment rules, <a href="/policies">read our policies</a>.</p>
+</Layout>
+
+<style>
+  .help { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; text-align: center; }
+</style>

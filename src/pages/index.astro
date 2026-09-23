@@ -9,6 +9,7 @@ import path from 'path';
 
 // Import new components
 import AboutTrident from '../components/AboutTrident.astro';
+import FamilyInformation from '../components/FamilyInformation.astro';
 import Testimonials from '../components/Testimonials.astro';
 import OperatingHours from '../components/OperatingHours.astro';
 import HolidaySeasonDecor from '../components/HolidaySeasonDecor.astro';
@@ -229,6 +230,7 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
   <div class="container">
     <SimpleHolidayPromo />
   </div>
+  <FamilyInformation />
 
   <section class="features section section-band" id="classes" aria-labelledby="classes-heading">
     <div class="container">

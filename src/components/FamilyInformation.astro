@@ -1,0 +1,40 @@
+<section class="family-info" aria-labelledby="family-info-heading">
+  <div class="container">
+    <h2 id="family-info-heading">Helpful information for families</h2>
+    <div class="family-links">
+      <a class="family-card policies" href="/policies">
+        <span class="tag">Important</span>
+        <h3>Club policies</h3>
+        <p>Please read our tuition, payment and club policies.</p>
+        <span class="action">Read our policies &rarr;</span>
+      </a>
+      <a class="family-card" href="/contact#getting-here">
+        <span class="tag">Planning your visit</span>
+        <h3>Contact &amp; find us</h3>
+        <p>Find our entrance and parking with three arrival photos, plus ways to get in touch.</p>
+        <span class="action">See how to get here &rarr;</span>
+      </a>
+      <a class="family-card" href="/app-guides">
+        <span class="tag">Parent app help</span>
+        <h3>iClassPro App Guides</h3>
+        <p>Simple PDF guides for payments, absences and make-up classes.</p>
+        <span class="action">View the guides &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .family-info { padding: 2.5rem 0; background: #f5f9fd; }
+  h2 { color: #191952; font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 1.5rem; }
+  .family-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+  .family-card { display: flex; flex-direction: column; align-items: flex-start; padding: 1.5rem; border: 1px solid #d6e3ef; border-radius: 16px; background: white; color: #191952; text-decoration: none; }
+  .policies { background: #fff8d8; border-color: #edce58; }
+  .tag { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+  h3 { font-size: 1.35rem; margin: .65rem 0; }
+  p { line-height: 1.6; margin: 0 0 1rem; }
+  .action { margin-top: auto; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+  .family-card:hover { border-color: #1674bc; box-shadow: 0 5px 20px #19195215; }
+  .family-card:focus-visible { outline: 3px solid #1674bc; outline-offset: 4px; }
+  @media (max-width: 760px) { .family-links { grid-template-columns: 1fr; } }
+</style>

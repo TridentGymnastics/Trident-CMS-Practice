@@ -17,7 +17,7 @@ const routes = [
   { path: '/school-holidays/skill-workshops', priority: '0.7', changefreq: 'weekly' },
   { path: '/dates', priority: '0.6', changefreq: 'monthly' },
   { path: '/about', priority: '0.6', changefreq: 'monthly' },
-  { path: '/whats-happening', priority: '0.6', changefreq: 'weekly' },
+  { path: '/app-guides', priority: '0.6', changefreq: 'monthly' },
   { path: '/contact', priority: '0.8', changefreq: 'monthly' },
   { path: '/careers', priority: '0.5', changefreq: 'monthly' },
   { path: '/policies', priority: '0.4', changefreq: 'yearly' }

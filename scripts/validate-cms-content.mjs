@@ -96,11 +96,6 @@ function checkSessions(sessions, where) {
 if (!errors.length) {
   const notice = readJSON('src/content/site-notice.json');
   if (!!notice.link_text !== !!notice.link_href) fail('Site-wide notice', 'supply both link text and link destination, or leave both blank');
-  const news = readJSON('src/content/announcements.json').items ?? [];
-  for (const item of news) {
-    const date = new Date(`${item.dateISO}T00:00:00Z`);
-    if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== item.dateISO) fail(`News ${item.title}`, 'use a real calendar date');
-  }
   const playgym = readJSON('src/content/playgym.json');
   const club = readJSON('src/content/club-details.json');
   if (!/^0[23478]\d{8}$/.test(club.phone.replace(/\s/g, ''))) fail('Phone number', 'use a ten-digit Australian phone number');

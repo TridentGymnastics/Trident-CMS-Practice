@@ -1949,8 +1949,8 @@ content:
             label: Show this notice
             type: boolean
             required: true
-            description: Off hides the notice on every page. Saving changes rebuilds the
-              practice site.
+            description: Shows on every page. Saving updates the connected website after
+              deployment.
           - name: tone
             label: Notice colour
             type: select
@@ -1961,6 +1961,18 @@ content:
                   label: Blue information notice
                 - name: important
                   label: Yellow important notice
+                - name: success
+                  label: Green
+                - name: urgent
+                  label: Rose
+                - name: lavender
+                  label: Lavender
+                - name: peach
+                  label: Peach
+                - name: navy
+                  label: Navy
+                - name: teal
+                  label: Teal
           - name: heading
             label: Heading
             type: string
@@ -2180,6 +2192,22 @@ content:
                   label: Blue to navy
                 - name: secondary-accent
                   label: Navy to yellow
+                - name: ocean
+                  label: Ocean blue
+                - name: forest
+                  label: Forest green
+                - name: violet
+                  label: Violet
+                - name: berry
+                  label: Berry
+                - name: sunshine
+                  label: Sunshine
+                - name: mint
+                  label: Fresh mint
+                - name: peach
+                  label: Peach
+                - name: lavender
+                  label: Soft lavender
           - name: adventurers
             label: Adventurers class
             type: object
@@ -2309,6 +2337,22 @@ content:
                   label: Blue to navy
                 - name: secondary-accent
                   label: Navy to yellow
+                - name: ocean
+                  label: Ocean blue
+                - name: forest
+                  label: Forest green
+                - name: violet
+                  label: Violet
+                - name: berry
+                  label: Berry
+                - name: sunshine
+                  label: Sunshine
+                - name: mint
+                  label: Fresh mint
+                - name: peach
+                  label: Peach
+                - name: lavender
+                  label: Soft lavender
           - name: levels
             label: Existing programs / levels
             type: object
@@ -2441,6 +2485,22 @@ content:
                   label: Blue to navy
                 - name: secondary-accent
                   label: Navy to yellow
+                - name: ocean
+                  label: Ocean blue
+                - name: forest
+                  label: Forest green
+                - name: violet
+                  label: Violet
+                - name: berry
+                  label: Berry
+                - name: sunshine
+                  label: Sunshine
+                - name: mint
+                  label: Fresh mint
+                - name: peach
+                  label: Peach
+                - name: lavender
+                  label: Soft lavender
           - name: levels
             label: Existing programs / levels
             type: object
@@ -2584,6 +2644,22 @@ content:
                   label: Blue to navy
                 - name: secondary-accent
                   label: Navy to yellow
+                - name: ocean
+                  label: Ocean blue
+                - name: forest
+                  label: Forest green
+                - name: violet
+                  label: Violet
+                - name: berry
+                  label: Berry
+                - name: sunshine
+                  label: Sunshine
+                - name: mint
+                  label: Fresh mint
+                - name: peach
+                  label: Peach
+                - name: lavender
+                  label: Soft lavender
           - name: levels
             label: Existing programs / levels
             type: object
@@ -2722,6 +2798,84 @@ content:
     label: Club information
     type: group
     items:
+      - name: homepage
+        label: Homepage (optional)
+        type: file
+        path: src/content/homepage.json
+        format: json
+        operations:
+          create: false
+          rename: false
+          delete: false
+        fields:
+          - name: heading
+            label: Main heading
+            type: string
+            required: true
+            options:
+              maxlength: 100
+          - name: introduction
+            label: Welcome description
+            type: text
+            required: true
+            options:
+              maxlength: 350
+          - name: hero_style
+            label: Hero colour preset
+            type: select
+            required: true
+            options:
+              values:
+                - name: original
+                  label: Original Trident
+                - name: ocean
+                  label: Ocean
+                - name: violet
+                  label: Violet
+                - name: forest
+                  label: Forest
+                - name: navy
+                  label: Navy
+          - name: trial_label
+            label: Trial button label
+            type: string
+            required: true
+            options:
+              maxlength: 40
+          - name: classes_label
+            label: Classes button label
+            type: string
+            required: true
+            options:
+              maxlength: 40
+          - name: classes_heading
+            label: Programs section heading
+            type: string
+            required: true
+            options:
+              maxlength: 120
+          - name: classes_intro
+            label: Programs section introduction
+            type: text
+            required: true
+            options:
+              maxlength: 400
+          - name: show_holiday_promo
+            label: Show holiday promotion
+            type: boolean
+            default: true
+          - name: show_season_decoration
+            label: Show seasonal decorations on homepage
+            type: boolean
+            default: true
+          - name: show_testimonials
+            label: Show parent testimonials
+            type: boolean
+            default: true
+          - name: show_about
+            label: Show club introduction
+            type: boolean
+            default: true
       - name: app_guides
         label: iClassPro App Guides
         type: file

@@ -3,7 +3,7 @@ import notice from '../content/site-notice.json';
 ---
 
 {notice.enabled && (
-  <aside class:list={['site-notice', { 'site-notice--important': notice.tone === 'important' }]} aria-label="Club notice" data-site-notice>
+  <aside class={`site-notice site-notice--${notice.tone}`} aria-label="Club notice" data-site-notice>
     <div class="container">
       <strong>{notice.heading}</strong>
       {notice.message && <span>{notice.message}</span>}
@@ -19,4 +19,10 @@ import notice from '../content/site-notice.json';
   strong { font-weight: 700; }
   span { white-space: pre-line; }
   a { color: inherit; text-decoration: underline; font-weight: 700; }
+.site-notice--success { background: #dcfce7; color: #14532d; border-color: #14532d; }
+.site-notice--urgent { background: #ffe4e6; color: #881337; border-color: #881337; }
+.site-notice--lavender { background: #ede9fe; color: #4c1d95; border-color: #4c1d95; }
+.site-notice--peach { background: #ffedd5; color: #7c2d12; border-color: #7c2d12; }
+.site-notice--navy { background: #151957; color: #ffffff; border-color: #ffffff; }
+.site-notice--teal { background: #ccfbf1; color: #134e4a; border-color: #134e4a; }
 </style>

@@ -72,7 +72,7 @@ For an internal link use /playgym, /school-holidays, /contact or **/** for the h
 
 ## What stays fixed
 
-Branding, layout, navigation structure, street address/maps, homepage hero artwork and general promotional copy stay fixed. Ordinary staff do not need to manage search metadata, CSS, gallery dimensions, booking identifiers or video processing. Adding a new type of page, moving the club or changing enrolment integrations still needs technical help. Holiday programs and notices can be hidden; there is no general hide-any-page switch.
+Branding, layout, navigation structure, street address/maps, homepage hero artwork and the remaining promotional copy stay fixed. Ordinary staff do not need to manage search metadata, CSS, gallery dimensions, booking identifiers or video processing. Adding a new type of page, moving the club or changing enrolment integrations still needs technical help. Holiday programs and notices can be hidden; there is no general hide-any-page switch.
 
 For a free-trial policy change, review the fixed trial buttons and copy with that helper. Existing trial/booking destinations for regular program pages are retained.
 
@@ -89,3 +89,9 @@ Ask a staff member to do this in practice without coaching:
 Restore test content when finished. Confirm club-controlled accounts, a second authorised person who can recover access, and a named helper for a failed build. A genuine upload/save/reopen check and staff account permissions still require this hands-on exercise.
 
 The permanent flow is Pages CMS -> existing Trident-Gymnastics GitHub repository -> existing Netlify website. See CMS-MIGRATION.md for launch status and the practice refresh procedure.
+
+## Optional homepage and colour choices
+
+Open **Club information > Homepage (optional)** to change the main heading, welcome text, button labels and programs introduction. Choose a hero colour preset, or switch the holiday promotion, seasonal decorations, testimonials and club introduction on/off. Booking destinations, family information links, program cards and opening hours retain their established connections. Change program card descriptions in the program editors.
+
+Notices offer eight colour choices. Program headers offer thirteen choices, including Ocean, Forest, Violet, Berry, Sunshine, Mint, Peach and Lavender. These are prepared palettes. Notice colours do not change urgency behaviour; use clear wording for closures. Homepage colours are separate from the holiday season selection.

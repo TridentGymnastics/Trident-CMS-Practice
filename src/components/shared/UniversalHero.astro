@@ -13,7 +13,7 @@ export interface Props {
   primaryCtaHref?: string;
   secondaryCta?: string;
   secondaryCtaHref?: string;
-  colorScheme?: 'primary' | 'secondary' | 'accent' | 'primary-secondary' | 'primary-accent' | 'secondary-accent';
+  colorScheme?: 'primary' | 'secondary' | 'accent' | 'primary-secondary' | 'primary-accent' | 'secondary-accent' | 'ocean' | 'forest' | 'violet' | 'berry' | 'sunshine' | 'mint' | 'peach' | 'lavender';
 }
 
 const { title, subtitle, eyebrow, note, noteHref, noteCta, primaryCta, primaryCtaHref, secondaryCta, secondaryCtaHref = "/contact", colorScheme = 'primary-secondary' } = Astro.props;
@@ -407,4 +407,24 @@ const { title, subtitle, eyebrow, note, noteHref, noteCta, primaryCta, primaryCt
       padding-bottom: 1.1rem;
     }
   }
+.hero-ocean { background: linear-gradient(135deg, #075985, #164e63); }
+.hero-ocean h1, .hero-ocean .hero-subtitle, .hero-ocean .hero-note { color: #ffffff; }
+.hero-forest { background: linear-gradient(135deg, #14532d, #166534); }
+.hero-forest h1, .hero-forest .hero-subtitle, .hero-forest .hero-note { color: #ffffff; }
+.hero-violet { background: linear-gradient(135deg, #4c1d95, #581c87); }
+.hero-violet h1, .hero-violet .hero-subtitle, .hero-violet .hero-note { color: #ffffff; }
+.hero-berry { background: linear-gradient(135deg, #831843, #9d174d); }
+.hero-berry h1, .hero-berry .hero-subtitle, .hero-berry .hero-note { color: #ffffff; }
+.hero-sunshine { background: linear-gradient(135deg, #fff3b0, #ffd76a); }
+.hero-sunshine h1, .hero-sunshine .hero-subtitle, .hero-sunshine .hero-note { color: #151957; }
+.hero-mint { background: linear-gradient(135deg, #dcfce7, #a7f3d0); }
+.hero-mint h1, .hero-mint .hero-subtitle, .hero-mint .hero-note { color: #151957; }
+.hero-peach { background: linear-gradient(135deg, #ffedd5, #fed7aa); }
+.hero-peach h1, .hero-peach .hero-subtitle, .hero-peach .hero-note { color: #151957; }
+.hero-lavender { background: linear-gradient(135deg, #ede9fe, #ddd6fe); }
+.hero-lavender h1, .hero-lavender .hero-subtitle, .hero-lavender .hero-note { color: #151957; }
+:is(.hero-sunshine, .hero-mint, .hero-peach, .hero-lavender) { color: #151957; }
+:is(.hero-sunshine, .hero-mint, .hero-peach, .hero-lavender) .btn-secondary, :is(.hero-sunshine, .hero-mint, .hero-peach, .hero-lavender) .btn-primary { background: #151957; color: #fff; border-color: #151957; }
+:is(.hero-sunshine, .hero-mint, .hero-peach, .hero-lavender) .hero-note { background: #fff; border-color: #15195733; }
+:is(.hero-sunshine, .hero-mint, .hero-peach, .hero-lavender) .primary-cta { background: #fff; color: #151957; }
 </style>

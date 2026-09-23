@@ -1,5 +1,6 @@
 ---
 import { programNames as names, programPages, playgym } from '../data/programContent';
+import homepage from '../content/homepage.json';
 import Layout from '../layouts/Layout.astro';
 import { siteConfig } from '../config/site';
 import { Picture } from 'astro:assets';
@@ -117,7 +118,7 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
   </div>
   -->
 
-  <section class="hero section">
+  <section class={`hero section home-style-${homepage.hero_style}`}>
     <div class="hero-background">
       <!-- Dynamic Multi-Media Carousel -->
       <div class="hero-carousel">
@@ -189,23 +190,23 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
       </div>
       <div class="hero-overlay"></div>
     </div>
-    {holiday.status === 'open' && <HolidaySeasonDecor />}
+    {homepage.show_season_decoration && holiday.status === 'open' && <HolidaySeasonDecor />}
     <div class="container hero-content">
-      <h1 id="hero-title" data-edit-file="src/pages/index.astro" data-edit-field="hero_title">Gymnastics for confident, active kids in Ringwood</h1>
+      <h1 id="hero-title" data-edit-file="src/pages/index.astro" data-edit-field="hero_title">{homepage.heading}</h1>
       <div class="hero-tagline-main" id="hero-subtitle" data-edit-file="src/pages/index.astro" data-edit-field="hero_subtitle" aria-label="Empower with movement">
         <span class="empower">EMPOWER</span>
         <span class="with">with</span>
         <span class="movement">MOVEMENT</span>
       </div>
-      <p class="hero-local-copy">Help your child build strength, coordination and confidence in a safe, supportive gymnastics club on Maroondah Highway.</p>
+      <p class="hero-local-copy">{homepage.introduction}</p>
       <div class="cta-buttons">
-        <a href="https://portal.iclasspro.com/trident" class="cta-trial cta-trial--lg cta-pulse" target="_blank" rel="noopener" aria-label="Book your free trial class">
-          <span class="cta-label">Book Free Trial</span>
+        <a href="https://portal.iclasspro.com/trident" class="cta-trial cta-trial--lg cta-pulse" target="_blank" rel="noopener" aria-label={homepage.trial_label}>
+          <span class="cta-label">{homepage.trial_label}</span>
           <svg class="cta-icon" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M13 5l7 7-7 7M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </a>
-        <a href="#classes" class="btn btn-secondary smooth-scroll">View Classes</a>
+        <a href="#classes" class="btn btn-secondary smooth-scroll">{homepage.classes_label}</a>
       </div>
     </div>
   </section>
@@ -228,14 +229,14 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
     </div>
   </section>
   <div class="container">
-    <SimpleHolidayPromo />
+    {homepage.show_holiday_promo && <SimpleHolidayPromo />}
   </div>
   <FamilyInformation />
 
   <section class="features section section-band" id="classes" aria-labelledby="classes-heading">
     <div class="container">
-      <h2 id="classes-heading" data-edit-file="src/pages/index.astro" data-edit-field="classes_title">Recreational gymnastics classes in Ringwood</h2>
-      <p class="section-intro">From preschool movement to school-age gymnastics, Trident offers coached programs where children can learn skills, build confidence and enjoy moving with support.</p>
+      <h2 id="classes-heading" data-edit-file="src/pages/index.astro" data-edit-field="classes_title">{homepage.classes_heading}</h2>
+      <p class="section-intro">{homepage.classes_intro}</p>
       <div class="feature-grid">
         <div class="card feature-card card-accent">
           <a href="/preschool" class="card-image-link">
@@ -437,10 +438,10 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
   </section>
 
   <!-- Social proof -->
-  <Testimonials />
+  {homepage.show_testimonials && <Testimonials />}
 
   <!-- NEW: About Trident - Mission, Values, and Community -->
-  <AboutTrident />
+  {homepage.show_about && <AboutTrident />}
 
   <!-- NEW: Operating Hours & Contact Information -->
   <OperatingHours />
@@ -1561,6 +1562,10 @@ const heroImageUrl = assets.hero_image ? `/uploads/${assets.hero_image}` : null;
       margin-bottom: 2rem;
     }
   }
+.home-style-ocean .hero-overlay { background: #075985ed; }
+.home-style-violet .hero-overlay { background: #4c1d95ed; }
+.home-style-forest .hero-overlay { background: #14532ded; }
+.home-style-navy .hero-overlay { background: #151957ed; }
 </style>
 
 <script>

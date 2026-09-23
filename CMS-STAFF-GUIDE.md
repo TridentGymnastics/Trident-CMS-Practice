@@ -90,8 +90,8 @@ Restore test content when finished. Confirm club-controlled accounts, a second a
 
 The permanent flow is Pages CMS -> existing Trident-Gymnastics GitHub repository -> existing Netlify website. See CMS-MIGRATION.md for launch status and the practice refresh procedure.
 
-## Optional homepage and colour choices
+## Homepage and colour choices
 
-Open **Club information > Homepage (optional)** to change the main heading, welcome text, button labels and programs introduction. Choose a hero colour preset, or switch the holiday promotion, seasonal decorations, testimonials and club introduction on/off. Booking destinations, family information links, program cards and opening hours retain their established connections. Change program card descriptions in the program editors.
+Open **Club information > Homepage** to change the main heading, welcome text, button labels and programs introduction. Choose a hero colour preset, or switch the holiday promotion, seasonal decorations, testimonials and club introduction on/off. Booking destinations, family information links, program cards and opening hours retain their established connections. Change program card descriptions in the program editors.
 
 Notices offer eight colour choices. Program headers offer thirteen choices, including Ocean, Forest, Violet, Berry, Sunshine, Mint, Peach and Lavender. These are prepared palettes. Notice colours do not change urgency behaviour; use clear wording for closures. Homepage colours are separate from the holiday season selection.

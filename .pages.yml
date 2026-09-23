@@ -2799,7 +2799,7 @@ content:
     type: group
     items:
       - name: homepage
-        label: Homepage (optional)
+        label: Homepage
         type: file
         path: src/content/homepage.json
         format: json

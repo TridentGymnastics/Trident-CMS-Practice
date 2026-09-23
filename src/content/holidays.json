@@ -80,7 +80,7 @@
   ],
   "workshops": [
     {
-      "enabled": false,
+      "enabled": true,
       "week_1": [
         {
           "activity": "Handstands & Cartwheels",

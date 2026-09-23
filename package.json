@@ -17,7 +17,8 @@
     "verify:holidays": "tsx scripts/verify-holidays-content.ts",
     "assets:sync": "powershell -NoProfile -Command \"New-Item -ItemType Directory -Force 'src/assets/images/homepage' | Out-Null; Copy-Item -Path 'public/Images/Homepage/*.jpg','public/Images/Homepage/*.jpeg' -Destination 'src/assets/images/homepage' -Force\"",
     "assets:sync:dry": "powershell -NoProfile -Command \"Get-ChildItem 'public/Images/Homepage' -Include *.jpg,*.jpeg -File -Recurse | Select-Object FullName\"",
-    "verify:holiday-schedule": "node --test scripts/verify-holiday-schedule.mjs"
+    "verify:holiday-schedule": "node --test scripts/verify-holiday-schedule.mjs",
+    "verify:site-mode": "node --test scripts/verify-site-mode.mjs"
   },
   "dependencies": {
     "astro": "^6.1.7",

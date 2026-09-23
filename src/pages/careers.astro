@@ -1,7 +1,9 @@
 ---
+import { isNonProduction } from '../../site-mode.mjs';
 import { programNames as names, playgym } from '../data/programContent';
 import Layout from '../layouts/Layout.astro';
 import { siteConfig } from '../config/site';
+const FormTag = isNonProduction ? 'div' : 'form';
 ---
 
 <Layout
@@ -65,7 +67,19 @@ import { siteConfig } from '../config/site';
           <h2 class="form-wrap__heading">Tell us about yourself</h2>
           <p class="form-wrap__sub">Tell us a bit about yourself and why this kind of work appeals to you. We read every message.</p>
 
-          <div id="careers-preview-form"><p><strong>Practice preview: applications cannot be sent here.</strong></p><fieldset disabled style="border:0;margin:0;padding:0;min-width:0;">
+          <FormTag
+            id={isNonProduction ? 'careers-preview-form' : 'careers-form'}
+            name="careers-application"
+            method="POST"
+            enctype="multipart/form-data"
+            action="/careers?application=sent"
+            data-netlify={isNonProduction ? undefined : 'true'}
+            data-netlify-honeypot="website-url"
+            data-netlify-recaptcha={isNonProduction ? undefined : 'true'}
+            novalidate
+          >
+            {isNonProduction && <p><strong>Preview: applications cannot be sent here.</strong></p>}
+            <fieldset disabled={isNonProduction} style="border:0;margin:0;padding:0;min-width:0;">
             <input type="hidden" name="form-name" value="careers-application" />
             <input type="hidden" name="subject" value="Expression of Interest — Trident Gymnastics" />
             <input type="hidden" name="form-loaded-at" id="form-loaded-at" value="0" />
@@ -162,7 +176,7 @@ import { siteConfig } from '../config/site';
             <!-- Netlify reCAPTCHA 2 — validated on Netlify's servers, so it blocks
                  bots that POST directly to the form endpoint and skip our JS checks -->
             <div class="form-field form-field--full">
-              <div></div>
+              <div data-netlify-recaptcha={isNonProduction ? undefined : 'true'}></div>
             </div>
 
             <div class="form-actions">
@@ -173,7 +187,7 @@ import { siteConfig } from '../config/site';
               <p class="form-actions__note">We'll get back to you soon.</p>
             </div>
 
-          </fieldset></div>
+          </fieldset></FormTag>
         </div>
 
       </div>

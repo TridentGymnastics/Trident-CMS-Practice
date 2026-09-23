@@ -1,13 +1,12 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
-import { practiceSiteUrl } from './practice-origin.mjs';
+import { siteUrl } from './site-mode.mjs';
 
 export default defineConfig({
   output: 'static',
+  // Must match siteConfig.siteUrl — www is the live canonical host.
+  site: siteUrl,
   cacheDir: './.preview-cache/astro',
-  server: { host: '127.0.0.1', port: 4323 },
-  // This repository builds only the separate CMS practice website.
-  site: practiceSiteUrl,
   integrations: [tailwind()],
 
   // Prefetch internal links on hover — makes page navigation feel instant

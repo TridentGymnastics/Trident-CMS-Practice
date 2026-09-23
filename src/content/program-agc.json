@@ -2,35 +2,32 @@
   "title": "AGC",
   "metaTitle": "AGC Competitive Gymnastics Ringwood",
   "description": "AGC competitive gymnastics at Trident Gymnastics Ringwood. Structured Junior and Senior training with clear progressions, routines and conditioning.",
-  "blurb": "Australian Gymnastics Club competitive stream, with structured training and clear progressions [CMS TEST].",
+  "blurb": "Australian Gymnastics Club competitive stream, with structured training and clear progressions.",
   "bookingUrl": "https://portal.iclasspro.com/trident",
   "levels": [
     {
-      "id": "agc_junior",
       "name": "Junior",
-      "description": "Foundation strength, shapes and discipline for competition readiness."
+      "description": "Foundation strength, shapes and discipline for competition readiness.",
+      "id": "agc_junior"
     },
     {
-      "id": "agc_senior",
       "name": "Senior",
-      "description": "Advanced routines, conditioning and performance mindset."
+      "description": "Advanced routines, conditioning and performance mindset.",
+      "id": "agc_senior"
     }
   ],
   "colorScheme": "secondary-accent",
   "media": {
     "heading": "AGC in Action",
+    "photos": [],
     "maxWidth": "1100px",
     "video": {
       "enabled": false,
+      "src": "",
+      "poster": "",
+      "title": "",
       "autoplay": false
     },
-    "columns": 1,
-    "photos": [
-      {
-        "src": "/src/assets/images/balance-spring-hp.png",
-        "alt": "Test photo for CMS",
-        "position": "center"
-      }
-    ]
+    "columns": 3
   }
 }

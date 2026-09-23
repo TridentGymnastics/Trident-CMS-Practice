@@ -1,5 +1,5 @@
 {
-  "title": "UrbanGym [TESTCHANGE]",
+  "title": "UrbanGym",
   "metaTitle": "UrbanGym Movement Classes Ringwood",
   "description": "UrbanGym at Trident Gymnastics Ringwood — gymnastics fundamentals, safe flipping and tricking, plus vaults, swings and creative movement, all coached.",
   "blurb": "Urban-inspired movement training that builds gymnastics fundamentals, safe flipping and tricking, plus vaults, swings and creative movement in a coached environment.",
@@ -7,28 +7,28 @@
   "trialUrl": "https://portal.iclasspro.com/trident",
   "levels": [
     {
-      "id": "urban_beg",
       "name": "Beginner",
       "tag": "Prep – Grade 1",
       "tagBg": "#1573C2",
       "tagColor": "#fff",
-      "description": "Build strong movement foundations through safe landings, hand support, basic vaults and swings, and core gymnastics-style movement."
+      "description": "Build strong movement foundations through safe landings, hand support, basic vaults and swings, and core gymnastics-style movement.",
+      "id": "urban_beg"
     },
     {
-      "id": "urban_int",
       "name": "Intermediate",
       "tag": "Grade 2 – 3",
       "tagBg": "#1573C2",
       "tagColor": "#fff",
-      "description": "Progress into controlled flipping and linking, with a focus on cleaner take-offs and landings, flowing movement sequences, and confidence across obstacles."
+      "description": "Progress into controlled flipping and linking, with a focus on cleaner take-offs and landings, flowing movement sequences, and confidence across obstacles.",
+      "id": "urban_int"
     },
     {
-      "id": "urban_adv",
       "name": "Advanced",
       "tag": "Grade 4+",
       "tagBg": "#1573C2",
       "tagColor": "#fff",
-      "description": "Develop advanced flipping, power and precision, combining complex movement patterns with creativity, control and style."
+      "description": "Develop advanced flipping, power and precision, combining complex movement patterns with creativity, control and style.",
+      "id": "urban_adv"
     }
   ],
   "media": {

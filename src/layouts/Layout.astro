@@ -3,6 +3,7 @@ import "../styles/tailwind.css";
 import "../styles/theme.css";
 import "../styles/program.css";
 import "../styles/parties.css";
+import { isPractice, isNonProduction } from '../../site-mode.mjs';
 import Header from '../components/Header.astro';
 import { programNames } from '../data/programContent';
 import SiteNotice from '../components/SiteNotice.astro';
@@ -20,7 +21,7 @@ export interface Props {
 }
 
 const { title = "Trident Gymnastics", description = "" } = Astro.props;
-const noindex = true; // Practice website only.
+const noindex = isNonProduction || Astro.props.noindex === true;
 const pageDescription = description || siteConfig.siteDescription;
 const fullTitle = title === 'Home'
   ? 'Kids Gymnastics Classes in Ringwood | Trident Gymnastics'
@@ -49,7 +50,7 @@ const shareImageUrl = heroImageUrl ? `${siteConfig.siteUrl}${heroImageUrl}` : si
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="form-action 'none'" />
+    {isNonProduction && <meta http-equiv="Content-Security-Policy" content="form-action 'none'" />}
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -70,7 +71,7 @@ const shareImageUrl = heroImageUrl ? `${siteConfig.siteUrl}${heroImageUrl}` : si
         search. Many of them show children in the facility, and image indexing
         makes them findable by people who never visit the site. Pages still rank
         normally — this only affects image indexing. */}
-    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="robots" content={isNonProduction ? 'noindex, nofollow, noarchive' : noindex ? 'noindex, follow' : 'index, follow, noimageindex'} />
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Open Graph and social preview tags -->
@@ -96,7 +97,7 @@ const shareImageUrl = heroImageUrl ? `${siteConfig.siteUrl}${heroImageUrl}` : si
     <slot name="head" />
   </head>
   <body>
-    <aside data-cms-practice-banner style="position:fixed;bottom:12px;left:12px;z-index:10000;max-width:calc(100vw - 24px);padding:10px 14px;border:2px solid #151957;border-radius:8px;background:#ffe281;color:#151957;font:700 12px/1.5 system-ui;box-shadow:0 2px 10px #0003;">CMS PRACTICE &middot; NOT LIVE<br /><span style="font-weight:400">Test website. Forms disabled.</span></aside>
+    {isNonProduction && <aside data-cms-practice-banner style="position:fixed;bottom:12px;left:12px;z-index:10000;max-width:calc(100vw - 24px);padding:10px 14px;border:2px solid #151957;border-radius:8px;background:#ffe281;color:#151957;font:700 12px/1.5 system-ui;box-shadow:0 2px 10px #0003;">{isPractice ? 'CMS PRACTICE ? NOT LIVE' : 'SITE PREVIEW ? NOT LIVE'}<br /><span style="font-weight:400">Test website. Forms disabled.</span></aside>}
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <Header />

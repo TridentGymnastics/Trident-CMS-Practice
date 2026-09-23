@@ -1,14 +1,14 @@
 import { programNames as names } from '../data/programContent';
 import clubDetails from '../content/club-details.json';
-import { practiceSiteUrl } from '../../practice-origin.mjs';
+import { siteUrl } from '../../site-mode.mjs';
 
 export const siteConfig = {
   phone: '61' + clubDetails.phone.replace(/\D/g, '').slice(1), // Trident Gymnastics phone number (0435 060 352)
   whatsappMessage: 'Hi%20Trident%20Gymnastics%20-%20holiday%20program%20enquiry',
   siteName: 'Trident Gymnastics',
   siteDescription: `Ringwood gymnastics club offering ${names.preschool}, ${names.edugym}, ${names.urbangym}, ${names.playgym}, holiday programs and birthday parties for children and families.`,
-  // Canonical URLs stay on the separate practice host.
-  siteUrl: practiceSiteUrl,
+  // Canonical production domain or isolated practice host.
+  siteUrl,
   email: clubDetails.email,
   address: '4/8-10 Maroondah Highway, Ringwood VIC 3134',
   streetAddress: 'Unit 4, 8-10 Maroondah Highway',
@@ -33,7 +33,7 @@ export const siteConfig = {
   mapsEmbedUrl:
     'https://www.google.com/maps/embed?pb=!1m3!2m1!1sTrident+Gymnastics,+8-10+Maroondah+Highway,+Ringwood+VIC+3134!6i16',
   nearbyAreas: ['Ringwood', 'Ringwood East', 'Croydon', 'Heathmont', 'Mitcham', 'Nunawading', 'Bayswater', 'Maroondah'],
-  defaultImage: `${practiceSiteUrl}/Images/compressed-Logo.webp`,
+  defaultImage: `${siteUrl}/Images/compressed-Logo.webp`,
   facebook: 'https://www.facebook.com/tridentgymnastics',
   instagram: 'https://www.instagram.com/tridentgymnastics/'
 };

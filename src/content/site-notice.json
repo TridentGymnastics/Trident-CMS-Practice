@@ -1,8 +1,8 @@
 {
-  "enabled": true,
+  "enabled": false,
   "tone": "info",
-  "heading": "Club update",
-  "message": "CMS TEST Notice",
-  "link_text": "TEST",
-  "link_href": "/homepage"
+  "message": "",
+  "link_text": "",
+  "link_href": "",
+  "heading": "Club update"
 }

@@ -1,3 +1,5 @@
+> Practice now mirrors the prepared migration code and clean launch content. The live deployment is not changed yet. Future refreshes are one-way and deliberate, not automatic; practice edits never publish to live. See [CMS-MIGRATION.md](CMS-MIGRATION.md).
+
 ﻿# Trident CMS practice website
 
 This is the separate test website for TridentGymnastics/Trident-CMS-Practice. It contains an Astro website copied from live-source commit 24e7ee7eb7af0ec6a64cacecbf0e65a2c0486104, with practice safeguards. The existing .pages.yml and src/content/playgym.json are preserved from this repository.
@@ -46,7 +48,7 @@ Sign in through the GitHub account that owns the practice repository when import
 - No original .github workflows, live Netlify configuration, production site IDs, environment files or credentials are included.
 - Every generated page has noindex metadata. robots.txt disallows crawling; public/_headers supplies preview headers on Netlify/Cloudflare, and vercel.json supplies them on Vercel. Noindex is not password protection.
 - The careers form is replaced by disabled controls. Booking, phone, email, map and social links are still real links; this is a content and appearance exercise.
-- Canonical URLs use the practice host. practice-origin.mjs rejects custom domains and checks the practice repository when Netlify or Vercel provides its Git metadata.
+- Canonical URLs use the practice host. site-mode.mjs and site-environment.json keep this copy in practice mode and reject the club domain; hosting metadata also guards against selecting the wrong repository.
 - These build safeguards do not control hosting-account permissions. Do not import into or relink the existing live hosting project.
 - Shared program/level labels, gallery headings and search descriptions derive from the edited program content. Stable URLs and booking IDs remain fixed. Written paragraphs, historical news and PDFs still need review after a rename or operational change.
 - Holiday visibility, party packages, term-calendar image and shared phone/email/opening-hours information are editable. Branding, homepage hero/general copy, street address/maps, new page types and a general page-hiding switch remain outside the staff editor. A free-trial policy change also needs review of retained trial buttons/copy.
@@ -66,7 +68,7 @@ See CMS-TEST-REPORT.md for the current simplified-site validation, temporary con
 
 The intended permanent flow is staff → Pages CMS → TridentGymnastics/Trident-Gymnastics → existing Netlify project → existing domain. There is no need to move the domain or replace the Netlify project.
 
-This step has NOT happened. First finish staff testing and agree the remaining editable content. Then prepare a branch in the original repository and selectively port the CMS schema, content files, media resolver, content validation and component wiring against the latest live source. Preserve newer live content. Review and build the branch, use an isolated preview, and verify contact forms, canonical URLs, navigation, booking links and mobile pages before merging to the live deployment branch.
+The migration is now prepared locally on cms/live-handover in the original repository. It has NOT been published. Read CMS-MIGRATION.md for current status and the practice refresh procedure. Then prepare a branch in the original repository and selectively port the CMS schema, content files, media resolver, content validation and component wiring against the latest live source. Preserve newer live content. Review and build the branch, use an isolated preview, and verify contact forms, canonical URLs, navigation, booking links and mobile pages before merging to the live deployment branch.
 
 Do not replace the production repository with this practice copy. Do not copy its practice-origin.mjs, Vercel configuration, preview-only Netlify configuration, noindex metadata/headers, robots restrictions, disabled careers form, practice badge, caches or package junction. Review Layout.astro selectively: its notice and shared names belong to the CMS; removing the ClassSelector belongs to the simplification. Keep production form, canonical and indexing behaviour. Production must retain its existing hosting and form setup. Connect Pages CMS to the original repository only after this migration is reviewed and ready: saves on its deployed branch can publish to the real site.
 

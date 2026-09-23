@@ -1,4 +1,4 @@
-# Practice website - staff essentials first. See CMS-STAFF-GUIDE.md.
+# Staff essentials first. Check the repository name before saving live changes.
 settings:
   content:
     merge: true

@@ -1,15 +1,15 @@
 # Staff guide: the simple website editor
 
-This guide covers the separate **Trident-CMS-Practice** website. The live Netlify website is unchanged. Use the practice repository in Pages CMS; the old JSON file open in the IDE is not the staff editor.
+This guide applies to both the live and practice websites. Use **Trident-Gymnastics** for real updates after migration is approved, or **Trident-CMS-Practice** for training. Practice changes never update the real website. The practice site shows a yellow badge and cannot send applications.
 
 ## Everyday workflow
 
-1. Open Pages CMS and select **Trident-CMS-Practice / main**.
+1. Open Pages CMS and check the repository: **Trident-Gymnastics / main** is live; **Trident-CMS-Practice / main** is training. During migration testing, use the migration branch only.
 2. Open the relevant section below. Change the information and press **Save** before moving to another page.
-3. Wait for the practice Vercel deployment to succeed, then refresh the practice website and check your change on a phone as well as a computer.
+3. Wait for the connected deployment to succeed (Netlify for live, Vercel for practice), then refresh that website and check your change on a phone as well as a computer.
 4. To undo a wording mistake, restore the wording in that editor and save again. For a larger mistake, ask the nominated technical contact to revert the specific Git commit.
 
-Each Save currently makes a Git commit and can trigger a deployment. There is no draft branch or separate Publish website button yet. A news item's Publish switch controls visibility; it does not batch deployments. Plan related edits before saving each section.
+Each Save makes a Git commit and can trigger a deployment. On the live repository, assume it publishes automatically unless the team has explicitly configured and verified manual publishing. There is no draft branch or separate Publish website button yet. A news item's Publish switch controls visibility; it does not batch deployments. Plan related edits before saving each section.
 
 ## Where to change things
 
@@ -67,7 +67,7 @@ Upload a new PDF filename and select it, then save and check both pages. The edi
 - Select/upload a replacement policy PDF in Essential > Policies. The editor changes the file link, not the words inside the PDF.
 - Use images the club has permission to publish. Do not delete or rename existing library files as an exercise; other pages may still link to them.
 
-For an internal link use /playgym, /school-holidays, /contact or **/** for the homepage. The practice notice currently has a TEST link to /homepage; change that to / when finishing the test.
+For an internal link use /playgym, /school-holidays, /contact or **/** for the homepage. The homepage address is /, not /homepage.
 
 ## What stays fixed
 
@@ -87,4 +87,4 @@ Ask a staff member to do this in practice without coaching:
 
 Restore test content when finished. Confirm club-controlled accounts, a second authorised person who can recover access, and a named helper for a failed build. A genuine upload/save/reopen check and staff account permissions still require this hands-on exercise.
 
-The permanent target remains Pages CMS -> original GitHub repository -> existing Netlify website. That migration has not happened. Follow README.md for a selective migration, preserving the real site's forms, domain and indexing.
+The permanent flow is Pages CMS -> existing Trident-Gymnastics GitHub repository -> existing Netlify website. See CMS-MIGRATION.md for launch status and the practice refresh procedure.

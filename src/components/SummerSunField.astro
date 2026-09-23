@@ -1,19 +1,36 @@
----
-const suns = [{left:'3%',top:'12%',size:76,delay:'-8s'}, {left:'82%',top:'45%',size:100,delay:'-18s'}];
+﻿---
+const rays = Array.from({length:12}, (_, i) => i * 30);
 ---
 <div class="summer-sun-field" aria-hidden="true">
-  {suns.map(sun => <svg class="summer-sun" viewBox="0 0 100 100" style={`left:${sun.left};top:${sun.top};width:${sun.size}px;animation-delay:${sun.delay}`}>
-    <circle cx="50" cy="50" r="20" fill="#ffe074" />
-    <g stroke="#ffe074" stroke-width="5" stroke-linecap="round">
-      {[0,45,90,135,180,225,270,315].map(angle => <path d="M50 8v12" transform={`rotate(${angle} 50 50)`} />)}
+  <svg class="summer-sun" viewBox="0 0 120 120">
+    <g class="summer-rays" stroke="#ffbd18" stroke-width="6" stroke-linecap="round">
+      {rays.map(angle => <path d="M60 8v12" transform={`rotate(${angle} 60 60)`} />)}
     </g>
-  </svg>)}
-  <div class="summer-glow"></div>
+    <circle cx="60" cy="60" r="29" fill="#ffd83d" />
+    <path d="M48 60v3m24-3v3" stroke="#151957" stroke-width="4" stroke-linecap="round" />
+    <path d="M51 72q9 9 18 0" fill="none" stroke="#151957" stroke-width="3" stroke-linecap="round" />
+  </svg>
+  <svg class="summer-cloud" viewBox="0 0 180 90">
+    <path d="M27 76C-2 76 1 35 30 34C35 2 82 0 93 29C116 12 143 29 142 47C179 39 189 76 154 76Z" fill="white" />
+  </svg>
+  <svg class="summer-ribbon" viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <path d="M0 42Q150 5 300 42T600 42T900 42T1200 42V80H0Z" fill="#84dbf5" />
+    <path d="M0 62Q150 28 300 62T600 62T900 62T1200 62V80H0Z" fill="#43b9e9" />
+    <path d="M0 77Q150 51 300 77T600 77T900 77T1200 77V80H0Z" fill="#ffd83d" />
+  </svg>
+  <span class="summer-spark summer-spark-one"></span>
+  <span class="summer-spark summer-spark-two"></span>
 </div>
 <style>
-  .summer-sun-field { position:absolute;inset:0;pointer-events:none;overflow:hidden; }
-  .summer-sun { position:absolute; opacity:.7; animation:summer-turn 70s linear infinite; }
-  .summer-glow { position:absolute;inset:0;background:radial-gradient(ellipse at 90% 0%,#ffe07433,transparent 60%); }
-  @keyframes summer-turn { to { transform:rotate(360deg); } }
-  @media(prefers-reduced-motion:reduce) { .summer-sun { animation:none; } }
+  .summer-sun-field{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .summer-sun{position:absolute;left:2%;top:7%;width:clamp(64px,9vw,125px)}
+  .summer-rays{transform-origin:60px 60px;animation:summer-turn 80s linear infinite}
+  .summer-cloud{position:absolute;right:2%;top:9%;width:clamp(85px,13vw,180px);opacity:.85;animation:summer-drift 12s ease-in-out infinite alternate}
+  .summer-ribbon{position:absolute;bottom:-1px;left:0;width:100%;height:45px}
+  .summer-spark{position:absolute;width:12px;height:26px;border-radius:8px;background:#ff8b72;transform:rotate(-25deg)}
+  .summer-spark-one{left:5%;bottom:25%}.summer-spark-two{right:6%;bottom:30%;background:#ffc52f;transform:rotate(30deg)}
+  @keyframes summer-turn{to{transform:rotate(360deg)}}
+  @keyframes summer-drift{to{transform:translateX(-14px)}}
+  @media(max-width:600px){.summer-sun{left:-15px;top:8px;width:65px}.summer-cloud{right:-20px;top:12px;width:85px}.summer-ribbon{height:30px}.summer-spark{width:7px;height:16px}.summer-spark-one{left:2%}.summer-spark-two{right:2%}}
+  @media(prefers-reduced-motion:reduce){.summer-rays,.summer-cloud{animation:none}}
 </style>

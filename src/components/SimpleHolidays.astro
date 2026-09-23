@@ -40,8 +40,8 @@ const shown = program ? cards.filter(item => item.id === program) : cards;
   </section>}
 </Layout>
 <style>
-  .holiday-heading{padding:3rem 1.5rem;text-align:center;position:relative;overflow:hidden;isolation:isolate;background:var(--holiday-hero);color:#fff;border-radius:0 0 1.5rem 1.5rem}
+  .holiday-heading{padding:3rem 1.5rem;text-align:center;position:relative;overflow:hidden;isolation:isolate;background:var(--holiday-hero);color:var(--holiday-ink,#fff);border-radius:0 0 1.5rem 1.5rem}
   .holiday-heading-content{position:relative;z-index:2}
-  .holiday-heading h1{color:#fff;font-size:clamp(2rem,5vw,3.5rem);margin:.5rem 0 1rem}.holiday-heading p{color:#fff;max-width:65ch;margin:1rem auto}.eyebrow{font-weight:700}.dates{font-size:1.3rem;font-weight:700}
+  .holiday-heading h1{color:var(--holiday-ink,#fff);font-size:clamp(2rem,5vw,3.5rem);margin:.5rem 0 1rem}.holiday-heading p{color:var(--holiday-ink,#fff);max-width:65ch;margin:1rem auto}.eyebrow{font-weight:700}.dates{font-size:1.3rem;font-weight:700}
   .holiday-content{padding:2rem 1rem 3rem}.holiday-notice{padding:1rem 1.25rem;background:#fff3c6;border-radius:.75rem;white-space:pre-line}.holiday-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1.5rem;margin-top:1.5rem}.holiday-card{padding:1.75rem;border:1px solid var(--holiday-border);border-radius:1rem;box-shadow:0 5px 20px #1519570d;display:flex;flex-direction:column;align-items:flex-start}.holiday-card h2{color:#151957;font-size:1.65rem;overflow-wrap:anywhere}.holiday-card p{line-height:1.7}.ages{color:#1573c2;font-weight:700}.sessions{white-space:pre-line}.price{font-size:1.25rem;font-weight:700}.drop-in{font-weight:700}.holiday-card .btn{margin-top:auto;text-align:center}
 </style>

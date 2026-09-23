@@ -13,5 +13,6 @@ import SummerSunField from './SummerSunField.astro';
 </div>
 <style>
   .holiday-season-decor { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; opacity:.65; }
+  .holiday-season-decor[data-holiday-effect="summer"] { opacity:1; }
   @media (prefers-reduced-motion: reduce) { .holiday-season-decor { display:none; } }
 </style>

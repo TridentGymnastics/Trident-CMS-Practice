@@ -14,7 +14,8 @@
   --holiday-border: #e2b4d0;
 }
 [data-holiday-theme="summer"] {
-  --holiday-hero: linear-gradient(120deg, #12697a, #174e75);
-  --holiday-soft: #fff7d6;
-  --holiday-border: #e6c669;
+  --holiday-hero: linear-gradient(115deg, #fff3ad 0%, #fff9df 46%, #d9f4ff 100%);
+  --holiday-ink: #151957;
+  --holiday-soft: linear-gradient(115deg, #fff3ad, #e2f6ff);
+  --holiday-border: #ffd43b;
 }

@@ -6,13 +6,17 @@ The practice repository is connected to a separate Vercel project. A Pages CMS d
 
 ## Current staff editor
 
-The practice site now has 12 focused editors in three groups: Notices and holidays, Program information, and Club information. The schema has 135 visible field definitions, down from 248, despite adding holiday, party, term-date and contact editing. See [CMS-STAFF-GUIDE.md](CMS-STAFF-GUIDE.md).
+The practice site has 13 focused editors in three groups. Essential comes first with Holiday Program, Policies and Site-wide Notices; Program information and Club information hold less frequent changes. See [CMS-STAFF-GUIDE.md](CMS-STAFF-GUIDE.md).
 
-The custom class finder is replaced by direct iClassPro links. Holiday pages share one simple template with a status selector and program switches; dated seasonal artwork and the daily calendar are inactive. Program layout is fixed, with a header-colour preset and photo crop choices. Birthday parties use a simple editable package list. PlayGym savings calculations are no longer displayed, so staff update each price only once.
+The custom class finder is replaced by direct iClassPro links. Holiday pages share one simple template with a status selector, program switches and separate Week 1 / Week 2 session lists per program. Dates use a date picker; each session has a time and optional workshop name. Seasonal artwork and the old calendar are inactive. Program layout is fixed, with a header-colour preset and photo crop choices. Birthday parties use a simple editable package list. PlayGym savings calculations are no longer displayed, so staff update each price only once.
 
 The class finder, seasonal components, data and scripts remain in the repository for reversibility, but are not used on active pages. The old verify:class-selector, verify:holidays and winter-poster commands describe that legacy implementation; they do not test the simplified active website.
 
 Each editor saves JSON read by the website. settings.content.merge remains true to preserve unmanaged keys. The root-level pages.yml and playgym.json are earlier uploaded copies; the app uses .pages.yml and src/content/playgym.json. Saves still commit and trigger the configured hosting build; a draft/publish workflow has not been implemented.
+
+Policies now live in src/content/policies.json, shared by /policies and /playgym. The former about.json policies property was migrated without changing its content. The current holiday dates were recovered from the retained legacy timetable, then stored in holidays.json; that legacy timetable is no longer a runtime source. Update both the website schedule and iClassPro when moving/cancelling sessions.
+
+Run npm run verify:holiday-schedule for date, ordering, duplicate and empty-week checks, alongside the build and CMS content validation. See the 23 September section of CMS-TEST-REPORT.md for verification and limitations.
 
 ## Local preview
 
@@ -54,7 +58,7 @@ See [CMS-TEST-REPORT.md](CMS-TEST-REPORT.md) for the final practice audit, the e
 
 Optional lists use required: false: in Pages CMS, required: true enforces at least one item even if list.min is zero. Photo crop positions use a select field with a centre default; the previous optional string pattern rejected the blank value that the CMS creates for omitted fields. Optional link patterns accept empty strings. Empty galleries and disabled videos are valid.
 
-The previous failures were reproduced against the public Pages CMS field/schema validation functions at source commit 6f4e860a35d934406580287e7042e5e111e207a1. All 12 simplified editor forms, including empty-gallery states, passed that check. This verifies the schema and field values; the final hosted save/deploy test is still performed in Pages CMS after pushing this update.
+The previous failures were reproduced against the public Pages CMS field/schema validation functions at source commit 6f4e860a35d934406580287e7042e5e111e207a1. The 12 simplified editor forms from the 22 September audit, including empty-gallery states, passed that check. This verifies the schema and field values; the final hosted save/deploy test is still performed in Pages CMS after pushing this update.
 
 See CMS-TEST-REPORT.md for the current simplified-site validation, temporary content-change tests and remaining limitations. The earlier class-finder audit is historical; the active site now links directly to iClassPro.
 

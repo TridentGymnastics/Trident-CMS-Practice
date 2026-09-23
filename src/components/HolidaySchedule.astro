@@ -1,0 +1,36 @@
+---
+import { holidayWeeks, holidayDateLabel, type HolidaySchedule } from '../lib/holiday-schedule';
+interface Props { schedule?: HolidaySchedule }
+const { schedule } = Astro.props;
+---
+
+<div class="holiday-schedule">
+  {holidayWeeks(schedule).map(week => (
+    <section class="holiday-week" data-holiday-week={week.key} aria-label={week.label}>
+      <h3>{week.label}</h3>
+      {week.sessions.length ? (
+        <ul>
+          {week.sessions.map(session => (
+            <li>
+              <time datetime={session.date}>{holidayDateLabel(session.date)}</time>
+              <span class="session-time">{session.time}</span>
+              {session.activity && <span class="session-activity">{session.activity}</span>}
+            </li>
+          ))}
+        </ul>
+      ) : <p class="empty-week">No sessions scheduled this week.</p>}
+    </section>
+  ))}
+</div>
+
+<style>
+  .holiday-schedule { width: 100%; margin: .5rem 0; }
+  .holiday-week + .holiday-week { margin-top: 1.25rem; }
+  .holiday-week h3 { font-size: 1.05rem; color: #151957; margin: 0 0 .5rem; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { display: flex; flex-direction: column; gap: .2rem; padding: .65rem 0; border-top: 1px solid #e2eaf1; line-height: 1.5; }
+  time { font-weight: 700; color: #151957; }
+  .session-time { color: #364556; }
+  .session-activity { color: #364556; font-size: .9rem; overflow-wrap: anywhere; }
+  .empty-week { font-size: .95rem; color: #596675; margin: .5rem 0; }
+</style>

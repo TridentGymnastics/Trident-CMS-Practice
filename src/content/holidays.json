@@ -4,7 +4,6 @@
   "notice": "Closed Friday 25 September for the public holiday.",
   "booking_url": "https://portal.iclasspro.com/trident/camps/9?sortBy=name",
   "playgym_enabled": true,
-  "playgym_times": "Monday to Friday, 11:00am – 12:30pm during the dates above, excluding the public holiday.",
   "programs": [
     {
       "id": "opengym",
@@ -12,8 +11,35 @@
       "title": "OpenGym",
       "ages": "5–12 years",
       "description": "Supervised access to gymnastics equipment for unstructured play and practice. Booking ahead is preferred; in-person bookings depend on available space.",
-      "sessions": "Check the booking portal for available dates and session times.",
-      "price": "$20 per session"
+      "price": "$20 per session",
+      "week_1": [
+        {
+          "date": "2026-09-21",
+          "time": "2:30pm - 4:00pm"
+        },
+        {
+          "date": "2026-09-22",
+          "time": "2:30pm - 4:00pm"
+        },
+        {
+          "date": "2026-09-23",
+          "time": "2:30pm - 4:00pm"
+        },
+        {
+          "date": "2026-09-24",
+          "time": "2:30pm - 4:00pm"
+        }
+      ],
+      "week_2": [
+        {
+          "date": "2026-09-29",
+          "time": "1:00pm - 2:30pm"
+        },
+        {
+          "date": "2026-10-02",
+          "time": "1:00pm - 2:30pm"
+        }
+      ]
     },
     {
       "id": "skill-workshops",
@@ -21,8 +47,83 @@
       "title": "Skill Workshops",
       "ages": "5–18 years",
       "description": "Coached sessions focusing on gymnastics skills, including handstands, cartwheels, flips and urban movement. Advance booking is required.",
-      "sessions": "Check the booking portal for workshop topics, dates and session times.",
-      "price": "$35 per session"
+      "price": "$35 per session",
+      "week_1": [
+        {
+          "date": "2026-09-21",
+          "time": "1:00pm - 2:30pm",
+          "activity": "Handstands & Cartwheels"
+        },
+        {
+          "date": "2026-09-23",
+          "time": "1:00pm - 2:30pm",
+          "activity": "Flips & Tricks"
+        },
+        {
+          "date": "2026-09-24",
+          "time": "1:00pm - 2:30pm",
+          "activity": "Parkour"
+        }
+      ],
+      "week_2": [
+        {
+          "date": "2026-09-28",
+          "time": "1:00pm - 2:30pm",
+          "activity": "Handstands & Cartwheels"
+        },
+        {
+          "date": "2026-09-30",
+          "time": "1:00pm - 2:30pm",
+          "activity": "Flips & Tricks"
+        },
+        {
+          "date": "2026-10-01",
+          "time": "1:00pm - 2:30pm",
+          "activity": "UrbanGym [TESTCHANGE]"
+        }
+      ]
     }
-  ]
+  ],
+  "playgym_schedule": {
+    "week_1": [
+      {
+        "date": "2026-09-21",
+        "time": "11:00am - 12:30pm"
+      },
+      {
+        "date": "2026-09-22",
+        "time": "11:00am - 12:30pm"
+      },
+      {
+        "date": "2026-09-23",
+        "time": "11:00am - 12:30pm"
+      },
+      {
+        "date": "2026-09-24",
+        "time": "11:00am - 12:30pm"
+      }
+    ],
+    "week_2": [
+      {
+        "date": "2026-09-28",
+        "time": "11:00am - 12:30pm"
+      },
+      {
+        "date": "2026-09-29",
+        "time": "11:00am - 12:30pm"
+      },
+      {
+        "date": "2026-09-30",
+        "time": "11:00am - 12:30pm"
+      },
+      {
+        "date": "2026-10-01",
+        "time": "11:00am - 12:30pm"
+      },
+      {
+        "date": "2026-10-02",
+        "time": "11:00am - 12:30pm"
+      }
+    ]
+  }
 }

@@ -1,4 +1,4 @@
-# Practice website — simple staff editor. See CMS-STAFF-GUIDE.md.
+# Practice website - staff essentials first. See CMS-STAFF-GUIDE.md.
 settings:
   content:
     merge: true
@@ -51,12 +51,317 @@ media:
       - avif
     rename: safe
 content:
-  - name: updates
-    label: Notices and holidays
+  - name: essential
+    label: Essential
     type: group
     items:
+      - name: school_holidays
+        label: Holiday Program
+        type: file
+        path: src/content/holidays.json
+        format: json
+        operations:
+          create: false
+          rename: false
+          delete: false
+        fields:
+          - name: status
+            label: Holiday program status
+            type: select
+            required: true
+            options:
+              values:
+                - name: open
+                  label: Open — show details and booking links
+                - name: coming_soon
+                  label: Coming soon — dates not announced
+                - name: closed
+                  label: Closed — program has finished
+            description: Also controls the homepage promotion. Closed/Coming soon hide old dates and session details.
+          - name: dates
+            label: Holiday dates
+            type: string
+            required: true
+            description: Overall holiday date range shown in the heading and homepage promotion. Enter actual running
+              dates separately under each program.
+          - name: notice
+            label: Optional closure or extra information
+            type: text
+            required: false
+          - name: booking_url
+            label: Holiday booking link
+            type: string
+            required: true
+            pattern:
+              regex: ^https://[^\s]+$
+              message: Use a full https:// address.
+          - name: playgym_enabled
+            label: Include PlayGym drop-in sessions
+            type: boolean
+            required: true
+          - name: playgym_schedule
+            label: PlayGym holiday sessions
+            type: object
+            required: false
+            fields:
+              - name: week_1
+                label: Week 1
+                type: object
+                required: false
+                description: Add one item per running date. Remove a session to stop listing that date. Also update iClassPro. Leave the list empty if this
+                  program does not run that week.
+                fields:
+                  - name: date
+                    label: Date
+                    type: date
+                    required: true
+                    default: ""
+                    options:
+                      time: false
+                      format: yyyy-MM-dd
+                  - name: time
+                    label: Session time
+                    type: string
+                    required: true
+                    description: For example 2:30pm - 4:00pm. Each date can have its own time.
+                    pattern:
+                      regex: ^(?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm) [\u2013\u2014-] (?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm)$
+                      message: Use 2:30pm - 4:00pm, with spaces around the dash.
+                list:
+                  min: 0
+                  max: 28
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.date} | {fields.time}"
+              - name: week_2
+                label: Week 2
+                type: object
+                required: false
+                description: Add one item per running date. Remove a session to stop listing that date. Also update iClassPro. Leave the list empty if this
+                  program does not run that week.
+                fields:
+                  - name: date
+                    label: Date
+                    type: date
+                    required: true
+                    default: ""
+                    options:
+                      time: false
+                      format: yyyy-MM-dd
+                  - name: time
+                    label: Session time
+                    type: string
+                    required: true
+                    description: For example 2:30pm - 4:00pm. Each date can have its own time.
+                    pattern:
+                      regex: ^(?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm) [\u2013\u2014-] (?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm)$
+                      message: Use 2:30pm - 4:00pm, with spaces around the dash.
+                list:
+                  min: 0
+                  max: 28
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.date} | {fields.time}"
+          - name: programs
+            label: Booked holiday programs
+            type: object
+            required: true
+            fields:
+              - name: id
+                label: Reference
+                type: string
+                required: true
+                hidden: true
+                readonly: true
+              - name: enabled
+                label: Show this program
+                type: boolean
+                required: true
+              - name: title
+                label: Program name
+                type: string
+                required: true
+              - name: ages
+                label: Ages
+                type: string
+                required: true
+              - name: description
+                label: Description
+                type: text
+                required: true
+              - name: week_1
+                label: Week 1
+                type: object
+                required: false
+                description: Add one item per running date. Remove a session to stop listing that date. Also update iClassPro. Leave the list empty if this
+                  program does not run that week.
+                fields:
+                  - name: date
+                    label: Date
+                    type: date
+                    required: true
+                    default: ""
+                    options:
+                      time: false
+                      format: yyyy-MM-dd
+                  - name: time
+                    label: Session time
+                    type: string
+                    required: true
+                    description: For example 2:30pm - 4:00pm. Each date can have its own time.
+                    pattern:
+                      regex: ^(?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm) [\u2013\u2014-] (?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm)$
+                      message: Use 2:30pm - 4:00pm, with spaces around the dash.
+                  - name: activity
+                    label: Workshop name (optional)
+                    type: string
+                    description: For example Handstands & Cartwheels. Leave blank for a general session.
+                list:
+                  min: 0
+                  max: 28
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.date} | {fields.time}"
+              - name: week_2
+                label: Week 2
+                type: object
+                required: false
+                description: Add one item per running date. Remove a session to stop listing that date. Also update iClassPro. Leave the list empty if this
+                  program does not run that week.
+                fields:
+                  - name: date
+                    label: Date
+                    type: date
+                    required: true
+                    default: ""
+                    options:
+                      time: false
+                      format: yyyy-MM-dd
+                  - name: time
+                    label: Session time
+                    type: string
+                    required: true
+                    description: For example 2:30pm - 4:00pm. Each date can have its own time.
+                    pattern:
+                      regex: ^(?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm) [\u2013\u2014-] (?:[1-9]|1[0-2]):[0-5][0-9] ?(?:am|pm)$
+                      message: Use 2:30pm - 4:00pm, with spaces around the dash.
+                  - name: activity
+                    label: Workshop name (optional)
+                    type: string
+                    description: For example Handstands & Cartwheels. Leave blank for a general session.
+                list:
+                  min: 0
+                  max: 28
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.date} | {fields.time}"
+              - name: price
+                label: Price
+                type: string
+                required: true
+            list:
+              min: 2
+              max: 2
+              collapsible:
+                collapsed: true
+                summary: "{fields.title}"
+            description: OpenGym and Skill Workshops each have their own Week 1 and Week 2 dates. The optional workshop
+              name can be left blank for OpenGym.
+      - name: policies
+        label: Policies
+        type: file
+        path: src/content/policies.json
+        format: json
+        operations:
+          create: false
+          rename: false
+          delete: false
+        fields:
+          - name: documents
+            label: Current policies
+            type: object
+            required: true
+            fields:
+              - name: title
+                label: Document title
+                type: string
+                required: true
+              - name: href
+                label: PDF document
+                type: file
+                required: true
+                options:
+                  media: policies
+                  extensions:
+                    - pdf
+              - name: description
+                label: Description
+                type: text
+            list:
+              min: 1
+              max: 30
+              collapsible:
+                collapsed: true
+                summary: "{fields.title}"
+          - name: guides
+            label: Parent guides
+            type: object
+            required: true
+            fields:
+              - name: documents
+                label: Guides
+                type: object
+                required: false
+                fields:
+                  - name: title
+                    label: Document title
+                    type: string
+                    required: true
+                  - name: href
+                    label: PDF document
+                    type: file
+                    required: true
+                    options:
+                      media: guides
+                      extensions:
+                        - pdf
+                  - name: description
+                    label: Description
+                    type: text
+                list:
+                  min: 0
+                  max: 30
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.title}"
+          - name: legacy
+            label: Older policies
+            type: object
+            required: false
+            fields:
+              - name: title
+                label: Document title
+                type: string
+                required: true
+              - name: href
+                label: PDF document
+                type: file
+                required: true
+                options:
+                  media: policies
+                  extensions:
+                    - pdf
+              - name: description
+                label: Description
+                type: text
+            list:
+              min: 0
+              max: 30
+              collapsible:
+                collapsed: true
+                summary: "{fields.title}"
       - name: site_notice
-        label: Site-wide notice
+        label: Site-wide Notices
         type: file
         path: src/content/site-notice.json
         format: json
@@ -96,159 +401,6 @@ content:
             pattern:
               regex: (?:^$)|(?:^(?:/(?!/)[^\\\s]*|https://[^\s]+|#[A-Za-z][A-Za-z0-9_-]*)$)
               message: Use a page path such as /playgym, or a full https:// address.
-      - name: school_holidays
-        label: School holidays
-        type: file
-        path: src/content/holidays.json
-        format: json
-        operations:
-          create: false
-          rename: false
-          delete: false
-        fields:
-          - name: status
-            label: Holiday program status
-            type: select
-            required: true
-            options:
-              values:
-                - name: open
-                  label: Open — show details and booking links
-                - name: coming_soon
-                  label: Coming soon — dates not announced
-                - name: closed
-                  label: Closed — program has finished
-            description: Also controls the homepage promotion. Closed/Coming soon hide old dates and session details.
-          - name: dates
-            label: Holiday dates
-            type: string
-            required: true
-          - name: notice
-            label: Optional closure or extra information
-            type: text
-            required: false
-          - name: booking_url
-            label: Holiday booking link
-            type: string
-            required: true
-            pattern:
-              regex: ^https://[^\s]+$
-              message: Use a full https:// address.
-          - name: playgym_enabled
-            label: Include PlayGym drop-in sessions
-            type: boolean
-            required: true
-          - name: playgym_times
-            label: Holiday PlayGym days and times
-            type: text
-            required: true
-          - name: programs
-            label: Booked holiday programs
-            type: object
-            required: true
-            fields:
-              - name: id
-                label: Reference
-                type: string
-                required: true
-                hidden: true
-                readonly: true
-              - name: enabled
-                label: Show this program
-                type: boolean
-                required: true
-              - name: title
-                label: Program name
-                type: string
-                required: true
-              - name: ages
-                label: Ages
-                type: string
-                required: true
-              - name: description
-                label: Description
-                type: text
-                required: true
-              - name: sessions
-                label: When it runs
-                type: text
-                required: true
-              - name: price
-                label: Price
-                type: string
-                required: true
-            list:
-              min: 2
-              max: 2
-              collapsible:
-                collapsed: true
-                summary: "{fields.title}"
-      - name: announcements
-        label: News updates
-        type: file
-        path: src/content/announcements.json
-        format: json
-        operations:
-          create: false
-          rename: false
-          delete: false
-        fields:
-          - name: items
-            label: Updates
-            type: object
-            required: false
-            fields:
-              - name: live
-                label: Publish this update
-                type: boolean
-                required: true
-                description: Switch off to hide without deleting. This appears on the What's happening page.
-              - name: title
-                label: Headline
-                type: string
-                required: true
-              - name: dateISO
-                label: Date
-                type: string
-                required: true
-                pattern:
-                  regex: ^\d{4}-\d{2}-\d{2}$
-                  message: Use YYYY-MM-DD, for example 2026-09-22.
-                description: Use YYYY-MM-DD. This is displayed and sorts updates newest first.
-              - name: body
-                label: Paragraphs
-                type: text
-                required: true
-                list:
-                  min: 1
-                  max: 20
-              - name: images
-                label: Photos
-                type: object
-                required: false
-                fields:
-                  - name: src
-                    label: Photo
-                    type: image
-                    required: true
-                    options:
-                      media: program_photos
-                  - name: alt
-                    label: Describe this photo
-                    type: string
-                    required: true
-                list:
-                  min: 0
-                  max: 4
-                  collapsible:
-                    collapsed: true
-                    summary: "{fields.alt}"
-            list:
-              min: 0
-              max: 100
-              collapsible:
-                collapsed: true
-                summary: "{fields.title}"
   - name: program_pages
     label: Program information
     type: group
@@ -338,7 +490,8 @@ content:
                   collapsible:
                     collapsed: true
                     summary: "{fields.day}"
-                description: Updates regular drop-in times on the PlayGym page. Holiday times are edited separately in School holidays.
+                description: Updates regular drop-in times on the PlayGym page. Holiday times are edited separately in School
+                  holidays.
             description: Regular drop-in days and times. Holiday opening times are in School holidays.
           - name: prices
             label: Prices and passes
@@ -984,6 +1137,72 @@ content:
     label: Club information
     type: group
     items:
+      - name: announcements
+        label: News updates
+        type: file
+        path: src/content/announcements.json
+        format: json
+        operations:
+          create: false
+          rename: false
+          delete: false
+        fields:
+          - name: items
+            label: Updates
+            type: object
+            required: false
+            fields:
+              - name: live
+                label: Publish this update
+                type: boolean
+                required: true
+                description: Switch off to hide without deleting. This appears on the What's happening page.
+              - name: title
+                label: Headline
+                type: string
+                required: true
+              - name: dateISO
+                label: Date
+                type: string
+                required: true
+                pattern:
+                  regex: ^\d{4}-\d{2}-\d{2}$
+                  message: Use YYYY-MM-DD, for example 2026-09-22.
+                description: Use YYYY-MM-DD. This is displayed and sorts updates newest first.
+              - name: body
+                label: Paragraphs
+                type: text
+                required: true
+                list:
+                  min: 1
+                  max: 20
+              - name: images
+                label: Photos
+                type: object
+                required: false
+                fields:
+                  - name: src
+                    label: Photo
+                    type: image
+                    required: true
+                    options:
+                      media: program_photos
+                  - name: alt
+                    label: Describe this photo
+                    type: string
+                    required: true
+                list:
+                  min: 0
+                  max: 4
+                  collapsible:
+                    collapsed: true
+                    summary: "{fields.alt}"
+            list:
+              min: 0
+              max: 100
+              collapsible:
+                collapsed: true
+                summary: "{fields.title}"
       - name: term_dates
         label: Term dates
         type: file
@@ -1008,8 +1227,8 @@ content:
             label: Short note
             type: text
             required: false
-      - name: about_policies
-        label: About and policies
+      - name: about
+        label: About
         type: file
         path: src/content/about.json
         format: json
@@ -1066,96 +1285,6 @@ content:
             list:
               min: 1
               max: 20
-          - name: policies
-            label: Policies and parent guides
-            type: object
-            required: true
-            fields:
-              - name: documents
-                label: Current policies
-                type: object
-                required: true
-                fields:
-                  - name: title
-                    label: Document title
-                    type: string
-                    required: true
-                  - name: href
-                    label: PDF document
-                    type: file
-                    required: true
-                    options:
-                      media: policies
-                      extensions:
-                        - pdf
-                  - name: description
-                    label: Description
-                    type: text
-                list:
-                  min: 1
-                  max: 30
-                  collapsible:
-                    collapsed: true
-                    summary: "{fields.title}"
-              - name: guides
-                label: Parent guides
-                type: object
-                required: true
-                fields:
-                  - name: documents
-                    label: Guides
-                    type: object
-                    required: false
-                    fields:
-                      - name: title
-                        label: Document title
-                        type: string
-                        required: true
-                      - name: href
-                        label: PDF document
-                        type: file
-                        required: true
-                        options:
-                          media: guides
-                          extensions:
-                            - pdf
-                      - name: description
-                        label: Description
-                        type: text
-                    list:
-                      min: 0
-                      max: 30
-                      collapsible:
-                        collapsed: true
-                        summary: "{fields.title}"
-              - name: legacy
-                label: Older policies
-                type: object
-                required: false
-                fields:
-                  - name: title
-                    label: Document title
-                    type: string
-                    required: true
-                  - name: href
-                    label: PDF document
-                    type: file
-                    required: true
-                    options:
-                      media: policies
-                      extensions:
-                        - pdf
-                  - name: description
-                    label: Description
-                    type: text
-                list:
-                  min: 0
-                  max: 30
-                  collapsible:
-                    collapsed: true
-                    summary: "{fields.title}"
-            description: Current policies are shared by the Policies page and PlayGym. Upload a new filename, select it
-              here, then save. Retain old files until links are checked.
       - name: club_details
         label: Phone, email and opening hours
         type: file

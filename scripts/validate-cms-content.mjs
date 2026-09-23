@@ -2,6 +2,7 @@ import { existsSync, readFileSync, statSync } from 'node:fs';
 import { extname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse } from 'yaml';
+import { isHolidayDate, validateHolidaySchedule } from '../src/lib/holiday-schedule.ts';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const readJSON = path => JSON.parse(readFileSync(resolve(root, path), 'utf8'));
@@ -46,6 +47,7 @@ function validate(fields, data, where) {
       if (field.required && !value.trim()) fail(at, 'must not be blank');
       if (value.length > (field.options?.maxlength ?? Infinity)) fail(at, `must be at most ${field.options.maxlength} characters`);
       if (field.pattern && !new RegExp(field.pattern.regex ?? field.pattern).test(value)) fail(at, field.pattern.message ?? 'has an invalid format');
+      if (field.type === 'date' && !isHolidayDate(value)) fail(at, 'choose a real calendar date');
       if (field.type === 'select' && !field.options.values.some(option => (option.name ?? option) === value)) fail(at, 'must be one of the listed choices');
       if (field.type === 'image' || field.type === 'file') {
         const library = config.media.find(item => item.name === field.options.media);
@@ -104,6 +106,9 @@ if (!errors.length) {
   if (!/^0[23478]\d{8}$/.test(club.phone.replace(/\s/g, ''))) fail('Phone number', 'use a ten-digit Australian phone number');
   const holidays = readJSON('src/content/holidays.json');
   if (JSON.stringify(holidays.programs.map(item => item.id).sort()) !== JSON.stringify(['opengym', 'skill-workshops'])) fail('School holidays', 'keep the two program references; use their Show switches to hide them');
+  for (const [name, schedule] of [['PlayGym', holidays.playgym_schedule], ...holidays.programs.map(program => [program.title, program])]) {
+    for (const message of validateHolidaySchedule(schedule)) fail('Holiday ' + name, message);
+  }
   const ageBounds = playgym.age_range.match(/^(\d+(?:\.\d+)?)[–-](\d+(?:\.\d+)?) years$/);
   if (!ageBounds || !(Number(ageBounds[2]) > Number(ageBounds[1])) || Number(ageBounds[2]) > 99) fail('PlayGym ages', 'use a younger-to-older range, with a maximum of 99 years');
   const expectedLevels = { edugym: ['edu_found','edu_1','edu_2','edu_3','edu_4','edu_5'], urbangym: ['urban_beg','urban_int','urban_adv'], agc: ['agc_junior','agc_senior'] };

@@ -1,4 +1,6 @@
 ---
+import HolidaySchedule from './HolidaySchedule.astro';
+import { hasHolidaySessions } from '../lib/holiday-schedule';
 import Layout from '../layouts/Layout.astro';
 import holiday from '../content/holidays.json';
 import { playgym, playgymSupervision } from '../data/programContent';
@@ -6,8 +8,8 @@ interface Props { program?: string }
 const { program } = Astro.props;
 const open = holiday.status === 'open';
 const cards = [
-  ...(holiday.playgym_enabled ? [{ id: 'playgym', title: playgym.title, ages: playgym.age_range, description: `${playgym.tagline} ${playgymSupervision}.`, sessions: holiday.playgym_times, price: playgym.prices.items[0].price, dropIn: true }] : []),
-  ...holiday.programs.filter(item => item.enabled).map(item => ({ ...item, dropIn: false })),
+  ...(holiday.playgym_enabled ? [{ id: 'playgym', title: playgym.title, ages: playgym.age_range, description: `${playgym.tagline} ${playgymSupervision}.`, schedule: holiday.playgym_schedule, price: playgym.prices.items[0].price, dropIn: true }] : []),
+  ...holiday.programs.filter(item => item.enabled).map(item => ({ ...item, schedule: item, dropIn: false })),
 ];
 const shown = program ? cards.filter(item => item.id === program) : cards;
 ---
@@ -24,9 +26,10 @@ const shown = program ? cards.filter(item => item.id === program) : cards;
     {program && <p><a href="/school-holidays">← All holiday programs</a></p>}
     {shown.length ? <div class="holiday-cards">{shown.map(item => <article class="holiday-card" id={item.id}>
       <h2>{item.title}</h2><p class="ages">Ages {item.ages}</p>
-      <p>{item.description}</p><p class="sessions">{item.sessions}</p>
+      <p>{item.description}</p>
+      <HolidaySchedule schedule={item.schedule} />
       <p class="price">{item.price}</p>
-      {item.dropIn ? <p class="drop-in">No booking required — pay at the door.</p> : <a class="btn btn-primary" href={holiday.booking_url} target="_blank" rel="noopener">View times and book</a>}
+      {!hasHolidaySessions(item.schedule) ? <p class="drop-in">Session dates will be announced here.</p> : item.dropIn ? <p class="drop-in">No booking required — pay at the door.</p> : <a class="btn btn-primary" href={holiday.booking_url} target="_blank" rel="noopener">View times and book</a>}
     </article>)}</div> : <p>This program is not currently listed. <a href="/school-holidays">View the available holiday programs</a> or <a href="/contact">contact us</a>.</p>}
   </section>}
 </Layout>

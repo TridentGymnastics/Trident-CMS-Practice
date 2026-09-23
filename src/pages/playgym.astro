@@ -18,7 +18,7 @@ import playgymData from '../content/playgym.json' with { type: 'json' };
 const media = resolveProgramMedia({ ...playgymData.media, heading: playgymData.title + ' in action', subtitle: '', columns: 2, maxWidth: '1100px' });
 
 import { resolveProgramMedia } from '../lib/cms-media';
-import aboutData from '../content/about.json';
+import policiesData from '../content/policies.json';
 ---
 
 <Layout title={`${playgymData.title} Ringwood`} description={`${playgymData.title} at Trident Gymnastics Ringwood for ages ${playgymData.age_range}. ${playgymData.tagline}`}>
@@ -66,7 +66,7 @@ import aboutData from '../content/about.json';
   <Prices data={playgymData} />
   <HowToJoin data={playgymData} />
   <GettingHere address={playgymData.contact.address} />
-  <Policies data={{ policies: aboutData.policies.documents }} />
+  <Policies data={{ policies: policiesData.documents }} />
   <ContactCTA data={playgymData} />
 </Layout>
 

@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import UniversalHero from '../components/shared/UniversalHero.astro';
 import PoliciesSection from '../components/about/PoliciesSection.astro';
-import aboutData from '../content/about.json';
+import policiesData from '../content/policies.json';
 
 const ld = {
   "@context": "https://schema.org",
@@ -23,11 +23,11 @@ const ld = {
 
   <main>
     <UniversalHero
-      title={aboutData.policies.title}
-      subtitle={aboutData.policies.intro}
+      title={policiesData.title}
+      subtitle={policiesData.intro}
       colorScheme="primary-secondary"
     />
-    <PoliciesSection policies={aboutData.policies} />
+    <PoliciesSection policies={policiesData} />
   </main>
 </Layout>
 

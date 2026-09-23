@@ -1,3 +1,43 @@
+# Holiday schedule and Essential editor - 23 September 2026
+
+This section is the current audit. The 22 September results below describe the earlier simplified version.
+
+## Changes
+
+- Essential is the first CMS group, containing Holiday Program, Policies and Site-wide Notices. There are now 13 editors total. News moved to Club information; About only contains club/people content.
+- Each holiday program has independent Week 1 and Week 2 lists. Each session has a date picker and time; booked programs also allow an optional workshop name. Empty weeks are supported, dates sort automatically, and a program with no dates has no booking button/drop-in invitation.
+- Recovered 21 session rows from the retained practice timetable: PlayGym 4+5, OpenGym 4+2, Skill Workshops 3+3. These are existing stored dates, not newly verified portal availability.
+- Policies moved intact from about.json into policies.json. Both /policies and /playgym read the dedicated file, and each CMS editor has a separate file.
+- Latest party edit 7734972 was fetched and preserved. The production checkout remains clean at 24e7ee7eb7af0ec6a64cacecbf0e65a2c0486104. No push, deployment or live-site change was made by this work.
+
+## Verification
+
+| Check | Result |
+| --- | --- |
+| Schedule tests | 5 tests pass: real dates and daylight-saving boundary, different weekly times, empty/omitted weeks, invalid dates/reversed times/duplicates/reversed weeks, chronological sorting without mutating source data. Run npm run verify:holiday-schedule. |
+| Build and content validation | Passed with all 13 editors; 19 pages generated. An impossible saved date was rejected. |
+| Temporary content changes | Changed OpenGym's Week 1 and Week 2 dates/times and verified both holiday pages. Cleared weeks and verified the empty-state behavior. Changed a policy and verified Policies and PlayGym. Closed status hid schedules on all four holiday routes. Content restored byte for byte, then rebuilt. |
+| Browser | All 8 affected/related routes at 1440px and 390px passed: home, all four holiday routes, policies, PlayGym and About. No JavaScript page errors, broken loaded images, missing requested assets or page overflow. |
+| Schedule rendering | Browser-confirmed dates match all six CMS week lists. Main holiday and phone OpenGym screenshots visually inspected. |
+| Navigation and protections | Mobile menu/submenu, program navigation and booking link destinations pass. Noindex, practice banner and disabled forms remain intact. External requests blocked; no bookings made. |
+| Non-holiday CMS compatibility | All 12 non-holiday editor forms pass the pinned Pages CMS field/schema validators, including the separated Policies editor. |
+| Holiday date-field compatibility | Configured using the documented date field, yyyy-MM-dd output and blank default. Build validation and render tests pass, but the additional pinned upstream date-field runtime check was not completed: automatic approval review rejected the isolated date-fns dependency install because the account usage limit was reached. No workaround install was attempted. |
+| Type check | Still 33 existing diagnostics; no additional diagnostics from this change. This is not a passing repository-wide type check. |
+
+The notice still contains the previously recorded test link to /homepage; use / when finishing the exercise.
+
+## Staff acceptance check
+
+Push the prepared practice commit, wait for Vercel, then refresh Pages CMS. Open Essential > Holiday Program > OpenGym, change a Week 1 date and a Week 2 time, save, reopen and verify the practice main/subpage. Also test clearing a week and opening Essential > Policies. This authenticated editor save/reopen check remains to be done.
+
+Website edits do not update iClassPro. Update the booking system separately for moved/cancelled sessions, and update the overall holiday date range and closure notice as well as session rows.
+
+Evidence: C:/Users/Dylan/AppData/Local/Temp/trident-holiday-cms-audit-20260923/ contains content-test-results.json, rendered-site-results.json and screenshots. The initial build/type logs are trident-holiday-cms-build-20260923.log and trident-holiday-cms-types-20260923.log in the parent Temp folder. The temporary content test finished with a successful restored build.
+
+Configuration references: https://pagescms.org/docs/configuration/fields/date/ and https://pagescms.org/docs/configuration/content/. Prior pure field/schema validator source pinned to 6f4e860a35d934406580287e7042e5e111e207a1.
+
+---
+
 # Simplified practice website verification - 22 September 2026
 
 This report supersedes the earlier nine-editor/class-finder audit. The current practice website uses the simpler staff workflow. The live Netlify repository remains unchanged at 24e7ee7eb7af0ec6a64cacecbf0e65a2c0486104.

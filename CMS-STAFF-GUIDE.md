@@ -95,3 +95,9 @@ The permanent flow is Pages CMS -> existing Trident-Gymnastics GitHub repository
 Open **Club information > Homepage** to change the main heading, welcome text, button labels and programs introduction. Choose a hero colour preset, or switch the holiday promotion, seasonal decorations, testimonials and club introduction on/off. Booking destinations, family information links, program cards and opening hours retain their established connections. Change program card descriptions in the program editors.
 
 Notices offer eight colour choices. Program headers offer thirteen choices, including Ocean, Forest, Violet, Berry, Sunshine, Mint, Peach and Lavender. These are prepared palettes. Notice colours do not change urgency behaviour; use clear wording for closures. Homepage colours are separate from the holiday season selection.
+
+## Sidebar and help text
+
+Essential is the first sidebar group. Open Holiday Program, Policies or Site-wide Notices to work there; collapse Program information using its group heading. Pages CMS opens the group containing the current page, so opening a program page may expand Program information again. There is no configured default-open group setting. Bookmark the Holiday Program editor to begin with Essential selected.
+
+Every visible editor field has help text below it. Check the repository name before editing: Trident-Gymnastics is live and Trident-CMS-Practice is training. Finish and save one page before opening another. Required fields must keep a value. After deployment, check the changed page and any shared information on other pages.
